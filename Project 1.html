@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Battles of Tarain (1191 & 1192)</title>
+    <style>
+        /* --- UI/UX Base Styles --- */
+        :root {
+            --bg-color: #f4ece1; /* Earthy parchment tone */
+            --text-color: #2b1d0f;
+            --rajput-color: #d35400; /* Orange/Saffron accents */
+            --ghurid-color: #2c3e50; /* Darker blue/grey accents */
+            --silhouette: #1a1105;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            /* Extra padding at bottom so text doesn't hide behind the animation */
+            padding-bottom: 140px; 
+        }
+
+        /* Reading Progress Bar */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 6px;
+            background: linear-gradient(to right, var(--rajput-color), var(--ghurid-color));
+            width: 0%;
+            z-index: 100;
+        }
+
+        /* Article Layout */
+        header {
+            text-align: center;
+            padding: 60px 20px 30px;
+            background-color: #eaddcf;
+            border-bottom: 2px solid #dcbfa6;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 5px;
+            color: #5c2c16;
+        }
+
+        .subtitle {
+            font-style: italic;
+            color: #664d3c;
+            font-size: 1.2rem;
+        }
+
+        article {
+            max-width: 750px;
+            margin: 40px auto;
+            padding: 0 20px;
+            font-size: 1.25rem;
+            line-height: 1.8;
+            position: relative;
+            z-index: 10; /* Keeps text clickable above the animation */
+        }
+
+        /* Structured Visual Aid Box (For Maps & Flowcharts) */
+        .visual-aid {
+            background-color: #fffaf0;
+            border-left: 5px solid var(--rajput-color);
+            padding: 20px;
+            margin: 30px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            color: #555;
+        }
+
+        /* --- Continuous Fixed War Animation --- */
+        .persistent-battlefield {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 130px;
+            background: linear-gradient(to bottom, transparent, rgba(234, 221, 207, 0.8) 40%, #c4aa8b);
+            z-index: 5;
+            pointer-events: none; /* Lets users click links in the text behind it */
+            overflow: hidden;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 25px;
+            background-color: var(--silhouette);
+        }
+
+        /* Warrior Base Styling */
+        .warrior {
+            position: absolute;
+            bottom: 20px;
+            font-size: 3.5rem;
+            filter: grayscale(100%) brightness(15%); /* Dark, dusty silhouettes */
+            opacity: 0.85;
+        }
+
+        /* Rajput Army (Marching Left to Right) */
+        .rajput {
+            left: -100px;
+            animation: marchRight 15s linear infinite;
+        }
+        /* Ghurid Army (Marching Right to Left) */
+        .ghurid {
+            right: -100px;
+            transform: scaleX(-1); /* Flips the emoji to face the other way */
+            animation: marchLeft 12s linear infinite;
+        }
+
+        /* Staggered timings for a chaotic battlefield feel */
+        .r1 { animation-delay: 0s; font-size: 4.5rem; } /* Elephant */
+        .r2 { animation-delay: 4s; }
+        .r3 { animation-delay: 8s; }
+
+        .g1 { animation-delay: 1s; }
+        .g2 { animation-delay: 5s; }
+        .g3 { animation-delay: 7s; }
+
+        /* Keyframes */
+        @keyframes marchRight {
+            0% { left: -150px; opacity: 0; }
+            5% { opacity: 0.85; }
+            95% { opacity: 0.85; }
+            100% { left: 110vw; opacity: 0; }
+        }
+
+        @keyframes marchLeft {
+            0% { right: -150px; opacity: 0; }
+            5% { opacity: 0.85; }
+            95% { opacity: 0.85; }
+            100% { right: 110vw; opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Reading Progress -->
+    <div id="progress-bar"></div>
+
+    <header>
+        <h1>The Clash at Tarain</h1>
+        <p class="subtitle">Prithviraj Chauhan vs. Muhammad Ghori (1191 - 1192)</p>
+    </header>
+
+    <main>
+        <article>
+            <p>The fields of Tarain (modern-day Taraori in Haryana) bore witness to two of the most decisive battles in Indian history. The confrontation was not just a clash of swords, but a collision of two vastly different military strategies and regional powers.</p>
+            
+            <div class="visual-aid">
+                <strong>[ Insert Map or Flowchart Here ]</strong><br>
+                <em>Use this space to add a colorful map showing the territorial boundaries of the Chahamana (Chauhan) dynasty and the Ghurid empire before the clash.</em>
+            </div>
+
+            <p><strong>The First Battle (1191):</strong> The Rajput forces, led by the formidable Prithviraj Chauhan, mounted a fierce defense. Utilizing massive war elephants and disciplined infantry, they overwhelmed the Ghurid cavalry. Muhammad Ghori was severely wounded in combat and forced to retreat, marking a resounding victory for the Rajput confederacy.</p>
+            
+            <p>However, history was rewritten just one year later. Ghori returned, bringing a reorganized army that relied heavily on agile, mounted archers.</p>
+
+            <p><strong>The Second Battle (1192):</strong> This time, the tactics shifted. The Ghurid forces used mobility to their advantage, tiring out the heavier Rajput formations through feigned retreats and relentless arrow fire from horseback. The outcome shifted the political landscape of the subcontinent forever.</p>
+            
+            <p style="height: 500px;"></p> <!-- Extra space to simulate a long article -->
+            
+            <p>The legacy of Tarain echoes through the centuries, a testament to bravery, shifting military doctrines, and the turning tides of medieval empires.</p>
+        </article>
+    </main>
+
+    <!-- The Continuous Battlefield at the Bottom -->
+    <div class="persistent-battlefield">
+        <!-- Rajput Forces (Elephants & Cavalry) -->
+        <div class="warrior rajput r1">🐘</div>
+        <div class="warrior rajput r2">🐎</div>
+        <div class="warrior rajput r3">⚔️</div>
+
+        <!-- Ghurid Forces (Mounted Archers & Cavalry) -->
+        <div class="warrior ghurid g1">🐎</div>
+        <div class="warrior ghurid g2">🏹</div>
+        <div class="warrior ghurid g3">🐎</div>
+
+        <div class="ground"></div>
+    </div>
+
+    <script>
+        // Reading Progress Bar Logic
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progress-bar').style.width = scrolled + "%";
+        });
+    </script>
+</body>
+</html>
