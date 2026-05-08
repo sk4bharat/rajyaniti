@@ -7,10 +7,10 @@
     <style>
         /* --- UI/UX Base Styles --- */
         :root {
-            --bg-color: #f4ece1; /* Earthy parchment tone */
+            --bg-color: #f4ece1; 
             --text-color: #2b1d0f;
-            --rajput-color: #d35400; /* Orange/Saffron accents */
-            --ghurid-color: #2c3e50; /* Darker blue/grey accents */
+            --rajput-color: #d35400; 
+            --ghurid-color: #2c3e50; 
             --silhouette: #1a1105;
         }
 
@@ -63,10 +63,10 @@
             font-size: 1.25rem;
             line-height: 1.8;
             position: relative;
-            z-index: 10; /* Keeps text clickable above the animation */
+            z-index: 10; 
         }
 
-        /* Structured Visual Aid Box (For Maps & Flowcharts) */
+        /* Structured Visual Aid Box */
         .visual-aid {
             background-color: #fffaf0;
             border-left: 5px solid var(--rajput-color);
@@ -78,7 +78,7 @@
             color: #555;
         }
 
-        /* --- Continuous Fixed War Animation --- */
+        /* --- 3D Continuous Fixed War Animation Container --- */
         .persistent-battlefield {
             position: fixed;
             bottom: 0;
@@ -87,69 +87,19 @@
             height: 130px;
             background: linear-gradient(to bottom, transparent, rgba(234, 221, 207, 0.8) 40%, #c4aa8b);
             z-index: 5;
-            pointer-events: none; /* Lets users click links in the text behind it */
+            pointer-events: none; 
             overflow: hidden;
             border-top: 1px solid rgba(0,0,0,0.1);
         }
 
-        .ground {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 25px;
-            background-color: var(--silhouette);
-        }
-
-        /* Warrior Base Styling */
-        .warrior {
-            position: absolute;
-            bottom: 20px;
-            font-size: 3.5rem;
-            filter: grayscale(100%) brightness(15%); /* Dark, dusty silhouettes */
-            opacity: 0.85;
-        }
-
-        /* Rajput Army (Marching Left to Right) */
-        .rajput {
-            left: -100px;
-            animation: marchRight 15s linear infinite;
-        }
-        /* Ghurid Army (Marching Right to Left) */
-        .ghurid {
-            right: -100px;
-            transform: scaleX(-1); /* Flips the emoji to face the other way */
-            animation: marchLeft 12s linear infinite;
-        }
-
-        /* Staggered timings for a chaotic battlefield feel */
-        .r1 { animation-delay: 0s; font-size: 4.5rem; } /* Elephant */
-        .r2 { animation-delay: 4s; }
-        .r3 { animation-delay: 8s; }
-
-        .g1 { animation-delay: 1s; }
-        .g2 { animation-delay: 5s; }
-        .g3 { animation-delay: 7s; }
-
-        /* Keyframes */
-        @keyframes marchRight {
-            0% { left: -150px; opacity: 0; }
-            5% { opacity: 0.85; }
-            95% { opacity: 0.85; }
-            100% { left: 110vw; opacity: 0; }
-        }
-
-        @keyframes marchLeft {
-            0% { right: -150px; opacity: 0; }
-            5% { opacity: 0.85; }
-            95% { opacity: 0.85; }
-            100% { right: 110vw; opacity: 0; }
+        canvas {
+            display: block; 
         }
 
     </style>
 </head>
 <body>
 
-    <!-- Reading Progress -->
     <div id="progress-bar"></div>
 
     <header>
@@ -172,34 +122,130 @@
 
             <p><strong>The Second Battle (1192):</strong> This time, the tactics shifted. The Ghurid forces used mobility to their advantage, tiring out the heavier Rajput formations through feigned retreats and relentless arrow fire from horseback. The outcome shifted the political landscape of the subcontinent forever.</p>
             
-            <p style="height: 500px;"></p> <!-- Extra space to simulate a long article -->
-            
-            <p>The legacy of Tarain echoes through the centuries, a testament to bravery, shifting military doctrines, and the turning tides of medieval empires.</p>
+            <p style="height: 500px;"></p> <p>The legacy of Tarain echoes through the centuries, a testament to bravery, shifting military doctrines, and the turning tides of medieval empires.</p>
         </article>
     </main>
 
-    <!-- The Continuous Battlefield at the Bottom -->
-    <div class="persistent-battlefield">
-        <!-- Rajput Forces (Elephants & Cavalry) -->
-        <div class="warrior rajput r1">🐘</div>
-        <div class="warrior rajput r2">🐎</div>
-        <div class="warrior rajput r3">⚔️</div>
+    <div id="3d-battlefield" class="persistent-battlefield"></div>
 
-        <!-- Ghurid Forces (Mounted Archers & Cavalry) -->
-        <div class="warrior ghurid g1">🐎</div>
-        <div class="warrior ghurid g2">🏹</div>
-        <div class="warrior ghurid g3">🐎</div>
-
-        <div class="ground"></div>
-    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
     <script>
-        // Reading Progress Bar Logic
+        // --- 1. Reading Progress Bar Logic ---
         window.addEventListener('scroll', () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
             document.getElementById('progress-bar').style.width = scrolled + "%";
+        });
+
+        // --- 2. 3D Battlefield Setup using Three.js ---
+        const container = document.getElementById('3d-battlefield');
+        const canvasHeight = 130;
+
+        // Setup Scene, Camera, and Renderer
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0xc4aa8b, 0.04); 
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / canvasHeight, 0.1, 1000);
+        camera.position.set(0, 4, 18); 
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true }); 
+        renderer.setSize(window.innerWidth, canvasHeight);
+        container.appendChild(renderer.domElement);
+
+        // Lighting 
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+        scene.add(ambientLight);
+        const backLight = new THREE.DirectionalLight(0xffffff, 1);
+        backLight.position.set(0, 5, -10); 
+        scene.add(backLight);
+
+        // Loading 3D Models
+        const silhouetteMaterial = new THREE.MeshLambertMaterial({ color: 0x1a1105 }); 
+        const rajputArmy = [];
+        const ghuridArmy = [];
+
+        const loader = new THREE.GLTFLoader();
+
+        // 1. Load the Rajput Elephant Model
+        loader.load('elephant.glb', function (gltf) {
+            for(let i = 0; i < 3; i++) {
+                const elephant = gltf.scene.clone(); 
+                
+                // Adjust scale if needed based on your specific 3D model size
+                elephant.scale.set(1.5, 1.5, 1.5); 
+                
+                // Apply silhouette material
+                elephant.traverse((child) => {
+                    if (child.isMesh) {
+                        child.material = silhouetteMaterial;
+                    }
+                });
+
+                elephant.position.set(-20 - (i * 12), 0, 0);
+                elephant.rotation.y = Math.PI / 2; // Face right
+                
+                scene.add(elephant);
+                rajputArmy.push(elephant);
+            }
+        }, undefined, function (error) {
+            console.error('Error loading elephant. Make sure elephant.glb is in the same folder and you are using a local server.', error);
+        });
+
+        // 2. Load the Ghurid Horse Model
+        loader.load('horse.glb', function (gltf) {
+            for(let i = 0; i < 5; i++) {
+                const horse = gltf.scene.clone();
+                
+                // Adjust scale if needed based on your specific 3D model size
+                horse.scale.set(1.2, 1.2, 1.2); 
+                
+                // Apply silhouette material
+                horse.traverse((child) => {
+                    if (child.isMesh) {
+                        child.material = silhouetteMaterial;
+                    }
+                });
+
+                horse.position.set(20 + (i * 9), 0, 3);
+                horse.rotation.y = -Math.PI / 2; // Face left
+                
+                scene.add(horse);
+                ghuridArmy.push(horse);
+            }
+        }, undefined, function (error) {
+            console.error('Error loading horse. Make sure horse.glb is in the same folder and you are using a local server.', error);
+        });
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Move Rajput army Right
+            rajputArmy.forEach(unit => {
+                unit.position.x += 0.04;
+                if (unit.position.x > 30) unit.position.x = -30; 
+            });
+
+            // Move Ghurid army Left
+            ghuridArmy.forEach(unit => {
+                unit.position.x -= 0.07; 
+                if (unit.position.x < -30) unit.position.x = 30; 
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Handle Window Resizing 
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / canvasHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, canvasHeight);
         });
     </script>
 </body>
