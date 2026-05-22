@@ -3,1517 +3,1129 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tarain ka Mahayuddh — 1191 & 1192</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<title>sk4bharat — Writer | Thinker | Speaker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-/* ══════════════════════════════════════════
-   ROOT VARIABLES — WAR PALETTE
-══════════════════════════════════════════ */
-:root{
-  --fire:    #e8400a;
-  --ember:   #c9640a;
-  --gold:    #c9960a;
-  --gold2:   #f0c84a;
-  --gold3:   #fff0a0;
-  --cream:   #f5e8c8;
-  --parch:   #ecdbb8;
-  --parch2:  #dfc99a;
-  --ink:     #1a0e04;
-  --ink2:    #2e1a08;
-  --ink3:    #3d2510;
-  --red:     #8b1414;
-  --red2:    #b81e1e;
-  --red3:    #e03030;
-  --blue:    #0e2a52;
-  --blue2:   #1a4080;
-  --blue3:   #2a60b0;
-  --steel:   #4a5a70;
-  --rust:    #7a3010;
-  --shadow:  rgba(26,14,4,0.55);
-}
+  :root {
+    --saffron: #E8600A;
+    --deep-red: #8B1A1A;
+    --ink: #1A1208;
+    --parchment: #FAF6EE;
+    --cream: #F5EFE0;
+    --gold: #C8922A;
+    --warm-gray: #8A7968;
+    --border: #DDD5C0;
+    --text: #2C2010;
+    --muted: #7A6E5A;
+  }
 
-*{margin:0;padding:0;box-sizing:border-box;}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ══════════════════════════════════════════
-   SCROLLBAR — styled like a sword
-══════════════════════════════════════════ */
-::-webkit-scrollbar{width:8px;}
-::-webkit-scrollbar-track{background:#1a0e04;}
-::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,var(--fire),var(--gold),var(--fire));border-radius:4px;}
+  html { scroll-behavior: smooth; }
 
-html{scroll-behavior:smooth;}
-body{
-  background:var(--parch);
-  color:var(--ink);
-  font-family:'IM Fell English',serif;
-  overflow-x:hidden;
-  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M10 1 L11.5 8 L19 10 L11.5 12 L10 19 L8.5 12 L1 10 L8.5 8 Z' fill='%23c9960a' stroke='%238b1414' stroke-width='0.5'/%3E%3C/svg%3E") 10 10, crosshair;
-}
+  body {
+    background: var(--parchment);
+    color: var(--text);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
 
-/* ══════════════════════════════════════════
-   PROGRESS BAR — Blood red to gold
-══════════════════════════════════════════ */
-#prog{
-  position:fixed;top:0;left:0;height:6px;width:0%;z-index:999;
-  background:linear-gradient(90deg,var(--red3),var(--fire),var(--gold),var(--gold2));
-  box-shadow:0 0 12px var(--fire),0 0 24px rgba(232,64,10,0.4);
-  transition:width .1s linear;
-}
+  /* ─── NOISE TEXTURE overlay ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
 
-/* ══════════════════════════════════════════
-   FULLSCREEN CANVAS — behind everything
-══════════════════════════════════════════ */
-#warCanvas{
-  position:fixed;top:0;left:0;
-  width:100%;height:100%;
-  z-index:0;pointer-events:none;
-}
+  /* ─── HEADER ─── */
+  header {
+    background: var(--ink);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--saffron);
+  }
 
-/* ══════════════════════════════════════════
-   NOISE TEXTURE OVERLAY
-══════════════════════════════════════════ */
-.noise{
-  position:fixed;inset:0;z-index:1;pointer-events:none;
-  opacity:.04;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:200px 200px;
-}
+  .logo {
+    padding: 1rem 0;
+    text-decoration: none;
+  }
 
-/* ══════════════════════════════════════════
-   VIGNETTE
-══════════════════════════════════════════ */
-.vignette{
-  position:fixed;inset:0;z-index:2;pointer-events:none;
-  background:radial-gradient(ellipse 80% 80% at 50% 50%,transparent 40%,rgba(26,14,4,0.45) 100%);
-}
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--parchment);
+    letter-spacing: -0.02em;
+  }
 
-/* ══════════════════════════════════════════
-   PAGE WRAPPER
-══════════════════════════════════════════ */
-.page{position:relative;z-index:10;}
+  .logo-text span {
+    color: var(--saffron);
+  }
 
-/* ══════════════════════════════════════════
-   HERO SECTION
-══════════════════════════════════════════ */
-.hero{
-  min-height:100vh;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;
-  padding:60px 20px;
-  position:relative;
-  background:linear-gradient(to bottom,
-    rgba(245,232,200,0) 0%,
-    rgba(245,232,200,0.15) 40%,
-    rgba(245,232,200,0.85) 75%,
-    rgba(245,232,200,1) 100%);
-}
+  .logo-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    color: var(--warm-gray);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: block;
+    margin-top: -2px;
+  }
 
-/* Decorative corner ornaments */
-.hero::before,.hero::after{
-  content:'';position:absolute;width:120px;height:120px;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M5,5 L5,40 M5,5 L40,5' stroke='%23c9960a' stroke-width='3' fill='none'/%3E%3Cpath d='M5,5 L25,25' stroke='%238b1414' stroke-width='1.5' fill='none'/%3E%3Ccircle cx='5' cy='5' r='4' fill='%23c9960a'/%3E%3C/svg%3E");
-}
-.hero::before{top:20px;left:20px;}
-.hero::after{bottom:20px;right:20px;transform:rotate(180deg);}
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
 
-.era-stamp{
-  display:inline-block;
-  border:2px solid var(--gold);
-  border-radius:50%;
-  width:90px;height:90px;
-  display:flex;align-items:center;justify-content:center;
-  flex-direction:column;
-  margin:0 auto 32px;
-  background:rgba(201,150,10,0.08);
-  position:relative;
-}
-.era-stamp::before{
-  content:'';position:absolute;inset:-6px;border-radius:50%;
-  border:1px solid rgba(201,150,10,0.35);
-}
-.era-stamp span{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.18em;color:var(--gold);line-height:1.5;text-align:center;}
+  nav a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #BBB;
+    text-decoration: none;
+    padding: 0.5rem 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    border-radius: 2px;
+  }
 
-.hero-badge{
-  font-family:'Cinzel',serif;
-  font-size:.75rem;letter-spacing:.4em;
-  color:var(--rust);
-  text-transform:uppercase;
-  margin-bottom:20px;
-  display:flex;align-items:center;gap:16px;
-}
-.hero-badge::before,.hero-badge::after{
-  content:'';display:inline-block;
-  width:40px;height:1px;background:var(--rust);
-}
+  nav a:hover { color: var(--saffron); }
 
-/* Main Title with layered shadow */
-.main-title{
-  font-family:'Cinzel Decorative',serif;
-  font-size:clamp(2.2rem,7vw,5.5rem);
-  font-weight:900;
-  color:var(--ink2);
-  line-height:1.1;
-  letter-spacing:.04em;
-  text-shadow:
-    3px 3px 0 var(--parch2),
-    6px 6px 0 rgba(139,20,20,0.2),
-    0 0 60px rgba(201,150,10,0.15);
-  margin-bottom:6px;
-  position:relative;
-}
-/* Gold underline decoration */
-.main-title::after{
-  content:'';display:block;
-  width:60%;height:3px;
-  background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),var(--gold),transparent);
-  margin:16px auto 0;
-}
+  nav .nav-cta {
+    background: var(--saffron);
+    color: white;
+    padding: 0.45rem 1rem;
+    border-radius: 2px;
+    font-weight: 500;
+    margin-left: 0.5rem;
+  }
 
-.hero-sub{
-  font-family:'IM Fell English',serif;
-  font-style:italic;
-  font-size:clamp(1rem,2.5vw,1.4rem);
-  color:var(--ink3);
-  letter-spacing:.06em;
-  margin:20px 0 36px;
-}
+  nav .nav-cta:hover { background: #c94f00; color: white; }
 
-/* Sword divider */
-.sword-divider{
-  display:flex;align-items:center;justify-content:center;
-  gap:0;margin:28px auto;width:320px;
-  position:relative;
-}
-.sword-divider svg{width:100%;height:24px;}
+  /* ─── HERO ─── */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 85vh;
+    position: relative;
+    overflow: hidden;
+  }
 
-/* Scroll cue */
-.scroll-cue{
-  margin-top:40px;
-  font-family:'Cinzel',serif;
-  font-size:.68rem;letter-spacing:.25em;color:var(--gold);
-  animation:bounce 2s ease-in-out infinite;
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-}
-.scroll-cue::after{content:'▼';font-size:.8rem;color:var(--fire);}
-@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
+  .hero-left {
+    background: var(--ink);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 5rem 6rem 6rem;
+    position: relative;
+  }
 
-/* ══════════════════════════════════════════
-   SECTION WRAPPER
-══════════════════════════════════════════ */
-.section{
-  max-width:900px;margin:0 auto;
-  padding:60px 24px;
-  position:relative;
-}
+  .hero-left::after {
+    content: '';
+    position: absolute;
+    right: -40px;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    background: var(--ink);
+    clip-path: polygon(0 0, 100% 15%, 100% 85%, 0 100%);
+    z-index: 2;
+  }
 
-/* ══════════════════════════════════════════
-   SECTION TITLE
-══════════════════════════════════════════ */
-.sec-title{
-  font-family:'Cinzel Decorative',serif;
-  font-size:clamp(1.4rem,3.5vw,2.2rem);
-  font-weight:700;
-  color:var(--ink2);
-  text-align:center;
-  margin-bottom:40px;
-  position:relative;
-  letter-spacing:.06em;
-}
-.sec-title::before,.sec-title::after{
-  content:'✦';
-  color:var(--gold);
-  margin:0 14px;
-  font-size:.8em;
-}
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--saffron);
+    margin-bottom: 1.5rem;
+  }
 
-/* ══════════════════════════════════════════
-   COMMANDERS — VERSUS LAYOUT
-══════════════════════════════════════════ */
-.versus-wrap{
-  display:grid;
-  grid-template-columns:1fr auto 1fr;
-  gap:20px;align-items:stretch;
-  margin-bottom:20px;
-}
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    font-weight: 700;
+    color: var(--parchment);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
 
-.cmd{
-  background:var(--cream);
-  border:1px solid var(--parch2);
-  border-radius:4px;
-  padding:28px 22px;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-  transition:transform .35s cubic-bezier(.23,1,.32,1),box-shadow .35s;
-}
-.cmd::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:5px;
-}
-.cmd.raj::before{background:linear-gradient(90deg,var(--red),var(--red2),var(--red));}
-.cmd.ghu::before{background:linear-gradient(90deg,var(--blue),var(--blue3),var(--blue));}
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
 
-/* Decorative bg pattern */
-.cmd::after{
-  content:'';position:absolute;inset:0;opacity:.035;pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M0 20 L20 0 L40 20 L20 40 Z' stroke='%231a0e04' fill='none' stroke-width='0.8'/%3E%3C/svg%3E");
-  background-size:40px 40px;
-}
+  .hero-desc {
+    font-size: 1.05rem;
+    color: #AAA09A;
+    max-width: 38ch;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+  }
 
-.cmd:hover{transform:translateY(-5px) scale(1.01);box-shadow:0 16px 48px rgba(26,14,4,0.15);}
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
 
-.cmd-emblem{
-  width:72px;height:72px;border-radius:50%;
-  margin:0 auto 16px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:2rem;
-  border:3px solid;
-  position:relative;z-index:1;
-}
-.raj .cmd-emblem{border-color:var(--red2);background:rgba(139,20,20,0.08);box-shadow:0 0 20px rgba(139,20,20,0.2);}
-.ghu .cmd-emblem{border-color:var(--blue3);background:rgba(26,64,128,0.08);box-shadow:0 0 20px rgba(26,64,128,0.2);}
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.8rem 1.8rem;
+    border-radius: 2px;
+    transition: all 0.2s;
+    display: inline-block;
+  }
 
-.cmd-name{
-  font-family:'Cinzel Decorative',serif;
-  font-size:1rem;font-weight:700;
-  color:var(--ink2);
-  margin-bottom:6px;letter-spacing:.04em;
-}
-.cmd-title-text{
-  font-style:italic;font-size:.82rem;
-  color:var(--ink3);margin-bottom:14px;line-height:1.55;
-}
-.cmd-tag{
-  font-family:'Cinzel',serif;
-  font-size:.65rem;letter-spacing:.2em;
-  padding:4px 14px;border-radius:2px;
-  display:inline-block;text-transform:uppercase;
-}
-.raj .cmd-tag{background:rgba(139,20,20,0.1);color:var(--red);border:1px solid rgba(139,20,20,0.3);}
-.ghu .cmd-tag{background:rgba(26,64,128,0.1);color:var(--blue2);border:1px solid rgba(26,64,128,0.3);}
+  .btn-primary {
+    background: var(--saffron);
+    color: white;
+  }
 
-.cmd-stats{
-  margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px;
-}
-.cs{
-  background:var(--parch);border:1px solid var(--parch2);
-  border-radius:3px;padding:8px 6px;
-}
-.cs-v{font-family:'Cinzel',serif;font-size:.82rem;color:var(--ink2);font-weight:600;}
-.cs-l{font-size:.6rem;letter-spacing:.1em;color:var(--ink3);}
+  .btn-primary:hover { background: #c94f00; transform: translateY(-1px); }
 
-/* VS circle */
-.vs-center{
-  display:flex;align-items:center;justify-content:center;
-}
-.vs-ring{
-  width:64px;height:64px;border-radius:50%;
-  background:var(--ink2);
-  border:3px solid var(--gold);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Cinzel Decorative',serif;
-  font-size:1.1rem;color:var(--gold2);
-  box-shadow:0 0 30px rgba(201,150,10,0.3),inset 0 0 20px rgba(201,150,10,0.1);
-  flex-shrink:0;
-  animation:vsGlow 3s ease-in-out infinite;
-}
-@keyframes vsGlow{
-  0%,100%{box-shadow:0 0 20px rgba(201,150,10,0.3),inset 0 0 15px rgba(201,150,10,0.1);}
-  50%{box-shadow:0 0 40px rgba(232,64,10,0.5),inset 0 0 25px rgba(232,64,10,0.15);}
-}
+  .btn-outline {
+    border: 1px solid #555;
+    color: #CCC;
+  }
 
-/* ══════════════════════════════════════════
-   INTRO TEXT
-══════════════════════════════════════════ */
-.intro-text{
-  max-width:800px;margin:0 auto;
-  background:var(--cream);
-  border:1px solid var(--parch2);
-  border-radius:4px;
-  padding:36px 40px;
-  position:relative;
-}
-/* Corner ornaments */
-.intro-text::before,.intro-text::after{
-  content:'❖';position:absolute;
-  color:var(--gold);font-size:1.1rem;
-  line-height:1;
-}
-.intro-text::before{top:12px;left:14px;}
-.intro-text::after{bottom:12px;right:14px;}
+  .btn-outline:hover { border-color: var(--saffron); color: var(--saffron); }
 
-.intro-text p{
-  font-size:clamp(1rem,2vw,1.2rem);
-  line-height:1.95;color:var(--ink2);
-  text-align:justify;
-}
-.intro-text p::first-letter{
-  float:left;
-  font-family:'Cinzel Decorative',serif;
-  font-size:4.5rem;line-height:.75;
-  padding:6px 12px 0 0;
-  color:var(--gold);
-  text-shadow:2px 2px 0 var(--parch2);
-}
+  .hero-right {
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 3rem;
+    position: relative;
+  }
 
-/* ══════════════════════════════════════════
-   DIVIDER — CROSSED SWORDS
-══════════════════════════════════════════ */
-.crossed-swords{
-  text-align:center;margin:40px 0;
-  font-size:1.6rem;
-  position:relative;
-}
-.crossed-swords::before,.crossed-swords::after{
-  content:'';display:inline-block;
-  width:30%;height:1px;
-  background:linear-gradient(90deg,transparent,var(--parch2));
-  vertical-align:middle;margin:0 16px;
-}
-.crossed-swords::after{background:linear-gradient(90deg,var(--parch2),transparent);}
+  .hero-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--saffron);
+    padding: 2.5rem;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 8px 8px 0 var(--border);
+    animation: floatUp 0.8s ease both;
+  }
 
-/* ══════════════════════════════════════════
-   BATTLE CARDS — Full Epic Style
-══════════════════════════════════════════ */
-.battle-block{
-  background:var(--cream);
-  border:1px solid var(--parch2);
-  border-radius:6px;
-  margin:32px 0;
-  overflow:hidden;
-  position:relative;
-  transition:transform .4s cubic-bezier(.23,1,.32,1),box-shadow .4s;
-}
-.battle-block:hover{
-  transform:translateY(-4px);
-  box-shadow:0 20px 60px rgba(26,14,4,0.18);
-}
+  @keyframes floatUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
-/* Color bar top */
-.bb-bar{height:6px;width:100%;}
-.bb1 .bb-bar{background:linear-gradient(90deg,var(--red),var(--red2),var(--fire),var(--red2),var(--red));}
-.bb2 .bb-bar{background:linear-gradient(90deg,var(--blue),var(--blue2),var(--blue3),var(--blue2),var(--blue));}
+  .featured-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--saffron);
+    margin-bottom: 0.8rem;
+  }
 
-.bb-inner{padding:32px 36px;}
+  .featured-date {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-bottom: 0.8rem;
+  }
 
-/* Year stamp */
-.bb-year-row{display:flex;align-items:baseline;gap:20px;margin-bottom:10px;}
-.bb-year{
-  font-family:'Cinzel Decorative',serif;
-  font-size:4rem;font-weight:900;line-height:1;
-  letter-spacing:.03em;
-}
-.bb1 .bb-year{
-  color:var(--red2);
-  text-shadow:3px 3px 0 rgba(139,20,20,0.15);
-}
-.bb2 .bb-year{
-  color:var(--blue2);
-  text-shadow:3px 3px 0 rgba(26,64,128,0.15);
-}
-.bb-name{
-  font-family:'Cinzel',serif;
-  font-size:1.05rem;font-weight:600;
-  color:var(--ink3);letter-spacing:.08em;
-}
+  .featured-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
 
-.bb-outcome{
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:'Cinzel',serif;
-  font-size:.7rem;letter-spacing:.2em;
-  padding:5px 16px;border-radius:2px;
-  margin-bottom:18px;text-transform:uppercase;
-}
-.bb1 .bb-outcome{background:rgba(139,20,20,0.08);color:var(--red);border:1px solid rgba(139,20,20,0.3);}
-.bb2 .bb-outcome{background:rgba(26,64,128,0.08);color:var(--blue2);border:1px solid rgba(26,64,128,0.3);}
+  .featured-excerpt {
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
 
-.bb-body{
-  font-size:1.05rem;line-height:1.9;
-  color:var(--ink2);margin-bottom:22px;
-}
-.bb-body strong{
-  font-family:'Cinzel',serif;
-  font-size:.92em;
-  color:var(--gold);
-  letter-spacing:.04em;
-}
+  .featured-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
 
-/* Tactics grid */
-.tactics{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:12px;margin-bottom:20px;
-}
-.tac{
-  background:var(--parch);
-  border:1px solid var(--parch2);
-  border-radius:4px;padding:14px;
-  position:relative;overflow:hidden;
-}
-.tac::before{
-  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
-}
-.bb1 .tac::before{background:var(--red2);}
-.bb2 .tac::before{background:var(--blue3);}
-.tac-icon{font-size:1.3rem;margin-bottom:6px;display:block;}
-.tac-name{font-family:'Cinzel',serif;font-size:.72rem;color:var(--ink2);font-weight:600;letter-spacing:.06em;margin-bottom:3px;}
-.tac-desc{font-size:.78rem;color:var(--ink3);line-height:1.55;}
+  .tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--cream);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
 
-/* Stats row */
-.bb-stats{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
-  gap:10px;
-  border-top:1px solid var(--parch2);
-  padding-top:20px;
-  margin-top:4px;
-}
-.bstat{background:var(--parch);border:1px solid var(--parch2);border-radius:4px;padding:12px;text-align:center;}
-.bstat-v{font-family:'Cinzel',serif;font-size:.88rem;color:var(--ink2);font-weight:600;margin-bottom:2px;}
-.bstat-l{font-size:.6rem;letter-spacing:.1em;color:var(--ink3);text-transform:uppercase;}
+  .tag:hover { background: var(--saffron); color: white; border-color: var(--saffron); }
 
-/* ══════════════════════════════════════════
-   BATTLE MAP — ASCII Style Territory
-══════════════════════════════════════════ */
-.map-section{
-  max-width:900px;margin:0 auto;padding:0 24px 60px;
-}
-.map-box{
-  background:var(--ink2);
-  border:2px solid var(--gold);
-  border-radius:4px;
-  padding:32px;
-  position:relative;
-  overflow:hidden;
-}
-.map-box::before{
-  content:'TARAIN BATTLEFIELD MAP';
-  position:absolute;top:0;left:50%;transform:translateX(-50%);
-  background:var(--gold);
-  color:var(--ink);
-  font-family:'Cinzel',serif;
-  font-size:.65rem;letter-spacing:.25em;
-  padding:4px 20px;border-radius:0 0 6px 6px;
-}
-.map-title{font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.2em;color:var(--gold2);text-align:center;margin:16px 0 24px;}
-.map-grid{
-  display:grid;
-  grid-template-columns:1fr 60px 1fr;
-  gap:16px;
-  margin-bottom:20px;
-}
-.map-side{padding:16px;border-radius:4px;text-align:center;}
-.map-raj{background:rgba(139,20,20,0.25);border:1px solid rgba(139,20,20,0.5);}
-.map-ghu{background:rgba(26,64,128,0.25);border:1px solid rgba(26,64,128,0.5);}
-.map-center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
-.map-terrain{background:rgba(201,150,10,0.12);border:1px solid rgba(201,150,10,0.3);border-radius:4px;padding:10px;text-align:center;}
-.mt-label{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;color:var(--gold);margin-bottom:4px;}
-.mt-val{font-size:.75rem;color:rgba(240,200,130,0.85);line-height:1.5;}
-.map-side-title{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.15em;margin-bottom:10px;}
-.map-raj .map-side-title{color:#e88;}
-.map-ghu .map-side-title{color:#88b8f0;}
-.map-unit{font-size:.75rem;margin:4px 0;line-height:1.5;}
-.map-raj .map-unit{color:rgba(240,180,180,0.85);}
-.map-ghu .map-unit{color:rgba(160,200,240,0.85);}
+  .read-more {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--saffron);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: gap 0.2s;
+  }
 
-/* Clash arrow */
-.map-clash{
-  text-align:center;padding:10px;
-  font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.15em;
-  color:var(--gold2);margin-top:8px;
-}
-.map-arrow-row{display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0;}
-.mar{color:rgba(240,100,30,0.9);font-size:1rem;animation:clash 1.5s ease-in-out infinite;}
-@keyframes clash{0%,100%{opacity:.6;transform:scale(1);}50%{opacity:1;transform:scale(1.2);}}
+  .read-more:hover { gap: 0.7rem; }
 
-/* ══════════════════════════════════════════
-   TIMELINE — WAR CHRONICLE
-══════════════════════════════════════════ */
-.timeline-wrap{position:relative;}
-.timeline-spine{
-  position:absolute;left:50%;transform:translateX(-50%);
-  top:0;bottom:0;width:3px;
-  background:linear-gradient(to bottom,var(--red),var(--gold),var(--blue));
-  z-index:0;
-}
-.tl-item{
-  display:grid;
-  grid-template-columns:1fr 60px 1fr;
-  gap:16px;
-  margin-bottom:32px;
-  position:relative;
-  z-index:1;
-}
-.tl-item:nth-child(odd) .tl-content{grid-column:1;text-align:right;}
-.tl-item:nth-child(odd) .tl-dot-col{grid-column:2;}
-.tl-item:nth-child(odd) .tl-empty{grid-column:3;}
-.tl-item:nth-child(even) .tl-empty{grid-column:1;}
-.tl-item:nth-child(even) .tl-dot-col{grid-column:2;}
-.tl-item:nth-child(even) .tl-content{grid-column:3;text-align:left;}
+  /* ─── SECTION COMMON ─── */
+  section { padding: 5rem 0; }
 
-.tl-card{
-  background:var(--cream);
-  border:1px solid var(--parch2);
-  border-radius:4px;
-  padding:16px 18px;
-  transition:transform .3s,box-shadow .3s;
-}
-.tl-card:hover{transform:scale(1.02);box-shadow:0 8px 24px rgba(26,14,4,0.1);}
-.tl-year{font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.15em;color:var(--gold);margin-bottom:5px;}
-.tl-text{font-size:.9rem;color:var(--ink2);line-height:1.7;}
+  .container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
 
-.tl-dot-col{display:flex;align-items:center;justify-content:center;}
-.tl-dot{
-  width:18px;height:18px;border-radius:50%;
-  border:3px solid var(--parch);
-  flex-shrink:0;
-  box-shadow:0 0 0 3px;
-}
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+  }
 
-/* ══════════════════════════════════════════
-   WEAPONS ARSENAL
-══════════════════════════════════════════ */
-.arsenal{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-  gap:14px;
-  margin:0 0 40px;
-}
-.weapon{
-  background:var(--cream);
-  border:1px solid var(--parch2);
-  border-radius:4px;padding:18px 14px;
-  text-align:center;
-  transition:transform .3s,box-shadow .3s;
-  cursor:default;
-}
-.weapon:hover{
-  transform:translateY(-4px) rotate(-1deg);
-  box-shadow:0 10px 30px rgba(26,14,4,0.12);
-}
-.weapon-icon{font-size:2rem;display:block;margin-bottom:8px;}
-.weapon-name{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.1em;color:var(--gold);margin-bottom:5px;font-weight:600;}
-.weapon-side{font-size:.68rem;padding:2px 8px;border-radius:2px;display:inline-block;}
-.w-raj{background:rgba(139,20,20,0.1);color:var(--red);border:1px solid rgba(139,20,20,0.25);}
-.w-ghu{background:rgba(26,64,128,0.1);color:var(--blue2);border:1px solid rgba(26,64,128,0.25);}
-.w-both{background:rgba(201,150,10,0.1);color:var(--gold);border:1px solid rgba(201,150,10,0.25);}
+  .section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--saffron);
+    display: block;
+    margin-bottom: 0.3rem;
+  }
 
-/* ══════════════════════════════════════════
-   QUOTE — EPIC SCROLL STYLE
-══════════════════════════════════════════ */
-.epic-scroll{
-  background:var(--ink2);
-  border:2px solid var(--gold);
-  border-radius:4px;
-  padding:40px 48px;
-  margin:0 0 40px;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-}
-.epic-scroll::before,.epic-scroll::after{
-  content:'';position:absolute;
-  width:80px;height:80px;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cpath d='M5,5 L5,35 M5,5 L35,5 M5,5 L35,35' stroke='rgba(201,150,10,0.4)' stroke-width='2' fill='none'/%3E%3Ccircle cx='5' cy='5' r='5' fill='rgba(201,150,10,0.4)'/%3E%3C/svg%3E");
-}
-.epic-scroll::before{top:0;left:0;}
-.epic-scroll::after{bottom:0;right:0;transform:rotate(180deg);}
-.scroll-quote{
-  font-family:'IM Fell English',serif;
-  font-style:italic;
-  font-size:clamp(1.1rem,2.5vw,1.5rem);
-  color:var(--gold2);
-  line-height:1.8;
-  letter-spacing:.03em;
-  position:relative;z-index:1;
-}
-.scroll-cite{
-  display:block;margin-top:18px;
-  font-family:'Cinzel',serif;
-  font-size:.72rem;letter-spacing:.2em;
-  color:rgba(201,150,10,0.6);
-  font-style:normal;
-  position:relative;z-index:1;
-}
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
 
-/* ══════════════════════════════════════════
-   LEGACY GRID
-══════════════════════════════════════════ */
-.legacy-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:16px;
-}
-.legacy-card{
-  background:var(--cream);
-  border:1px solid var(--parch2);
-  border-radius:4px;padding:22px;
-  position:relative;overflow:hidden;
-  transition:transform .35s,box-shadow .35s;
-}
-.legacy-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(26,14,4,0.12);}
-.legacy-card::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  transform:scaleX(0);transition:transform .35s;
-}
-.legacy-card:hover::after{transform:scaleX(1);}
-.lc-icon{font-size:1.8rem;margin-bottom:12px;display:block;}
-.lc-title{font-family:'Cinzel',serif;font-size:.82rem;letter-spacing:.1em;color:var(--gold);font-weight:600;margin-bottom:8px;}
-.lc-text{font-size:.88rem;color:var(--ink2);line-height:1.7;}
+  .section-link {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--saffron);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
 
-/* ══════════════════════════════════════════
-   FULL-WIDTH WAR BANNER
-══════════════════════════════════════════ */
-.war-banner{
-  background:var(--ink2);
-  border-top:2px solid var(--gold);
-  border-bottom:2px solid var(--gold);
-  padding:24px 20px;
-  text-align:center;
-  margin:40px 0;
-  position:relative;
-  overflow:hidden;
-}
-.war-banner-scroll{
-  display:inline-block;
-  white-space:nowrap;
-  animation:marquee 22s linear infinite;
-  font-family:'Cinzel',serif;
-  font-size:.75rem;letter-spacing:.22em;
-  color:var(--gold2);
-}
-@keyframes marquee{from{transform:translateX(100vw);}to{transform:translateX(-100%);}}
-.war-banner-scroll span{margin:0 40px;color:var(--fire);}
+  .section-link:hover { text-decoration: underline; }
 
-/* ══════════════════════════════════════════
-   FOOTER
-══════════════════════════════════════════ */
-footer{
-  background:var(--ink);
-  border-top:2px solid var(--gold);
-  padding:36px 20px;
-  text-align:center;
-}
-.footer-logo{
-  font-family:'Cinzel Decorative',serif;
-  font-size:1.2rem;color:var(--gold);
-  letter-spacing:.1em;margin-bottom:12px;
-}
-.footer-sub{font-size:.72rem;letter-spacing:.18em;color:rgba(201,150,10,0.45);}
+  /* ─── ARTICLES GRID ─── */
+  .articles-section { background: var(--parchment); }
 
-/* ══════════════════════════════════════════
-   SCROLL ANIMATIONS
-══════════════════════════════════════════ */
-.fi{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease;}
-.fi.vis{opacity:1;transform:translateY(0);}
-.fi-l{opacity:0;transform:translateX(-30px);transition:opacity .75s ease,transform .75s ease;}
-.fi-l.vis{opacity:1;transform:translateX(0);}
-.fi-r{opacity:0;transform:translateX(30px);transition:opacity .75s ease,transform .75s ease;}
-.fi-r.vis{opacity:1;transform:translateX(0);}
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
 
-/* ══════════════════════════════════════════
-   RESPONSIVE
-══════════════════════════════════════════ */
-@media(max-width:680px){
-  .versus-wrap{grid-template-columns:1fr;gap:12px;}
-  .vs-center{display:none;}
-  .tl-item{grid-template-columns:1fr;}
-  .timeline-spine{display:none;}
-  .tl-item:nth-child(odd) .tl-content,
-  .tl-item:nth-child(even) .tl-content{grid-column:1;text-align:left;}
-  .tl-dot-col,.tl-empty{display:none;}
-  .map-grid{grid-template-columns:1fr;}
-  .bb-inner{padding:22px 20px;}
-  .intro-text{padding:24px 20px;}
-}
+  .article-card {
+    border-top: 3px solid var(--border);
+    padding-top: 1.5rem;
+    transition: border-color 0.2s;
+    animation: fadeSlide 0.6s ease both;
+  }
+
+  .article-card:hover { border-color: var(--saffron); }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .article-card:nth-child(2) { animation-delay: 0.1s; }
+  .article-card:nth-child(3) { animation-delay: 0.2s; }
+  .article-card:nth-child(4) { animation-delay: 0.3s; }
+  .article-card:nth-child(5) { animation-delay: 0.4s; }
+  .article-card:nth-child(6) { animation-delay: 0.5s; }
+
+  .article-meta {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .article-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+    text-decoration: none;
+    display: block;
+    transition: color 0.2s;
+  }
+
+  .article-title:hover { color: var(--saffron); }
+
+  .article-excerpt {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ─── QUOTE BAND ─── */
+  .quote-band {
+    background: var(--ink);
+    padding: 5rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quote-band::before {
+    content: '"';
+    position: absolute;
+    font-family: 'Playfair Display', serif;
+    font-size: 30rem;
+    color: rgba(255,255,255,0.02);
+    top: -8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .quote-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+    font-style: italic;
+    color: var(--parchment);
+    max-width: 800px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+  }
+
+  .quote-attr {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    color: var(--saffron);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* ─── BOOKS ─── */
+  .books-section { background: var(--cream); }
+
+  .books-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  .book-card {
+    text-align: center;
+    animation: fadeSlide 0.6s ease both;
+  }
+
+  .book-card:nth-child(2) { animation-delay: 0.12s; }
+  .book-card:nth-child(3) { animation-delay: 0.24s; }
+  .book-card:nth-child(4) { animation-delay: 0.36s; }
+
+  .book-cover {
+    width: 100%;
+    aspect-ratio: 2/3;
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 6px 6px 0 var(--border);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .book-card:hover .book-cover {
+    transform: translateY(-4px);
+    box-shadow: 8px 10px 0 var(--border);
+  }
+
+  .book-cover-inner {
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  .book-cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--parchment);
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+
+  .book-cover-line {
+    width: 40px;
+    height: 2px;
+    background: var(--saffron);
+    margin: 0.6rem auto;
+  }
+
+  .book-cover-author {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .book-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+    line-height: 1.3;
+  }
+
+  .book-year {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  /* ─── ABOUT STRIP ─── */
+  .about-section {
+    background: var(--parchment);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .about-portrait {
+    width: 100%;
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, var(--ink) 0%, #3d2b10 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-style: italic;
+    color: var(--saffron);
+    border: 3px solid var(--border);
+    box-shadow: 12px 12px 0 var(--border);
+  }
+
+  .about-content .section-label { margin-bottom: 1rem; }
+
+  .about-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.25;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-title em { font-style: italic; color: var(--saffron); }
+
+  .about-text {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.85;
+    margin-bottom: 1rem;
+    max-width: 60ch;
+  }
+
+  .about-roles {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .role-pill {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid var(--saffron);
+    color: var(--saffron);
+    border-radius: 2px;
+  }
+
+  /* ─── NEWSLETTER ─── */
+  .newsletter-section {
+    background: var(--ink);
+    text-align: center;
+  }
+
+  .newsletter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--parchment);
+    margin-bottom: 0.75rem;
+  }
+
+  .newsletter-subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 0.75rem;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .newsletter-form input {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid #444;
+    border-radius: 2px;
+    padding: 0.85rem 1.2rem;
+    color: var(--parchment);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .newsletter-form input::placeholder { color: #666; }
+  .newsletter-form input:focus { border-color: var(--saffron); }
+
+  .newsletter-form button {
+    background: var(--saffron);
+    border: none;
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.5rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+
+  .newsletter-form button:hover { background: #c94f00; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #0E0B04;
+    border-top: 3px solid var(--saffron);
+    padding: 3rem 0;
+  }
+
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-brand .logo-text { font-size: 1.3rem; display: block; margin-bottom: 0.5rem; }
+
+  .footer-tagline {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .footer-col h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--saffron);
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-col a {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: #777;
+    text-decoration: none;
+    margin-bottom: 0.6rem;
+    transition: color 0.2s;
+  }
+
+  .footer-col a:hover { color: var(--parchment); }
+
+  .social-links {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .social-link {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #666;
+    text-decoration: none;
+    border: 1px solid #333;
+    padding: 0.35rem 0.75rem;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  .social-link:hover { border-color: var(--saffron); color: var(--saffron); }
+
+  .footer-bottom {
+    border-top: 1px solid #222;
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    color: #555;
+  }
+
+  .footer-legal {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-legal a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    color: #555;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-legal a:hover { color: var(--saffron); }
+
+  /* ─── DECORATIVE DIVIDER ─── */
+  .divider {
+    text-align: center;
+    padding: 1.5rem 0;
+    color: var(--saffron);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+  }
+
+  /* ─── HAMBURGER (mobile) ─── */
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--parchment);
+    transition: all 0.3s;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .books-grid { grid-template-columns: repeat(2, 1fr); }
+    .articles-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-left { padding: 4rem 3rem 4rem 3rem; }
+  }
+
+  @media (max-width: 768px) {
+    header { padding: 0 1.5rem; }
+    nav { display: none; }
+    .hamburger { display: flex; }
+
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 3rem 2rem; }
+    .hero-left::after { display: none; }
+    .hero-right { padding: 2rem; }
+
+    .articles-grid { grid-template-columns: 1fr; }
+    .books-grid { grid-template-columns: repeat(2, 1fr); }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .about-portrait { max-width: 200px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    .newsletter-form { flex-direction: column; }
+    .newsletter-form input, .newsletter-form button { width: 100%; }
+  }
 </style>
 </head>
 <body>
 
-<div id="prog"></div>
-<canvas id="warCanvas"></canvas>
-<div class="noise"></div>
-<div class="vignette"></div>
+<!-- HEADER -->
+<header>
+  <a href="#" class="logo">
+    <span class="logo-text">sk<span>4</span>bharat</span>
+    <span class="logo-sub">Writer · Thinker · Speaker</span>
+  </a>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#articles">Articles</a>
+    <a href="#books">Books</a>
+    <a href="#about">About</a>
+    <a href="#" class="nav-cta">Contact</a>
+  </nav>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
 
-<div class="page">
-
-<!-- ══════════════════════════════════════
-     HERO
-══════════════════════════════════════ -->
+<!-- HERO -->
 <section class="hero">
-  <div class="era-stamp">
-    <span>12th<br>CENTURY<br>CE</span>
+  <div class="hero-left">
+    <p class="hero-eyebrow">✦ Welcome to sk4bharat</p>
+    <h1 class="hero-title">Stories that<br><em>shape</em> how<br>we see India</h1>
+    <p class="hero-desc">Writing on the intersection of culture, tradition, and modern Indian life — unpacking the ideas that define us.</p>
+    <div class="hero-buttons">
+      <a href="#articles" class="btn btn-primary">Read Articles</a>
+      <a href="#about" class="btn btn-outline">About Me</a>
+    </div>
   </div>
-
-  <div class="hero-badge">Madhyakalin Bharat ka Mahan Sangharsh</div>
-
-  <h1 class="main-title">
-    Tarain ka<br>Mahayuddh
-  </h1>
-
-  <p class="hero-sub">
-    Prithviraj Chauhan &nbsp;⚔&nbsp; Muhammad Ghori<br>
-    <em>1191 &amp; 1192 Common Era · Taraori, Haryana</em>
-  </p>
-
-  <!-- SVG Sword Divider -->
-  <div class="sword-divider">
-    <svg viewBox="0 0 320 24" xmlns="http://www.w3.org/2000/svg" fill="none">
-      <line x1="0" y1="12" x2="100" y2="12" stroke="url(#lg1)" stroke-width="1.5"/>
-      <polygon points="100,6 112,12 100,18" fill="#c9960a"/>
-      <rect x="112" y="10" width="96" height="4" rx="2" fill="#8b1414"/>
-      <polygon points="118,6 112,12 118,18" fill="#c9960a"/>
-      <polygon points="190,6 208,12 190,18" fill="#c9960a"/>
-      <polygon points="202,6 208,12 202,18" fill="#c9960a"/>
-      <line x1="208" y1="12" x2="320" y2="12" stroke="url(#lg2)" stroke-width="1.5"/>
-      <defs>
-        <linearGradient id="lg1" x1="0" x2="1"><stop offset="0" stop-color="#c9960a" stop-opacity="0"/><stop offset="1" stop-color="#c9960a"/></linearGradient>
-        <linearGradient id="lg2" x1="0" x2="1"><stop offset="0" stop-color="#c9960a"/><stop offset="1" stop-color="#c9960a" stop-opacity="0"/></linearGradient>
-      </defs>
-    </svg>
+  <div class="hero-right">
+    <div class="hero-card">
+      <p class="featured-label">✦ Latest Post</p>
+      <p class="featured-date">May 22, 2026</p>
+      <h2 class="featured-title">Why Bharat Cannot Be Reduced to a Single Narrative</h2>
+      <p class="featured-excerpt">Every attempt to define India in one sentence collapses under the weight of its diversity. Perhaps the plurality is the point — and always was.</p>
+      <div class="featured-tags">
+        <a href="#" class="tag">Culture</a>
+        <a href="#" class="tag">Identity</a>
+        <a href="#" class="tag">Society</a>
+      </div>
+      <a href="#" class="read-more">Read Article →</a>
+    </div>
   </div>
-
-  <div class="scroll-cue">Neeche Dekhein</div>
 </section>
 
-<!-- ══════════════════════════════════════
-     MARQUEE WAR BANNER
-══════════════════════════════════════ -->
-<div class="war-banner">
-  <div class="war-banner-scroll">
-    PRITHVIRAJ CHAUHAN<span>✦</span>
-    RAJPUT SENA<span>✦</span>
-    HAATHI SENA<span>✦</span>
-    1191 CE — PRATHAM VIJAY<span>✦</span>
-    MUHAMMAD GHORI<span>✦</span>
-    GHURID EMPIRE<span>✦</span>
-    GHUDSWAAR SENA<span>✦</span>
-    1192 CE — BHARAT KA BHAGYA BADLA<span>✦</span>
-    TARAIN KA MAIDAAN<span>✦</span>
-    DELHI SULTANATE KI NEENV<span>✦</span>
-    PRITHVIRAJ RASO<span>✦</span>
-    CHAND BARDAI<span>✦</span>
+<!-- ARTICLES -->
+<section class="articles-section" id="articles">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="section-label">✦ Recent Writing</span>
+        <h2 class="section-title">Articles</h2>
+      </div>
+      <a href="#" class="section-link">All Posts →</a>
+    </div>
+    <div class="articles-grid">
+
+      <div class="article-card">
+        <p class="article-meta">May 18, 2026 · Culture</p>
+        <a href="#" class="article-title">The River Remembers: Sacred Waters in a Secular Age</a>
+        <p class="article-excerpt">Rivers in India are not merely geographic features. They carry memory, myth, and a mode of being that modern infrastructure keeps trying — and failing — to replace.</p>
+        <div class="featured-tags">
+          <span class="tag">Hinduism</span>
+          <span class="tag">Rivers</span>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <p class="article-meta">May 12, 2026 · History</p>
+        <a href="#" class="article-title">Ashoka's Silence: What the Rock Edicts Don't Tell Us</a>
+        <p class="article-excerpt">The emperor who carved his remorse into stone across an entire subcontinent was also, curiously, silent on much that mattered. What he left unsaid tells us as much as the inscriptions themselves.</p>
+        <div class="featured-tags">
+          <span class="tag">History</span>
+          <span class="tag">Buddhism</span>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <p class="article-meta">May 5, 2026 · Society</p>
+        <a href="#" class="article-title">Why Indians Argue About Language More Than Almost Anything Else</a>
+        <p class="article-excerpt">Language disputes in India are never really about language. They are about memory, pride, survival, and the perpetual negotiation of who belongs where and why.</p>
+        <div class="featured-tags">
+          <span class="tag">Languages</span>
+          <span class="tag">Politics</span>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <p class="article-meta">Apr 28, 2026 · Philosophy</p>
+        <a href="#" class="article-title">Dharma Is Not Duty: Recovering a Misunderstood Idea</a>
+        <p class="article-excerpt">Colonial translations flattened dharma into a Victorian sense of obligation. The original concept was richer, stranger, and far more interesting than the word "duty" can contain.</p>
+        <div class="featured-tags">
+          <span class="tag">Philosophy</span>
+          <span class="tag">Hinduism</span>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <p class="article-meta">Apr 20, 2026 · Art</p>
+        <a href="#" class="article-title">The Grammar of Indian Temple Architecture Nobody Teaches</a>
+        <p class="article-excerpt">Temples are not just beautiful buildings. They are cosmological diagrams in stone — encoding a worldview so complete that every carved figure, every directional alignment, carries meaning.</p>
+        <div class="featured-tags">
+          <span class="tag">Architecture</span>
+          <span class="tag">Art</span>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <p class="article-meta">Apr 12, 2026 · Leadership</p>
+        <a href="#" class="article-title">What the Mahabharata Says About Decision-Making Under Uncertainty</a>
+        <p class="article-excerpt">The Kurukshetra war is, among other things, a 100,000-verse meditation on the agony of choice. Its lessons apply surprisingly well to anyone navigating impossible situations.</p>
+        <div class="featured-tags">
+          <span class="tag">Mahabharata</span>
+          <span class="tag">Leadership</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE BAND -->
+<div class="quote-band">
+  <div class="container">
+    <p class="quote-text">"Mythology is not primitive science. It is civilisational memory — encoded in story because story outlasts empires."</p>
+    <p class="quote-attr">— sk4bharat</p>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     COMMANDERS
-══════════════════════════════════════ -->
-<section class="section">
-  <h2 class="sec-title fi">Do Mahaan Yoddha</h2>
-  <div class="versus-wrap fi">
-
-    <div class="cmd raj fi-l">
-      <div class="cmd-emblem">🐘</div>
-      <div class="cmd-name">Prithviraj III</div>
-      <div class="cmd-title-text">Chahamana vansh ke shaktishali raja<br>Ajmer aur Delhi ke swami</div>
-      <span class="cmd-tag">Rajput Confederacy</span>
-      <div class="cmd-stats">
-        <div class="cs"><div class="cs-v">Hathi Sena</div><div class="cs-l">War Elephants</div></div>
-        <div class="cs"><div class="cs-v">Trishool</div><div class="cs-l">Weapon</div></div>
-        <div class="cs"><div class="cs-v">150,000+</div><div class="cs-l">Total Troops</div></div>
-        <div class="cs"><div class="cs-v">Vijay '91</div><div class="cs-l">First Battle</div></div>
+<!-- BOOKS -->
+<section class="books-section" id="books">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="section-label">✦ Published Works</span>
+        <h2 class="section-title">Books</h2>
       </div>
+      <a href="#" class="section-link">All Books →</a>
     </div>
+    <div class="books-grid">
 
-    <div class="vs-center">
-      <div class="vs-ring">VS</div>
-    </div>
-
-    <div class="cmd ghu fi-r">
-      <div class="cmd-emblem">⚔️</div>
-      <div class="cmd-name">Muhammad Ghori</div>
-      <div class="cmd-title-text">Ghor Sultanate ke qudratmand badshah<br>Hindustan ka vijeta</div>
-      <span class="cmd-tag">Ghurid Empire</span>
-      <div class="cmd-stats">
-        <div class="cs"><div class="cs-v">Ghudswaar</div><div class="cs-l">Mounted Cavalry</div></div>
-        <div class="cs"><div class="cs-v">Teer-Andaaz</div><div class="cs-l">Archers</div></div>
-        <div class="cs"><div class="cs-v">120,000</div><div class="cs-l">Total Troops</div></div>
-        <div class="cs"><div class="cs-v">Vijay '92</div><div class="cs-l">Second Battle</div></div>
+      <div class="book-card">
+        <div class="book-cover" style="background: linear-gradient(135deg, #1a0a00 0%, #3d1f00 100%);">
+          <div class="book-cover-inner">
+            <div class="book-cover-title">The Grammar of Bharat</div>
+            <div class="book-cover-line"></div>
+            <div class="book-cover-author">sk4bharat</div>
+          </div>
+        </div>
+        <div class="book-title">The Grammar of Bharat</div>
+        <div class="book-year">2025</div>
       </div>
-    </div>
 
+      <div class="book-card">
+        <div class="book-cover" style="background: linear-gradient(135deg, #0a1a00 0%, #1f3d00 100%);">
+          <div class="book-cover-inner">
+            <div class="book-cover-title">Sacred & Secular: Notes on Modern India</div>
+            <div class="book-cover-line"></div>
+            <div class="book-cover-author">sk4bharat</div>
+          </div>
+        </div>
+        <div class="book-title">Sacred & Secular</div>
+        <div class="book-year">2024</div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover" style="background: linear-gradient(135deg, #0a0018 0%, #200038 100%);">
+          <div class="book-cover-inner">
+            <div class="book-cover-title">Myth, Memory & the Making of a Nation</div>
+            <div class="book-cover-line"></div>
+            <div class="book-cover-author">sk4bharat</div>
+          </div>
+        </div>
+        <div class="book-title">Myth, Memory & the Making of a Nation</div>
+        <div class="book-year">2023</div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover" style="background: linear-gradient(135deg, #180008 0%, #3d001a 100%);">
+          <div class="book-cover-inner">
+            <div class="book-cover-title">The River and the Root</div>
+            <div class="book-cover-line"></div>
+            <div class="book-cover-author">sk4bharat</div>
+          </div>
+        </div>
+        <div class="book-title">The River and the Root</div>
+        <div class="book-year">2022</div>
+      </div>
+
+    </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════
-     INTRO
-══════════════════════════════════════ -->
-<section class="section" style="padding-top:0;">
-  <div class="intro-text fi">
-    <p>Tarain ke maidan mein — jo aaj Haryana ka Taraori kahlata hai — do mahaan shaktiyaan aamne-saamne aayi. Yeh sirf talavaron ka sangharsh nahin tha; yeh do alag sabhyataon, do alag yuddha-kalaaon aur do alag duniyaon ki takkar thi. Ek taraf thi Rajput confederation ki prataap-shali sena, haathiyon ki deewar liye aur izzat ke liye larti hui. Doosri taraf thi Ghurid empire ki chust, tez ghudswaar fauj jo aasman se girti hui bijli ki tarah war karti thi. Yeh do yuddh poore Bhartiya upmahadweep ka bhagya hamesha ke liye badal dene wale the.</p>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════
-     BATTLE 1191
-══════════════════════════════════════ -->
-<section class="section" style="padding-top:0;">
-  <div class="battle-block bb1 fi">
-    <div class="bb-bar"></div>
-    <div class="bb-inner">
-      <div class="bb-year-row">
-        <div class="bb-year">1191</div>
-        <div class="bb-name">CE — Pratham Yuddh · The First Battle</div>
-      </div>
-      <div class="bb-outcome">⚔ &nbsp; Rajput Victory — Prithviraj Triumphs</div>
-      <p class="bb-body">
-        <strong>Prithviraj Chauhan</strong> ki sena ne Ghori ki fauj ko buri tarah haraaya. Vishaal hathiyon ki taakat aur sajji hui paidal sena ne Ghurid ghudswaar sena ko chhinn-bhinn kar diya. Ghori khud ghaayal hua aur usse maidaan chhod kar bhaagna pada — Rajput sangh ki ek gauravshali vijay. Lekin is vijay ke baad Prithviraj ne Ghori ka peecha nahin kiya — yahi ek bhool unhe mahangi padegi.
-      </p>
-      <!-- Tactics -->
-      <div class="tactics">
-        <div class="tac">
-          <span class="tac-icon">🐘</span>
-          <div class="tac-name">Haathi Yukti</div>
-          <div class="tac-desc">Vishaal hathi sena ne Ghurid ghodo ko daraya aur tosfa kiya.</div>
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-portrait">sk</div>
+      <div class="about-content">
+        <span class="section-label">✦ About</span>
+        <h2 class="about-title">Writing India<br>from the <em>inside</em></h2>
+        <p class="about-text">sk4bharat writes at the crossroads of mythology, history, culture, and contemporary Indian life. The work draws on a belief that to understand where India is going, one must first understand — without romanticizing — where it has been.</p>
+        <p class="about-text">Articles, books, and talks have appeared across national publications, universities, and literary festivals. The audience spans students of history, professionals navigating modern India, and anyone who suspects that the old stories still have something urgent to say.</p>
+        <div class="about-roles">
+          <span class="role-pill">Writer</span>
+          <span class="role-pill">Speaker</span>
+          <span class="role-pill">Cultural Thinker</span>
+          <span class="role-pill">Researcher</span>
         </div>
-        <div class="tac">
-          <span class="tac-icon">🛡</span>
-          <div class="tac-name">Vyuh Rachna</div>
-          <div class="tac-desc">Rajput sena ki solid defensive formation ne attack roka.</div>
-        </div>
-        <div class="tac">
-          <span class="tac-icon">⚔️</span>
-          <div class="tac-name">Seedha Hamla</div>
-          <div class="tac-desc">Direct frontal assault — Rajput bravery at its peak.</div>
-        </div>
-        <div class="tac">
-          <span class="tac-icon">🏇</span>
-          <div class="tac-name">Cavalry Support</div>
-          <div class="tac-desc">Rajput cavalry ne flanks protect kiye aur counter-attack ki.</div>
-        </div>
-      </div>
-      <div class="bb-stats">
-        <div class="bstat"><div class="bstat-v">150,000+</div><div class="bstat-l">Rajput Troops</div></div>
-        <div class="bstat"><div class="bstat-v">Haathi Sena</div><div class="bstat-l">War Elephants</div></div>
-        <div class="bstat"><div class="bstat-v">Rajput</div><div class="bstat-l">Victor</div></div>
-        <div class="bstat"><div class="bstat-v">Ghori</div><div class="bstat-l">Severely Wounded</div></div>
-        <div class="bstat"><div class="bstat-v">1 Din</div><div class="bstat-l">Battle Duration</div></div>
-        <div class="bstat"><div class="bstat-v">Taraori</div><div class="bstat-l">Location</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════
-     BATTLE 1192
-══════════════════════════════════════ -->
-<section class="section" style="padding-top:0;">
-  <div class="battle-block bb2 fi">
-    <div class="bb-bar"></div>
-    <div class="bb-inner">
-      <div class="bb-year-row">
-        <div class="bb-year">1192</div>
-        <div class="bb-name">CE — Dvitiya Yuddh · The Second Battle</div>
-      </div>
-      <div class="bb-outcome">⚔ &nbsp; Ghurid Victory — India's Fate Changes</div>
-      <p class="bb-body">
-        Ek saal baad <strong>Muhammad Ghori</strong> nayi ranniti leke lauta. Uski chust teer-andaaz ghudswaar sena ne bhaage-bhaage Rajput sena ko thaka diya. Jhooti wapasi (feigned retreat), chalaki bhare hamlein aur niraantar teerandaazi se Rajput sainik toot gaye. <strong>Prithviraj Chauhan</strong> ko pakad liya gaya. Yeh din Bharat ke itihaas mein ek nayi chapter ki shuruat thi — <strong>Delhi Sultanate</strong> ki neenv rakkhi gayi thi.
-      </p>
-      <div class="tactics">
-        <div class="tac">
-          <span class="tac-icon">🏹</span>
-          <div class="tac-name">Teerandaazi</div>
-          <div class="tac-desc">Mounted archers ne Rajput sena par niraantar teer-varsha ki.</div>
-        </div>
-        <div class="tac">
-          <span class="tac-icon">🔄</span>
-          <div class="tac-name">Jhooti Wapasi</div>
-          <div class="tac-desc">Feigned retreat — Rajputon ko chakkar mein daal kar hamlaa kiya.</div>
-        </div>
-        <div class="tac">
-          <span class="tac-icon">⚡</span>
-          <div class="tac-name">Speed & Mobility</div>
-          <div class="tac-desc">Fast cavalry ne heavy Rajput infantry ko harana possible kiya.</div>
-        </div>
-        <div class="tac">
-          <span class="tac-icon">🎯</span>
-          <div class="tac-name">5-Pronged Attack</div>
-          <div class="tac-desc">5 alag dishaon se ek saath hamlaa — classic Ghurid war strategy.</div>
-        </div>
-      </div>
-      <div class="bb-stats">
-        <div class="bstat"><div class="bstat-v">120,000</div><div class="bstat-l">Ghurid Troops</div></div>
-        <div class="bstat"><div class="bstat-v">Ghudswaar</div><div class="bstat-l">Cavalry Force</div></div>
-        <div class="bstat"><div class="bstat-v">Ghurid</div><div class="bstat-l">Victor</div></div>
-        <div class="bstat"><div class="bstat-v">Prithviraj</div><div class="bstat-l">Captured</div></div>
-        <div class="bstat"><div class="bstat-v">1 Din</div><div class="bstat-l">Battle Duration</div></div>
-        <div class="bstat"><div class="bstat-v">Taraori</div><div class="bstat-l">Location</div></div>
-      </div>
+<!-- NEWSLETTER -->
+<section class="newsletter-section">
+  <div class="container">
+    <h2 class="newsletter-title">Get new essays in your inbox</h2>
+    <p class="newsletter-subtitle">No noise. Just ideas worth sitting with.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="your@email.com" />
+      <button type="button">Subscribe</button>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════
-     BATTLEFIELD MAP
-══════════════════════════════════════ -->
-<div class="map-section fi">
-  <div class="map-box">
-    <div class="map-title">⚔ YUDDH KA MAIDAAN — SENA RACHNA ⚔</div>
-    <div class="map-grid">
-      <div class="map-side map-raj">
-        <div class="map-side-title">🔴 RAJPUT SENA (WEST)</div>
-        <div class="map-unit">🐘🐘🐘 Haathi — Front Line</div>
-        <div class="map-unit">🛡🛡🛡 Paidal Sena — Center</div>
-        <div class="map-unit">🏇🏇 Cavalry — Flanks</div>
-        <div class="map-unit">🎯 Teer-Andaaz — Rear</div>
-        <div class="map-unit">👑 Prithviraj — Command</div>
-      </div>
-      <div class="map-center">
-        <div class="map-terrain">
-          <div class="mt-label">TERRAIN</div>
-          <div class="mt-val">Tarain Plains<br>Flat Ground<br>Dust &amp; Heat</div>
-        </div>
-      </div>
-      <div class="map-side map-ghu">
-        <div class="map-side-title">🔵 GHURID FAUJ (EAST)</div>
-        <div class="map-unit">🏹🏹🏹 Teer-Andaaz — Front</div>
-        <div class="map-unit">🏇🏇🏇 Ghudswaar — Center</div>
-        <div class="map-unit">⚡ 5-Pronged Attack</div>
-        <div class="map-unit">🔄 Feigned Retreat Unit</div>
-        <div class="map-unit">👑 Muhammad Ghori — Cmd</div>
-      </div>
-    </div>
-    <div class="map-clash">
-      <div class="map-arrow-row">
-        <span style="color:#e88;">RAJPUT ➤➤</span>
-        <span class="mar">💥</span>
-        <span style="color:#88b8f0;">◄◄ GHURID</span>
-      </div>
-      TAKKAR KA MAIDAAN — TARAORI, HARYANA
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════
-     ARSENAL
-══════════════════════════════════════ -->
-<section class="section" style="padding-top:0;">
-  <h2 class="sec-title fi">Hathiyaar aur Sena</h2>
-  <div class="arsenal fi">
-    <div class="weapon">
-      <span class="weapon-icon">🐘</span>
-      <div class="weapon-name">War Elephant</div>
-      <span class="weapon-side w-raj">Rajput</span>
-    </div>
-    <div class="weapon">
-      <span class="weapon-icon">🏹</span>
-      <div class="weapon-name">Composite Bow</div>
-      <span class="weapon-side w-ghu">Ghurid</span>
-    </div>
-    <div class="weapon">
-      <span class="weapon-icon">⚔️</span>
-      <div class="weapon-name">Shamsheer</div>
-      <span class="weapon-side w-both">Dono</span>
-    </div>
-    <div class="weapon">
-      <span class="weapon-icon">🛡</span>
-      <div class="weapon-name">Dhaal-Talwar</div>
-      <span class="weapon-side w-raj">Rajput</span>
-    </div>
-    <div class="weapon">
-      <span class="weapon-icon">🏇</span>
-      <div class="weapon-name">War Horse</div>
-      <span class="weapon-side w-ghu">Ghurid</span>
-    </div>
-    <div class="weapon">
-      <span class="weapon-icon">🗡️</span>
-      <div class="weapon-name">Khanjar</div>
-      <span class="weapon-side w-both">Dono</span>
-    </div>
-    <div class="weapon">
-      <span class="weapon-icon">🪃</span>
-      <div class="weapon-name">Bhala (Spear)</div>
-      <span class="weapon-side w-raj">Rajput</span>
-    </div>
-    <div class="weapon">
-      <span class="weapon-icon">🔥</span>
-      <div class="weapon-name">Fire Weapons</div>
-      <span class="weapon-side w-ghu">Ghurid</span>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════
-     TIMELINE
-══════════════════════════════════════ -->
-<section class="section">
-  <h2 class="sec-title fi">Yuddh ki Kahani — Timeline</h2>
-  <div class="timeline-wrap fi">
-    <div class="timeline-spine"></div>
-
-    <div class="tl-item">
-      <div class="tl-content">
-        <div class="tl-card fi-l">
-          <div class="tl-year">1186 CE</div>
-          <div class="tl-text">Muhammad Ghori ne Punjab par kabza kiya. Lahore Ghurid empire mein shamil hua. Rajput raajya ki seemaon ki taraf badhne laga.</div>
-        </div>
-      </div>
-      <div class="tl-dot-col"><div class="tl-dot" style="background:var(--gold);box-shadow:0 0 0 3px var(--gold);"></div></div>
-      <div class="tl-empty"></div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-empty"></div>
-      <div class="tl-dot-col"><div class="tl-dot" style="background:var(--red);box-shadow:0 0 0 3px var(--red);"></div></div>
-      <div class="tl-content">
-        <div class="tl-card fi-r">
-          <div class="tl-year">1191 CE — Pratham Yuddh</div>
-          <div class="tl-text">Prithviraj ki sena ne Ghori ko karari maar di. Haathi sena ka dhamaka. Ghori zakhmi hokar bhaga. Rajputon ki sarvochch vijay — Bharat ne rahat ki saans li.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-content">
-        <div class="tl-card fi-l">
-          <div class="tl-year">1191-1192 CE — Beech ka Saal</div>
-          <div class="tl-text">Ghori ne apni sena ka naya dhang se punargathan kiya. Teerandaazi aur ghudswaar tactics par focus kiya. Prithviraj ne galti ki — usne Ghori ka peecha nahin kiya.</div>
-        </div>
-      </div>
-      <div class="tl-dot-col"><div class="tl-dot" style="background:var(--ember);box-shadow:0 0 0 3px var(--ember);"></div></div>
-      <div class="tl-empty"></div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-empty"></div>
-      <div class="tl-dot-col"><div class="tl-dot" style="background:var(--blue2);box-shadow:0 0 0 3px var(--blue2);"></div></div>
-      <div class="tl-content">
-        <div class="tl-card fi-r">
-          <div class="tl-year">1192 CE — Dvitiya Yuddh</div>
-          <div class="tl-text">Ghori nayi ranniti ke saath lauta. 5-pronged attack, feigned retreat aur niraantar teerandaazi. Prithviraj pakdaa gaya. Bharat ki satta badal gayi.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-content">
-        <div class="tl-card fi-l">
-          <div class="tl-year">1193 CE Onwards</div>
-          <div class="tl-text">Qutb-ud-din Aibak ne Delhi par raaj kiya. Qutb Minar ki neenv rakkhi gayi. Bharat mein Sultanate ka daur shuru hua jo 300+ saal chala.</div>
-        </div>
-      </div>
-      <div class="tl-dot-col"><div class="tl-dot" style="background:var(--steel);box-shadow:0 0 0 3px var(--steel);"></div></div>
-      <div class="tl-empty"></div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-empty"></div>
-      <div class="tl-dot-col"><div class="tl-dot" style="background:var(--gold);box-shadow:0 0 0 3px var(--gold);"></div></div>
-      <div class="tl-content">
-        <div class="tl-card fi-r">
-          <div class="tl-year">Virasat — Aaj Bhi</div>
-          <div class="tl-text">Chand Bardai ki Prithviraj Raso — ek mahakavya. Qutb Minar UNESCO Heritage. Tarain ka itihaas aaj bhi padha aur seekha jaata hai.</div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════
-     EPIC QUOTE
-══════════════════════════════════════ -->
-<section class="section" style="padding-top:0;">
-  <div class="epic-scroll fi">
-    <blockquote class="scroll-quote">
-      "Tarain ke maidan ne sirf do raajyon ka nahin,<br>
-      ek poore yug ka faisla kiya.<br>
-      <em>Ek sena haari, ek sabhyata badli — lekin veer kabhi nahin mare.</em>"
-    </blockquote>
-    <cite class="scroll-cite">— Madhyakalin Bharat · 12th Century CE · Tarain, Haryana</cite>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════
-     LEGACY
-══════════════════════════════════════ -->
-<section class="section" style="padding-top:0;">
-  <h2 class="sec-title fi">Virasat aur Prabhav</h2>
-  <div class="legacy-grid fi">
-    <div class="legacy-card">
-      <span class="lc-icon">🏰</span>
-      <div class="lc-title">Delhi Sultanate</div>
-      <div class="lc-text">1192 ki haar ne Bharat mein 300+ saal tak chalne wale Delhi Sultanate ki neenv rakhi. Qutb Minar aaj bhi khada hai.</div>
-    </div>
-    <div class="legacy-card">
-      <span class="lc-icon">🕌</span>
-      <div class="lc-title">Quwwat-ul-Islam</div>
-      <div class="lc-text">Delhi ki pehli masjid — 1193 CE mein bani. Bharat mein Islamic architecture ka aaghaaz isi dour mein hua.</div>
-    </div>
-    <div class="legacy-card">
-      <span class="lc-icon">⚔️</span>
-      <div class="lc-title">Yuddha Ranniti</div>
-      <div class="lc-text">Ghurid ki ghudswaar taktik ne medieval warfare ko badla. Speed aur deception ne brute force ko haraaya — aaj bhi military schools mein padhaaya jaata hai.</div>
-    </div>
-    <div class="legacy-card">
-      <span class="lc-icon">📜</span>
-      <div class="lc-title">Prithviraj Raso</div>
-      <div class="lc-text">Chand Bardai ne is veer raja ki kahaani kavita mein amar kar di. Bharat ke sabse bade mahakavyon mein se ek.</div>
-    </div>
-    <div class="legacy-card">
-      <span class="lc-icon">🎭</span>
-      <div class="lc-title">Sabhyata ka Sangam</div>
-      <div class="lc-text">Do sabhyataon ke is milan ne Bharat ki kala, sangeet, sthaapatya aur bhaasha ko naya roop diya — ek milaawat jo aaj bhi dikhti hai.</div>
-    </div>
-    <div class="legacy-card">
-      <span class="lc-icon">🌍</span>
-      <div class="lc-title">Silk Road Connection</div>
-      <div class="lc-text">Ghurid vijay ke baad Bharat Silk Road trade network se zyada deeply juda. Vyaapaar, ilm aur sanskriti ka naya daur aaya.</div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════
-     FOOTER
-══════════════════════════════════════ -->
+<!-- FOOTER -->
 <footer>
-  <div class="footer-logo">⚔ Tarain ka Mahayuddh ⚔</div>
-  <div class="footer-sub">1191 &amp; 1192 CE · Taraori, Haryana, India · Medieval History</div>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-text">sk<span style="color:var(--saffron)">4</span>bharat</span>
+        <p class="footer-tagline">Writing on mythology, history, culture, and the ideas that shape modern India.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">Twitter</a>
+          <a href="#" class="social-link">Instagram</a>
+          <a href="#" class="social-link">YouTube</a>
+          <a href="#" class="social-link">LinkedIn</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="#">Articles</a>
+        <a href="#">Books</a>
+        <a href="#">Talks & Podcasts</a>
+        <a href="#">Interviews</a>
+        <a href="#">Archive</a>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Newsletter</a>
+        <a href="#">Press</a>
+        <a href="#">Store</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 sk4bharat. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#">Terms of Use</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
 </footer>
 
-</div><!-- .page -->
-
 <script>
-/* ══════════════════════════════════════
-   PROGRESS BAR
-══════════════════════════════════════ */
-window.addEventListener('scroll',()=>{
-  const s=document.documentElement.scrollTop;
-  const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
-  document.getElementById('prog').style.width=(s/h*100)+'%';
-},{passive:true});
+  // Subtle scroll animation for article cards
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
 
-/* ══════════════════════════════════════
-   SCROLL ANIMATIONS
-══════════════════════════════════════ */
-const io=new IntersectionObserver(es=>es.forEach(e=>{
-  if(e.isIntersecting)e.target.classList.add('vis');
-}),{threshold:.08});
-document.querySelectorAll('.fi,.fi-l,.fi-r').forEach(el=>io.observe(el));
-
-/* ══════════════════════════════════════
-   FULLSCREEN WAR CANVAS
-   — Sky, hills, fire, elephants, horses,
-     arrows, smoke, dust, stars, moon
-══════════════════════════════════════ */
-const C=document.getElementById('warCanvas');
-const cx=C.getContext('2d');
-function resize(){C.width=window.innerWidth;C.height=window.innerHeight;}
-resize();
-window.addEventListener('resize',resize,{passive:true});
-
-/* Particles */
-const stars=Array.from({length:180},()=>({
-  x:Math.random(),y:Math.random()*.45,r:Math.random()*1.3+.2,a:Math.random()*.9+.1
-}));
-
-/* Fire particles */
-const fires=[];
-function spawnFire(x,y){
-  const cols=['rgba(232,64,10,','rgba(201,100,10,','rgba(240,180,20,','rgba(255,200,40,'];
-  fires.push({x,y,vx:(Math.random()-.5)*1.8,vy:-Math.random()*3.5-1.5,
-    life:1,decay:Math.random()*.028+.018,r:Math.random()*7+3,
-    col:cols[Math.floor(Math.random()*cols.length)]});
-}
-
-/* Smoke */
-const smokes=[];
-function spawnSmoke(x,y){
-  smokes.push({x,y,vx:(Math.random()-.5)*.6,vy:-Math.random()*.5-.2,
-    life:1,decay:Math.random()*.005+.003,r:Math.random()*22+8});
-}
-
-/* Arrows */
-const arrows=[];
-function spawnArrow(){
-  const fr=Math.random()>.45;
-  arrows.push({x:fr?C.width+10:-10,y:C.height*.4+Math.random()*C.height*.35,
-    vx:fr?-8-Math.random()*5:8+Math.random()*5,vy:(Math.random()-.5)*2.5});
-}
-let arrowT=0;
-
-/* Clash sparks */
-const sparks=[];
-function spawnSparks(x,y){
-  for(let i=0;i<22;i++){
-    const a=Math.random()*Math.PI*2,sp=Math.random()*7+2;
-    sparks.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,
-      life:1,decay:Math.random()*.04+.025,
-      col:Math.random()>.5?'rgba(240,180,20,':'rgba(232,64,10,'});
-  }
-}
-let sparkT=0;
-
-/* ── DRAW ELEPHANT ── */
-function drawElephant(cx2,by,sc,flip){
-  cx.save();cx.translate(cx2,by);if(flip)cx.scale(-1,1);cx.scale(sc,sc);
-  cx.beginPath();
-  cx.ellipse(0,-22,42,26,0,0,Math.PI*2);       // body
-  cx.ellipse(-36,-34,20,16,-.18,0,Math.PI*2);  // head
-  // trunk
-  cx.moveTo(-52,-26);
-  cx.bezierCurveTo(-68,-20,-72,-4,-64,10);
-  cx.bezierCurveTo(-60,16,-50,14,-52,8);
-  cx.bezierCurveTo(-56,2,-62,-8,-52,-20);
-  // ear
-  cx.moveTo(-50,-40);
-  cx.bezierCurveTo(-68,-56,-72,-42,-58,-30);
-  cx.bezierCurveTo(-52,-27,-46,-35,-50,-40);
-  // tusk
-  cx.moveTo(-52,-42);
-  cx.bezierCurveTo(-70,-36,-74,-24,-68,-16);
-  // legs
-  cx.rect(-18,2,12,30);cx.rect(20,2,12,30);
-  cx.rect(-6,2,10,30);cx.rect(8,2,10,30);
-  // howdah
-  cx.rect(-22,-58,44,28);cx.rect(-12,-66,24,14);
-  // rider
-  cx.ellipse(0,-72,9,9,0,0,Math.PI*2);
-  // flag / spear
-  cx.moveTo(12,-78);cx.lineTo(28,-118);
-  cx.moveTo(28,-118);cx.lineTo(28,-108);cx.lineTo(18,-113);cx.closePath();
-  cx.fill();cx.restore();
-}
-
-/* ── DRAW HORSE+RIDER ── */
-function drawHorse(cx2,by,sc,flip){
-  cx.save();cx.translate(cx2,by);if(flip)cx.scale(-1,1);cx.scale(sc,sc);
-  cx.beginPath();
-  cx.ellipse(0,-18,34,17,-.08,0,Math.PI*2);    // body
-  // neck
-  cx.moveTo(-20,-28);
-  cx.bezierCurveTo(-32,-48,-18,-54,-6,-48);
-  cx.bezierCurveTo(4,-42,4,-30,8,-26);
-  cx.bezierCurveTo(2,-28,-18,-28,-20,-28);
-  // head
-  cx.ellipse(-26,-52,11,8,-.48,0,Math.PI*2);
-  // ear
-  cx.moveTo(-30,-56);cx.bezierCurveTo(-26,-64,-20,-62,-22,-56);
-  // mane
-  cx.moveTo(-18,-48);cx.bezierCurveTo(-14,-56,-8,-54,-10,-48);
-  // tail
-  cx.moveTo(34,-18);cx.bezierCurveTo(50,-8,52,8,44,16);
-  // galloping legs (different angles for movement)
-  cx.moveTo(-18,-2);cx.lineTo(-28,24);cx.lineTo(-24,34);
-  cx.moveTo(-8,-2);cx.lineTo(-2,26);cx.lineTo(2,34);
-  cx.moveTo(10,-2);cx.lineTo(20,18);cx.lineTo(24,28);
-  cx.moveTo(24,-2);cx.lineTo(34,20);cx.lineTo(30,30);
-  // rider
-  cx.rect(-8,-46,16,24);
-  cx.ellipse(0,-52,8,8,0,0,Math.PI*2);
-  // sword raised
-  cx.moveTo(14,-50);cx.lineTo(38,-72);
-  // rider turban bump
-  cx.ellipse(0,-58,5,4,0,0,Math.PI*2);
-  cx.fill();cx.restore();
-}
-
-/* Units */
-const elephants=[];
-for(let i=0;i<6;i++) elephants.push({
-  x:-160-i*200,y:0,speed:.85+Math.random()*.4,sc:.78+Math.random()*.2,bob:Math.random()*Math.PI*2
-});
-const horses=[];
-for(let i=0;i<9;i++) horses.push({
-  x:0,y:0,speed:1.6+Math.random()*.5,sc:.6+Math.random()*.15,bob:Math.random()*Math.PI*2
-});
-
-/* Reinit horses after resize */
-function initUnits(){
-  horses.forEach((h,i)=>{h.x=C.width+140+i*130;h.y=C.height*.72+Math.sin(i*1.6)*15;});
-  elephants.forEach((e,i)=>{e.y=C.height*.7+Math.sin(i*1.3)*12;});
-}
-initUnits();
-window.addEventListener('resize',initUnits,{passive:true});
-
-/* Static fire positions (relative 0..1) */
-const firePts=[{x:.22,y:.82},{x:.38,y:.80},{x:.5,y:.83},{x:.62,y:.80},{x:.78,y:.82}];
-
-let t=0;
-function loop(){
-  requestAnimationFrame(loop);
-  t+=.016;
-  const W=C.width,H=C.height;
-  cx.clearRect(0,0,W,H);
-
-  /* ── DUSK SKY ── */
-  const sky=cx.createLinearGradient(0,0,0,H*.65);
-  sky.addColorStop(0,'#0d0501');
-  sky.addColorStop(.25,'#1a0b04');
-  sky.addColorStop(.55,'#2e1208');
-  sky.addColorStop(.8,'#5a2510');
-  sky.addColorStop(1,'#7a3514');
-  cx.fillStyle=sky;cx.fillRect(0,0,W,H*.65);
-
-  /* ── STARS ── */
-  stars.forEach(s=>{
-    const tw=s.a*(0.5+0.5*Math.sin(t*.8+s.x*10));
-    cx.beginPath();cx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);
-    cx.fillStyle=`rgba(255,230,180,${tw})`;cx.fill();
+  document.querySelectorAll('.article-card, .book-card').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(24px)';
+    card.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+    observer.observe(card);
   });
 
-  /* ── MOON ── */
-  cx.save();
-  cx.shadowColor='rgba(255,210,100,0.5)';cx.shadowBlur=50;
-  cx.beginPath();cx.arc(W*.82,H*.09,26,0,Math.PI*2);
-  cx.fillStyle='#f5d070';cx.fill();
-  cx.beginPath();cx.arc(W*.82+9,H*.09-4,20,0,Math.PI*2);
-  cx.fillStyle='#0d0501';cx.fill();
-  cx.restore();
-
-  /* ── DISTANT HILLS ── */
-  cx.beginPath();
-  for(let i=0;i<=W;i+=5){
-    const hy=H*.58+Math.sin(i*.007)*35+Math.sin(i*.003)*25+Math.sin(i*.015)*12;
-    i===0?cx.moveTo(i,hy):cx.lineTo(i,hy);
-  }
-  cx.lineTo(W,H);cx.lineTo(0,H);cx.closePath();
-  cx.fillStyle='#0e0602';cx.fill();
-
-  /* ── SECOND RANGE HILLS ── */
-  cx.beginPath();
-  for(let i=0;i<=W;i+=5){
-    const hy=H*.66+Math.sin(i*.011)*22+Math.sin(i*.005)*18;
-    i===0?cx.moveTo(i,hy):cx.lineTo(i,hy);
-  }
-  cx.lineTo(W,H);cx.lineTo(0,H);cx.closePath();
-  cx.fillStyle='#130901';cx.fill();
-
-  /* ── FIRE SOURCES ── */
-  firePts.forEach(fp=>{
-    const fx=fp.x*W,fy=fp.y*H;
-    if(Math.random()>.5)spawnFire(fx+(Math.random()-.5)*30,fy);
-    if(Math.random()>.8)spawnSmoke(fx+(Math.random()-.5)*20,fy-20);
-    // base glow
-    const fg=cx.createRadialGradient(fx,fy,4,fx,fy,60);
-    fg.addColorStop(0,'rgba(220,90,10,0.35)');fg.addColorStop(1,'rgba(220,90,10,0)');
-    cx.fillStyle=fg;cx.fillRect(fx-60,fy-30,120,60);
+  // Newsletter button feedback
+  document.querySelector('.newsletter-form button').addEventListener('click', function() {
+    const input = document.querySelector('.newsletter-form input');
+    if (input.value && input.value.includes('@')) {
+      this.textContent = 'Subscribed ✓';
+      this.style.background = '#2d7a2d';
+      input.value = '';
+      setTimeout(() => {
+        this.textContent = 'Subscribe';
+        this.style.background = '';
+      }, 3000);
+    } else {
+      input.style.borderColor = 'var(--saffron)';
+      input.focus();
+    }
   });
-
-  /* ── SMOKE ── */
-  for(let i=smokes.length-1;i>=0;i--){
-    const s=smokes[i];
-    s.x+=s.vx;s.y+=s.vy;s.life-=s.decay;s.r+=.3;
-    if(s.life<=0){smokes.splice(i,1);continue;}
-    cx.beginPath();cx.arc(s.x,s.y,s.r,0,Math.PI*2);
-    cx.fillStyle=`rgba(50,30,10,${s.life*.14})`;cx.fill();
-  }
-
-  /* ── FIRE PARTICLES ── */
-  for(let i=fires.length-1;i>=0;i--){
-    const f=fires[i];
-    f.x+=f.vx;f.y+=f.vy;f.vy+=.04;f.life-=f.decay;
-    if(f.life<=0){fires.splice(i,1);continue;}
-    cx.beginPath();cx.arc(f.x,f.y,f.r*f.life,0,Math.PI*2);
-    cx.fillStyle=f.col+f.life+')';cx.fill();
-  }
-
-  /* ── GROUND ── */
-  const gnd=cx.createLinearGradient(0,H*.66,0,H);
-  gnd.addColorStop(0,'#1e0f04');gnd.addColorStop(.35,'#281505');gnd.addColorStop(1,'#0e0602');
-  cx.fillStyle=gnd;cx.fillRect(0,H*.66,W,H*.34);
-
-  /* ── DUST CLOUDS ── */
-  for(let i=0;i<6;i++){
-    const dx=((t*14*(i*.6+.4))%(W*1.5))-W*.15;
-    const dy=H*.72+Math.sin(t+i*.8)*8;
-    const dg=cx.createRadialGradient(dx,dy,5,dx,dy,80);
-    dg.addColorStop(0,'rgba(160,110,50,0.16)');dg.addColorStop(1,'rgba(160,110,50,0)');
-    cx.fillStyle=dg;cx.fillRect(dx-80,dy-30,160,60);
-  }
-
-  /* ── ARROWS ── */
-  arrowT+=.016;
-  if(arrowT>(.22+Math.random()*.2)){arrowT=0;spawnArrow();}
-  for(let i=arrows.length-1;i>=0;i--){
-    const ar=arrows[i];ar.x+=ar.vx;ar.y+=ar.vy;
-    if(ar.x<-30||ar.x>W+30){arrows.splice(i,1);continue;}
-    const ang=Math.atan2(ar.vy,ar.vx);
-    cx.save();cx.translate(ar.x,ar.y);cx.rotate(ang);
-    cx.strokeStyle='rgba(201,150,10,0.85)';cx.lineWidth=1.8;
-    cx.beginPath();cx.moveTo(-22,0);cx.lineTo(14,0);cx.stroke();
-    cx.fillStyle='rgba(201,150,10,0.95)';
-    cx.beginPath();cx.moveTo(14,0);cx.lineTo(7,-3);cx.lineTo(7,3);cx.closePath();cx.fill();
-    // tail feathers
-    cx.strokeStyle='rgba(201,150,10,0.5)';cx.lineWidth=1;
-    cx.beginPath();cx.moveTo(-20,0);cx.lineTo(-16,-4);cx.stroke();
-    cx.beginPath();cx.moveTo(-20,0);cx.lineTo(-16,4);cx.stroke();
-    cx.restore();
-  }
-
-  /* ── CLASH SPARKS ── */
-  sparkT+=.016;
-  if(sparkT>.6){sparkT=0;spawnSparks(W*.42+Math.random()*W*.16,H*.62+Math.random()*H*.1);}
-  for(let i=sparks.length-1;i>=0;i--){
-    const sp=sparks[i];
-    sp.x+=sp.vx;sp.y+=sp.vy;sp.vy+=.14;sp.life-=sp.decay;
-    if(sp.life<=0){sparks.splice(i,1);continue;}
-    cx.beginPath();cx.arc(sp.x,sp.y,2.5*sp.life,0,Math.PI*2);
-    cx.fillStyle=sp.col+sp.life+')';cx.fill();
-  }
-
-  /* ── ELEPHANTS (Rajput - LEFT→RIGHT) ── */
-  cx.fillStyle='rgba(30,18,6,0.92)';
-  elephants.forEach(el=>{
-    el.x+=el.speed;
-    if(el.x>W*.56+150)el.x=-220;
-    const bob=Math.sin(t*1.9+el.bob)*5;
-    // red aura
-    const ea=cx.createRadialGradient(el.x,el.y-30,5,el.x,el.y-30,70);
-    ea.addColorStop(0,'rgba(139,20,20,0.12)');ea.addColorStop(1,'rgba(139,20,20,0)');
-    cx.fillStyle=ea;cx.fillRect(el.x-70,el.y-100,140,100);
-    cx.fillStyle='rgba(30,18,6,0.92)';
-    drawElephant(el.x,el.y+bob,el.sc,false);
-  });
-
-  /* ── HORSES (Ghurid - RIGHT→LEFT) ── */
-  cx.fillStyle='rgba(14,28,55,0.9)';
-  horses.forEach(hr=>{
-    hr.x-=hr.speed;
-    if(hr.x<W*.44-150)hr.x=W+220;
-    const bob=Math.sin(t*3.5+hr.bob)*6;
-    // blue aura
-    const ha=cx.createRadialGradient(hr.x,hr.y-20,4,hr.x,hr.y-20,55);
-    ha.addColorStop(0,'rgba(26,64,128,0.12)');ha.addColorStop(1,'rgba(26,64,128,0)');
-    cx.fillStyle=ha;cx.fillRect(hr.x-55,hr.y-75,110,80);
-    cx.fillStyle='rgba(14,28,55,0.9)';
-    drawHorse(hr.x,hr.y+bob,hr.sc,true);
-  });
-
-  /* ── CLASH CENTER GLOW ── */
-  const cg=cx.createRadialGradient(W*.5,H*.68,0,W*.5,H*.68,130);
-  cg.addColorStop(0,`rgba(232,140,20,${.12+Math.sin(t*4)*.06})`);
-  cg.addColorStop(.5,`rgba(200,60,10,${.08+Math.sin(t*3)*.04})`);
-  cg.addColorStop(1,'rgba(0,0,0,0)');
-  cx.fillStyle=cg;cx.fillRect(W*.28,H*.4,W*.44,H*.4);
-
-  /* ── TOP PAGE OVERLAY — blend canvas into page ── */
-  // The page content has a light parchment bg; we fade the canvas
-  // so it only really shows in the lower portion of the viewport
-  // when user is in hero section. Use a CSS mix approach via opacity.
-  // We just fade out the top 55% of the canvas so text sections look clean.
-  const topFade=cx.createLinearGradient(0,0,0,H*.55);
-  topFade.addColorStop(0,'rgba(245,232,200,0.96)');
-  topFade.addColorStop(.6,'rgba(245,232,200,0.55)');
-  topFade.addColorStop(1,'rgba(245,232,200,0)');
-  cx.fillStyle=topFade;cx.fillRect(0,0,W,H*.55);
-
-  /* ── BOTTOM GROUND FADE ── */
-  const bf=cx.createLinearGradient(0,H*.85,0,H);
-  bf.addColorStop(0,'rgba(245,232,200,0)');
-  bf.addColorStop(1,'rgba(245,232,200,0.6)');
-  cx.fillStyle=bf;cx.fillRect(0,H*.85,W,H*.15);
-
-  /* ── VIGNETTE on canvas ── */
-  const vig=cx.createRadialGradient(W*.5,H*.5,H*.25,W*.5,H*.5,H*.75);
-  vig.addColorStop(0,'rgba(0,0,0,0)');
-  vig.addColorStop(1,'rgba(0,0,0,0.4)');
-  cx.fillStyle=vig;cx.fillRect(0,0,W,H);
-}
-
-loop();
 </script>
 </body>
 </html>
