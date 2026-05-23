@@ -1,0 +1,2142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indian History — sk4bharat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ─── DESIGN TOKENS ─── */
+  :root {
+    --saffron:    #E8600A;
+    --deep-red:   #8B1A1A;
+    --ink:        #1A1208;
+    --parchment:  #FAF6EE;
+    --cream:      #F5EFE0;
+    --gold:       #C8922A;
+    --warm-gray:  #8A7968;
+    --border:     #DDD5C0;
+    --text:       #2C2010;
+    --muted:      #7A6E5A;
+    /* Harappan accent — terracotta / fired-clay */
+    --terra:      #B5451B;
+    --clay:       #7A3B1E;
+    --seal-bg:    #2A1A0E;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--parchment);
+    color: var(--text);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Noise texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: var(--ink);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--saffron);
+  }
+
+  .logo { padding: 1rem 0; text-decoration: none; }
+
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--parchment);
+    letter-spacing: -0.02em;
+  }
+
+  .logo-text span { color: var(--saffron); }
+
+  .logo-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    color: var(--warm-gray);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: block;
+    margin-top: -2px;
+  }
+
+  nav { display: flex; align-items: center; gap: 0.2rem; }
+
+  nav a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #BBB;
+    text-decoration: none;
+    padding: 0.5rem 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    border-radius: 2px;
+  }
+
+  nav a:hover { color: var(--saffron); }
+  nav a.active { color: var(--saffron); }
+
+  nav .nav-cta {
+    background: var(--saffron);
+    color: white;
+    padding: 0.45rem 1rem;
+    border-radius: 2px;
+    font-weight: 500;
+    margin-left: 0.5rem;
+  }
+
+  nav .nav-cta:hover { background: #c94f00; color: white; }
+
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
+    z-index: 201;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--parchment);
+    transition: all 0.3s;
+  }
+
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-nav {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    background: var(--ink);
+    z-index: 200;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .mobile-nav.open {
+    opacity: 1;
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: all;
+  }
+
+  .mobile-link {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--parchment);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .mobile-link:hover { color: var(--saffron); }
+
+  /* ─── READING PROGRESS ─── */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--saffron), var(--gold));
+    z-index: 9998;
+    transition: width 0.1s linear;
+  }
+
+  /* ─── CONTAINER ─── */
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ═══════════════════════════════════════════════════
+     HARAPPAN HERO BANNER
+  ═══════════════════════════════════════════════════ */
+  .history-hero {
+    background: var(--seal-bg);
+    position: relative;
+    overflow: hidden;
+    padding: 5rem 2rem 4rem;
+    border-bottom: 3px solid var(--terra);
+  }
+
+  /* Mohenjo-daro geometric SVG motif — pure CSS */
+  .history-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(45deg,  rgba(181,69,27,0.06) 0px, rgba(181,69,27,0.06) 1px, transparent 1px, transparent 28px),
+      repeating-linear-gradient(-45deg, rgba(181,69,27,0.06) 0px, rgba(181,69,27,0.06) 1px, transparent 1px, transparent 28px);
+    pointer-events: none;
+  }
+
+  /* Big terracotta glyph watermark */
+  .history-hero::after {
+    content: '𒀭';
+    position: absolute;
+    font-size: 38rem;
+    color: rgba(181,69,27,0.04);
+    right: -4rem;
+    top: -8rem;
+    line-height: 1;
+    pointer-events: none;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .hero-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-eyebrow-line {
+    width: 40px;
+    height: 1px;
+    background: var(--terra);
+  }
+
+  .hero-eyebrow-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--terra);
+  }
+
+  /* Harappan seal row — decorative glyphs */
+  .seal-row {
+    display: flex;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .seal-glyph {
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(181,69,27,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: rgba(181,69,27,0.55);
+    position: relative;
+    background: rgba(181,69,27,0.04);
+  }
+
+  .seal-glyph::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px solid rgba(181,69,27,0.15);
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 700;
+    color: var(--parchment);
+    line-height: 1.07;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--terra);
+    display: block;
+  }
+
+  .hero-subtitle {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: #AA9E90;
+    line-height: 1.7;
+    max-width: 60ch;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.7s ease 0.12s both;
+  }
+
+  /* Stat pills */
+  .hero-stats {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    animation: fadeUp 0.7s ease 0.2s both;
+  }
+
+  .hero-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding-right: 1.5rem;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .hero-stat:last-child { border-right: none; }
+
+  .stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--terra);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #666;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     SECTION NAV TABS — eras
+  ═══════════════════════════════════════════════════ */
+  .era-nav {
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 65px;
+    z-index: 90;
+  }
+
+  .era-nav-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .era-nav-inner::-webkit-scrollbar { display: none; }
+
+  .era-tab {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--muted);
+    padding: 1rem 1.4rem;
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  .era-tab:hover { color: var(--saffron); border-bottom-color: var(--saffron); }
+  .era-tab.active { color: var(--saffron); border-bottom-color: var(--saffron); }
+
+  /* ═══════════════════════════════════════════════════
+     FEATURED ARTICLE STRIP
+  ═══════════════════════════════════════════════════ */
+  .featured-strip {
+    background: var(--parchment);
+    padding: 4rem 2rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+  }
+
+  .section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--saffron);
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .section-link {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--saffron);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .section-link:hover { text-decoration: underline; }
+
+  /* Featured 2-col layout */
+  .featured-grid {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .featured-main {
+    border-top: 3px solid var(--terra);
+    padding-top: 1.5rem;
+  }
+
+  .feat-img {
+    width: 100%;
+    height: 300px;
+    background: linear-gradient(135deg, var(--seal-bg) 0%, #2e1408 50%, #1a0a02 100%);
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Harappan-style SVG seal inside featured image */
+  .feat-img svg {
+    opacity: 0.22;
+    width: 180px;
+    height: 180px;
+  }
+
+  .feat-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 25% 60%, rgba(181,69,27,0.18) 0%, transparent 65%),
+                radial-gradient(ellipse at 75% 30%, rgba(200,146,42,0.1) 0%, transparent 55%);
+  }
+
+  .feat-badge {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--terra);
+    border: 1px solid var(--terra);
+    padding: 0.2rem 0.65rem;
+    border-radius: 2px;
+    margin-bottom: 0.9rem;
+  }
+
+  .feat-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 0.9rem;
+    text-decoration: none;
+    display: block;
+    transition: color 0.2s;
+  }
+
+  .feat-title:hover { color: var(--saffron); }
+
+  .feat-excerpt {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+
+  .feat-meta {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .feat-meta .dot { color: var(--border); }
+
+  /* Sidebar article list */
+  .featured-list { display: flex; flex-direction: column; gap: 0; }
+
+  .featured-list-item {
+    border-top: 1px solid var(--border);
+    padding: 1.4rem 0;
+    display: grid;
+    grid-template-columns: 1fr 60px;
+    gap: 1rem;
+    align-items: start;
+    transition: border-color 0.2s;
+    cursor: pointer;
+  }
+
+  .featured-list-item:hover { border-color: var(--saffron); }
+  .featured-list-item:last-child { border-bottom: 1px solid var(--border); }
+
+  .fli-meta {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+  }
+
+  .fli-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+    text-decoration: none;
+    display: block;
+    transition: color 0.2s;
+  }
+
+  .fli-title:hover { color: var(--saffron); }
+
+  .fli-thumb {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--seal-bg), #2e1408);
+    border: 1px solid rgba(181,69,27,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: rgba(181,69,27,0.4);
+    flex-shrink: 0;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     WRITE ARTICLE SECTION — main form area
+  ═══════════════════════════════════════════════════ */
+  .write-section {
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+    padding: 4rem 2rem;
+  }
+
+  .write-layout {
+    max-width: 1060px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  /* Editor card */
+  .editor-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--terra);
+    padding: 2.5rem;
+  }
+
+  .editor-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .editor-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .editor-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 2rem;
+    line-height: 1.2;
+  }
+
+  .field-group { margin-bottom: 1.5rem; }
+
+  .field-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.45rem;
+    display: block;
+  }
+
+  .field-input,
+  .field-textarea,
+  .field-select {
+    width: 100%;
+    background: var(--parchment);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    padding: 0.75rem 1rem;
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+  }
+
+  .field-input:focus,
+  .field-textarea:focus,
+  .field-select:focus {
+    border-color: var(--terra);
+    box-shadow: 0 0 0 3px rgba(181,69,27,0.08);
+  }
+
+  .field-input::placeholder,
+  .field-textarea::placeholder { color: var(--warm-gray); font-style: italic; }
+
+  .field-textarea {
+    resize: vertical;
+    min-height: 140px;
+    line-height: 1.7;
+  }
+
+  /* Article body editor — bigger */
+  .article-body-field {
+    min-height: 340px;
+    font-size: 1.05rem;
+    line-height: 1.85;
+  }
+
+  /* Two-col row for metadata */
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+
+  /* Tag input pills */
+  .tags-input-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    background: var(--parchment);
+    border: 1px solid var(--border);
+    padding: 0.6rem 0.75rem;
+    min-height: 48px;
+    align-items: center;
+    transition: border-color 0.2s;
+    cursor: text;
+  }
+
+  .tags-input-wrapper:focus-within {
+    border-color: var(--terra);
+    box-shadow: 0 0 0 3px rgba(181,69,27,0.08);
+  }
+
+  .tag-pill {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(181,69,27,0.1);
+    color: var(--terra);
+    border: 1px solid rgba(181,69,27,0.25);
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .tag-pill button {
+    background: none;
+    border: none;
+    color: var(--terra);
+    cursor: pointer;
+    font-size: 0.85rem;
+    line-height: 1;
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .tag-pill-input {
+    border: none;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    color: var(--text);
+    outline: none;
+    min-width: 80px;
+    flex: 1;
+  }
+
+  /* Toolbar strip */
+  .editor-toolbar {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .tb-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.6rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+
+  .tb-btn:hover { background: var(--cream); border-color: var(--border); color: var(--ink); }
+  .tb-btn.active { background: var(--terra); color: white; border-color: var(--terra); }
+
+  .tb-sep {
+    width: 1px;
+    background: var(--border);
+    margin: 0.15rem 0.25rem;
+    align-self: stretch;
+  }
+
+  /* Char counter */
+  .field-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.4rem;
+  }
+
+  .char-count {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .field-hint {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 0.3rem;
+  }
+
+  /* Submit actions */
+  .editor-actions {
+    display: flex;
+    gap: 0.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--terra);
+    border: 1px solid var(--terra);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.8rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--clay); }
+
+  .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.4rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--saffron); color: var(--saffron); }
+
+  .btn-ghost {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0.75rem 0;
+    transition: color 0.2s;
+  }
+
+  .btn-ghost:hover { color: var(--saffron); }
+
+  /* Toast */
+  #toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(1rem);
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 1.5rem;
+    border-left: 3px solid var(--terra);
+    border-radius: 2px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 9997;
+    white-space: nowrap;
+  }
+
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── Write Sidebar ── */
+  .write-sidebar { display: flex; flex-direction: column; gap: 2rem; }
+
+  .ws-block {
+    border-top: 3px solid var(--border);
+    padding-top: 1.2rem;
+  }
+
+  .ws-block.accent { border-color: var(--terra); }
+
+  .ws-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 1rem;
+  }
+
+  .ws-block p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 0.8rem;
+  }
+
+  /* Guidelines list */
+  .guide-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+
+  .guide-list li {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    color: var(--muted);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    line-height: 1.45;
+  }
+
+  .guide-list li::before {
+    content: '✦';
+    color: var(--terra);
+    font-size: 0.55rem;
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  /* Era timeline mini widget */
+  .timeline-mini { display: flex; flex-direction: column; gap: 0; position: relative; }
+
+  .timeline-mini::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 6px;
+    bottom: 6px;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .tl-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 0.55rem 0;
+    position: relative;
+  }
+
+  .tl-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: var(--cream);
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: all 0.2s;
+    z-index: 1;
+  }
+
+  .tl-item.active .tl-dot {
+    border-color: var(--terra);
+    background: var(--terra);
+  }
+
+  .tl-text { flex: 1; }
+
+  .tl-era {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .tl-item.active .tl-era { color: var(--terra); font-weight: 500; }
+
+  .tl-period {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.82rem;
+    color: var(--ink);
+    font-style: italic;
+  }
+
+  /* Category selector */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .cat-chip {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.5rem;
+    border: 1px solid var(--border);
+    background: var(--parchment);
+    color: var(--muted);
+    border-radius: 2px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    line-height: 1.3;
+  }
+
+  .cat-chip:hover { border-color: var(--terra); color: var(--terra); }
+  .cat-chip.selected { background: rgba(181,69,27,0.1); border-color: var(--terra); color: var(--terra); }
+
+  /* ═══════════════════════════════════════════════════
+     ARTICLE GRID SECTION
+  ═══════════════════════════════════════════════════ */
+  .articles-section {
+    padding: 4rem 2rem;
+    background: var(--parchment);
+    border-top: 1px solid var(--border);
+  }
+
+  .articles-grid {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .article-card {
+    border-top: 3px solid var(--border);
+    padding-top: 1.5rem;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: border-color 0.2s;
+  }
+
+  .article-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.55s ease, transform 0.55s ease, border-color 0.2s;
+  }
+
+  .article-card:hover { border-color: var(--terra); }
+
+  .card-img {
+    width: 100%;
+    height: 160px;
+    background: linear-gradient(135deg, var(--seal-bg), #2a1408);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: rgba(181,69,27,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(181,69,27,0.12) 0%, transparent 70%);
+  }
+
+  .article-card-meta {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .article-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 0.65rem;
+    text-decoration: none;
+    display: block;
+    transition: color 0.2s;
+  }
+
+  .article-card-title:hover { color: var(--saffron); }
+
+  .article-card-excerpt {
+    font-size: 0.87rem;
+    color: var(--muted);
+    line-height: 1.65;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+  .card-tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--cream);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     HARAPPAN QUOTE BAND
+  ═══════════════════════════════════════════════════ */
+  .quote-band {
+    background: var(--seal-bg);
+    padding: 5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quote-band::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(181,69,27,0.05) 0px, rgba(181,69,27,0.05) 1px, transparent 1px, transparent 60px),
+      repeating-linear-gradient(0deg,  rgba(181,69,27,0.05) 0px, rgba(181,69,27,0.05) 1px, transparent 1px, transparent 60px);
+    pointer-events: none;
+  }
+
+  .quote-band blockquote {
+    max-width: 680px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .quote-band blockquote p {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    font-style: italic;
+    color: var(--parchment);
+    line-height: 1.55;
+    margin-bottom: 1.5rem;
+  }
+
+  .quote-band blockquote p::before { content: '\201C'; color: var(--terra); }
+  .quote-band blockquote p::after  { content: '\201D'; color: var(--terra); }
+
+  .quote-band cite {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm-gray);
+    font-style: normal;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     NEWSLETTER
+  ═══════════════════════════════════════════════════ */
+  .newsletter-section {
+    background: var(--ink);
+    text-align: center;
+    padding: 5rem 2rem;
+  }
+
+  .newsletter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--parchment);
+    margin-bottom: 0.75rem;
+  }
+
+  .newsletter-subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 0.75rem;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .newsletter-form input {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid #444;
+    border-radius: 2px;
+    padding: 0.85rem 1.2rem;
+    color: var(--parchment);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .newsletter-form input::placeholder { color: #666; }
+  .newsletter-form input:focus { border-color: var(--saffron); }
+
+  .newsletter-form button {
+    background: var(--saffron);
+    border: none;
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.5rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+
+  .newsletter-form button:hover { background: #c94f00; }
+
+  /* ═══════════════════════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════════════════════ */
+  footer {
+    background: #0E0B04;
+    border-top: 3px solid var(--saffron);
+    padding: 3rem 2rem;
+  }
+
+  .footer-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-brand .logo-text { font-size: 1.3rem; display: block; margin-bottom: 0.5rem; }
+
+  .footer-tagline {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .footer-col h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--saffron);
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-col a {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: #777;
+    text-decoration: none;
+    margin-bottom: 0.6rem;
+    transition: color 0.2s;
+  }
+
+  .footer-col a:hover { color: var(--parchment); }
+
+  .social-links { display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap; }
+
+  .social-link {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #666;
+    text-decoration: none;
+    border: 1px solid #333;
+    padding: 0.35rem 0.75rem;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  .social-link:hover { border-color: var(--saffron); color: var(--saffron); }
+
+  .footer-bottom {
+    max-width: 1180px;
+    margin: 0 auto;
+    border-top: 1px solid #222;
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: #555; }
+
+  .footer-legal { display: flex; gap: 1.5rem; }
+
+  .footer-legal a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    color: #555;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-legal a:hover { color: var(--saffron); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .featured-grid { grid-template-columns: 1fr; }
+    .featured-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2rem; }
+    .write-layout { grid-template-columns: 1fr; }
+    .write-sidebar { flex-direction: row; flex-wrap: wrap; }
+    .ws-block { flex: 1 1 240px; }
+    .articles-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    nav { display: none; }
+    .hamburger { display: flex; }
+    .featured-list { grid-template-columns: 1fr; }
+    .articles-grid { grid-template-columns: 1fr 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    .newsletter-form { flex-direction: column; }
+    .newsletter-form input, .newsletter-form button { width: 100%; }
+    .hero-stats { gap: 0.75rem; }
+    .field-row { grid-template-columns: 1fr; }
+    .cat-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 580px) {
+    .articles-grid { grid-template-columns: 1fr; }
+    .hero-title { font-size: 2.4rem; }
+    .editor-card { padding: 1.5rem; }
+    .featured-list { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- READING PROGRESS BAR -->
+<div id="progress-bar"></div>
+
+<!-- TOAST -->
+<div id="toast">✓ Article saved as draft</div>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <a href="index.html" class="logo">
+    <span class="logo-text">sk<span>4</span>bharat</span>
+    <span class="logo-sub">Writer · Thinker · Speaker</span>
+  </a>
+  <nav>
+    <a href="index.html#articles">Articles</a>
+    <a href="indian-history.html" class="active">History</a>
+    <a href="index.html#books">Books</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#newsletter" class="nav-cta">Subscribe</a>
+  </nav>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" class="mobile-link">Home</a>
+  <a href="index.html#articles" class="mobile-link">Articles</a>
+  <a href="indian-history.html" class="mobile-link">History</a>
+  <a href="index.html#books" class="mobile-link">Books</a>
+  <a href="index.html#about" class="mobile-link">About</a>
+  <a href="index.html#newsletter" class="mobile-link">Subscribe</a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     HERO BANNER
+═══════════════════════════════════════════════════ -->
+<section class="history-hero">
+  <div class="hero-inner">
+
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-line"></span>
+      <span class="hero-eyebrow-text">sk4bharat · Indian History</span>
+    </div>
+
+    <!-- Harappan seal row — decorative -->
+    <div class="seal-row" aria-hidden="true">
+      <div class="seal-glyph">𓂀</div>
+      <div class="seal-glyph">⌘</div>
+      <div class="seal-glyph">𓆣</div>
+      <div class="seal-glyph">𓇌</div>
+      <div class="seal-glyph">⊕</div>
+    </div>
+
+    <h1 class="hero-title">
+      The Long Memory<br>
+      <em>of Indian History</em>
+    </h1>
+
+    <p class="hero-subtitle">
+      From the fired-brick cities of Harappa to the courts of Vijayanagara — 
+      essays that recover what textbooks flatten, and histories that still speak.
+    </p>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="stat-value">5,000+</span>
+        <span class="stat-label">Years Covered</span>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-value">42</span>
+        <span class="stat-label">Essays Published</span>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-value">8</span>
+        <span class="stat-label">Historical Eras</span>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-value">3100 BCE</span>
+        <span class="stat-label">Earliest Source</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── ERA NAVIGATION TABS ─── -->
+<nav class="era-nav" aria-label="Historical eras">
+  <div class="era-nav-inner">
+    <button class="era-tab active" onclick="filterEra(this, 'all')">✦ All Eras</button>
+    <button class="era-tab" onclick="filterEra(this, 'harappan')">Harappan</button>
+    <button class="era-tab" onclick="filterEra(this, 'vedic')">Vedic Period</button>
+    <button class="era-tab" onclick="filterEra(this, 'maurya')">Maurya Empire</button>
+    <button class="era-tab" onclick="filterEra(this, 'gupta')">Gupta Age</button>
+    <button class="era-tab" onclick="filterEra(this, 'medieval')">Medieval India</button>
+    <button class="era-tab" onclick="filterEra(this, 'mughal')">Mughal Era</button>
+    <button class="era-tab" onclick="filterEra(this, 'colonial')">Colonial Period</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════
+     FEATURED ARTICLE STRIP
+═══════════════════════════════════════════════════ -->
+<section class="featured-strip">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="section-label">✦ Editor's Pick</span>
+        <h2 class="section-title">Featured Essay</h2>
+      </div>
+      <a href="#" class="section-link">All History Articles →</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="featured-grid">
+
+      <!-- Main featured -->
+      <div class="featured-main">
+        <div class="feat-img">
+          <!-- Mohenjo-daro priest-king SVG motif -->
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="20" width="160" height="160" fill="none" stroke="#B5451B" stroke-width="2"/>
+            <rect x="35" y="35" width="130" height="130" fill="none" stroke="#B5451B" stroke-width="1" stroke-dasharray="4 3"/>
+            <circle cx="100" cy="85" r="28" fill="none" stroke="#B5451B" stroke-width="1.5"/>
+            <circle cx="100" cy="85" r="16" fill="none" stroke="#B5451B" stroke-width="1"/>
+            <rect x="78" y="115" width="44" height="32" fill="none" stroke="#B5451B" stroke-width="1.5"/>
+            <!-- trefoil collar marks -->
+            <circle cx="85" cy="82" r="5" fill="none" stroke="#B5451B" stroke-width="1.2"/>
+            <circle cx="100" cy="77" r="5" fill="none" stroke="#B5451B" stroke-width="1.2"/>
+            <circle cx="115" cy="82" r="5" fill="none" stroke="#B5451B" stroke-width="1.2"/>
+            <!-- unicorn motif simplified -->
+            <line x1="60" y1="150" x2="140" y2="150" stroke="#B5451B" stroke-width="1"/>
+            <text x="100" y="175" text-anchor="middle" fill="#B5451B" font-size="9" font-family="serif" letter-spacing="3">𓂀 𓆣 ⌘</text>
+          </svg>
+        </div>
+
+        <span class="feat-badge">✦ Harappan Civilisation</span>
+
+        <a href="article.html" class="feat-title">
+          The Cities That Forgot to Leave Ruins: 
+          Why Harappa Still Confounds Us
+        </a>
+
+        <p class="feat-excerpt">
+          The Indus Valley Civilisation built the world's first planned cities, standardised weights, 
+          and a script nobody has deciphered. It then vanished so quietly that we are still arguing 
+          about what happened — and what it means for how we understand the origins of Indian civilisation.
+        </p>
+
+        <div class="feat-meta">
+          <span>May 18, 2026</span>
+          <span class="dot">·</span>
+          <span>Sandeep Kumar</span>
+          <span class="dot">·</span>
+          <span>14 min read</span>
+        </div>
+      </div>
+
+      <!-- Side list -->
+      <div class="featured-list">
+
+        <div class="featured-list-item">
+          <div>
+            <p class="fli-meta">Apr 30, 2026 · Vedic Period</p>
+            <a href="article.html" class="fli-title">The Saraswati River and the Question of Where the Vedas Were Written</a>
+          </div>
+          <div class="fli-thumb">𓇌</div>
+        </div>
+
+        <div class="featured-list-item">
+          <div>
+            <p class="fli-meta">Apr 12, 2026 · Maurya Empire</p>
+            <a href="article.html" class="fli-title">Ashoka's Rock Edicts Were Not About Peace — They Were About Power</a>
+          </div>
+          <div class="fli-thumb">⊕</div>
+        </div>
+
+        <div class="featured-list-item">
+          <div>
+            <p class="fli-meta">Mar 25, 2026 · Gupta Age</p>
+            <a href="article.html" class="fli-title">The Gupta Golden Age Was Real. But It Was Also a Myth We Needed</a>
+          </div>
+          <div class="fli-thumb">✦</div>
+        </div>
+
+        <div class="featured-list-item">
+          <div>
+            <p class="fli-meta">Mar 5, 2026 · Medieval India</p>
+            <a href="article.html" class="fli-title">Vijayanagara: The Empire the Textbooks Barely Mention</a>
+          </div>
+          <div class="fli-thumb">⌘</div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     WRITE ARTICLE SECTION
+═══════════════════════════════════════════════════ -->
+<section class="write-section" id="write">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="section-label">✦ Contribute</span>
+        <h2 class="section-title">Write an Article</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="write-layout">
+
+      <!-- ── Editor card ── -->
+      <div class="editor-card">
+        <p class="editor-label">✦ New Article</p>
+        <h2>Share your historical insight</h2>
+
+        <!-- Article Title -->
+        <div class="field-group">
+          <label class="field-label" for="art-title">Article Title</label>
+          <input
+            class="field-input"
+            id="art-title"
+            type="text"
+            placeholder="e.g. The Trade Routes of the Harappan Merchants"
+            oninput="updateCharCount(this, 'title-count', 120)"
+          />
+          <div class="field-footer">
+            <span class="field-hint">Make it specific and historically grounded.</span>
+            <span class="char-count" id="title-count">0 / 120</span>
+          </div>
+        </div>
+
+        <!-- Subtitle / Dek -->
+        <div class="field-group">
+          <label class="field-label" for="art-dek">Subtitle / Deck</label>
+          <input
+            class="field-input"
+            id="art-dek"
+            type="text"
+            placeholder="A one-sentence hook that earns the reader's attention"
+            oninput="updateCharCount(this, 'dek-count', 200)"
+          />
+          <div class="field-footer">
+            <span></span>
+            <span class="char-count" id="dek-count">0 / 200</span>
+          </div>
+        </div>
+
+        <!-- Two-col row: era + read time -->
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label" for="art-era">Historical Era</label>
+            <select class="field-select" id="art-era">
+              <option value="" disabled selected>Select era…</option>
+              <option>Harappan Civilisation (3300–1300 BCE)</option>
+              <option>Vedic Period (1500–500 BCE)</option>
+              <option>Mahajanapadas (700–300 BCE)</option>
+              <option>Maurya Empire (322–185 BCE)</option>
+              <option>Gupta Age (320–550 CE)</option>
+              <option>Early Medieval (600–1200 CE)</option>
+              <option>Sultanate Period (1206–1526 CE)</option>
+              <option>Mughal Era (1526–1857 CE)</option>
+              <option>Maratha Empire (1674–1818 CE)</option>
+              <option>Colonial Period (1757–1947 CE)</option>
+              <option>Independence &amp; After</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="art-region">Region / Site</label>
+            <input
+              class="field-input"
+              id="art-region"
+              type="text"
+              placeholder="e.g. Mohenjo-daro, Deccan…"
+            />
+          </div>
+        </div>
+
+        <!-- Article Body -->
+        <div class="field-group">
+          <label class="field-label">Article Body</label>
+          <div class="editor-toolbar">
+            <button class="tb-btn" onclick="toggleFmt(this,'B')" title="Bold"><strong>B</strong></button>
+            <button class="tb-btn" onclick="toggleFmt(this,'I')" title="Italic"><em>I</em></button>
+            <button class="tb-btn" onclick="toggleFmt(this,'U')" title="Underline" style="text-decoration:underline">U</button>
+            <span class="tb-sep"></span>
+            <button class="tb-btn" onclick="insertBlock('h2')">H2</button>
+            <button class="tb-btn" onclick="insertBlock('h3')">H3</button>
+            <button class="tb-btn" onclick="insertBlock('blockquote')">❝</button>
+            <span class="tb-sep"></span>
+            <button class="tb-btn" onclick="insertBlock('hr')">— — —</button>
+          </div>
+          <textarea
+            class="field-textarea article-body-field"
+            id="art-body"
+            placeholder="Begin your essay here. Open with a scene, an artefact, or a question that has no easy answer…"
+            oninput="updateWordCount(this)"
+          ></textarea>
+          <div class="field-footer">
+            <span class="char-count" id="word-count">0 words</span>
+            <span class="char-count" id="read-time">~0 min read</span>
+          </div>
+        </div>
+
+        <!-- Sources -->
+        <div class="field-group">
+          <label class="field-label" for="art-sources">Primary Sources & References</label>
+          <textarea
+            class="field-textarea"
+            id="art-sources"
+            style="min-height:90px"
+            placeholder="List your sources, excavation reports, or epigraphic references here…"
+          ></textarea>
+        </div>
+
+        <!-- Tags -->
+        <div class="field-group">
+          <label class="field-label">Tags</label>
+          <div class="tags-input-wrapper" id="tags-wrapper" onclick="document.getElementById('tag-input').focus()">
+            <span class="tag-pill">Harappa <button onclick="removeTag(this)" type="button">×</button></span>
+            <span class="tag-pill">Archaeology <button onclick="removeTag(this)" type="button">×</button></span>
+            <input
+              class="tag-pill-input"
+              id="tag-input"
+              type="text"
+              placeholder="Add tag…"
+              onkeydown="handleTagInput(event)"
+            />
+          </div>
+          <p class="field-hint">Press Enter or comma to add a tag. Keep tags relevant to the historical period.</p>
+        </div>
+
+        <!-- Actions -->
+        <div class="editor-actions">
+          <button class="btn-primary" onclick="submitArticle()">Publish Article</button>
+          <button class="btn-secondary" onclick="saveDraft()">Save Draft</button>
+          <button class="btn-ghost" onclick="clearForm()">Clear form</button>
+        </div>
+
+      </div><!-- /editor-card -->
+
+      <!-- ── Write Sidebar ── -->
+      <aside class="write-sidebar">
+
+        <div class="ws-block accent">
+          <p class="ws-label">✦ Writing Guidelines</p>
+          <ul class="guide-list">
+            <li>Ground every claim in primary sources or peer-reviewed archaeology.</li>
+            <li>Prefer specific dates, sites, and artefacts over generalisation.</li>
+            <li>Challenge popular myths — but do so with evidence, not assertion.</li>
+            <li>Aim for at least 800 words; in-depth essays work best at 1,500–3,000.</li>
+            <li>Acknowledge scholarly disagreement where it genuinely exists.</li>
+            <li>Avoid anachronism — interpret the past on its own terms.</li>
+          </ul>
+        </div>
+
+        <div class="ws-block">
+          <p class="ws-label">✦ Historical Eras Timeline</p>
+          <div class="timeline-mini">
+            <div class="tl-item active">
+              <div class="tl-dot"></div>
+              <div class="tl-text">
+                <div class="tl-era">Harappan Civilisation</div>
+                <div class="tl-period">3300 – 1300 BCE</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-text">
+                <div class="tl-era">Vedic Period</div>
+                <div class="tl-period">1500 – 500 BCE</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-text">
+                <div class="tl-era">Maurya Empire</div>
+                <div class="tl-period">322 – 185 BCE</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-text">
+                <div class="tl-era">Gupta Age</div>
+                <div class="tl-period">320 – 550 CE</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-text">
+                <div class="tl-era">Mughal Era</div>
+                <div class="tl-period">1526 – 1857 CE</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-text">
+                <div class="tl-era">Colonial Period</div>
+                <div class="tl-period">1757 – 1947 CE</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-block">
+          <p class="ws-label">✦ Choose Category</p>
+          <div class="cat-grid">
+            <button class="cat-chip selected" onclick="toggleCat(this)">Military</button>
+            <button class="cat-chip" onclick="toggleCat(this)">Culture</button>
+            <button class="cat-chip" onclick="toggleCat(this)">Economy</button>
+            <button class="cat-chip" onclick="toggleCat(this)">Religion</button>
+            <button class="cat-chip" onclick="toggleCat(this)">Art &amp; Arch.</button>
+            <button class="cat-chip" onclick="toggleCat(this)">Science</button>
+            <button class="cat-chip" onclick="toggleCat(this)">Women</button>
+            <button class="cat-chip" onclick="toggleCat(this)">Epigraphy</button>
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     ARTICLES GRID
+═══════════════════════════════════════════════════ -->
+<section class="articles-section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="section-label">✦ Browse</span>
+        <h2 class="section-title" id="grid-title">All History Articles</h2>
+      </div>
+      <a href="#" class="section-link">Full Archive →</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="articles-grid" id="articles-grid">
+
+      <div class="article-card" data-era="harappan">
+        <div class="card-img">𓂀</div>
+        <p class="article-card-meta">May 15, 2026 · Harappan</p>
+        <a href="article.html" class="article-card-title">The Great Bath at Mohenjo-daro Was Not About Hygiene</a>
+        <p class="article-card-excerpt">Every textbook calls it a ritual bath. But the evidence for that interpretation is thinner than we admit — and the alternative readings are far more interesting.</p>
+        <div class="card-tags">
+          <span class="card-tag">Archaeology</span>
+          <span class="card-tag">Harappan</span>
+        </div>
+      </div>
+
+      <div class="article-card" data-era="harappan">
+        <div class="card-img">𓆣</div>
+        <p class="article-card-meta">May 2, 2026 · Harappan</p>
+        <a href="article.html" class="article-card-title">Decoding the Indus Script: Why We Keep Failing</a>
+        <p class="article-card-excerpt">Over 400 distinct signs. No bilingual key. The Indus script remains one of the last great unsolved puzzles of antiquity — and the politics of decipherment have made it harder, not easier.</p>
+        <div class="card-tags">
+          <span class="card-tag">Linguistics</span>
+          <span class="card-tag">Harappan</span>
+        </div>
+      </div>
+
+      <div class="article-card" data-era="vedic">
+        <div class="card-img">𓇌</div>
+        <p class="article-card-meta">Apr 22, 2026 · Vedic Period</p>
+        <a href="article.html" class="article-card-title">Iron, Plough, and the Rise of the Gangetic Civilisations</a>
+        <p class="article-card-excerpt">The transition from the Vedic northwest to the Gangetic plain was not a migration — it was a revolution in technology and ecology that changed everything about Indian society.</p>
+        <div class="card-tags">
+          <span class="card-tag">Vedic</span>
+          <span class="card-tag">Agriculture</span>
+        </div>
+      </div>
+
+      <div class="article-card" data-era="maurya">
+        <div class="card-img">⊕</div>
+        <p class="article-card-meta">Apr 8, 2026 · Maurya Empire</p>
+        <a href="article.html" class="article-card-title">Chanakya's Arthashastra Is Not What the Self-Help Books Say It Is</a>
+        <p class="article-card-excerpt">The Arthashastra is a treatise on statecraft, not personal success. Reading it as motivational advice is a category error — and one that obscures its genuine, disturbing sophistication.</p>
+        <div class="card-tags">
+          <span class="card-tag">Maurya</span>
+          <span class="card-tag">Politics</span>
+        </div>
+      </div>
+
+      <div class="article-card" data-era="gupta">
+        <div class="card-img">✦</div>
+        <p class="article-card-meta">Mar 20, 2026 · Gupta Age</p>
+        <a href="article.html" class="article-card-title">Aryabhata Knew the Earth Rotated. So Why Did It Take 1,000 Years to Matter?</a>
+        <p class="article-card-excerpt">The question isn't whether Indian mathematics was brilliant — it was. The question is why certain insights get transmitted and others disappear into silence.</p>
+        <div class="card-tags">
+          <span class="card-tag">Science</span>
+          <span class="card-tag">Gupta</span>
+        </div>
+      </div>
+
+      <div class="article-card" data-era="medieval">
+        <div class="card-img">⌘</div>
+        <p class="article-card-meta">Mar 1, 2026 · Medieval India</p>
+        <a href="article.html" class="article-card-title">The Temple as Bank: How South Indian Temples Financed an Economy</a>
+        <p class="article-card-excerpt">Medieval South Indian temples were not merely places of worship. They were the central economic institutions of their time — managing land, credit, trade, and labour at regional scale.</p>
+        <div class="card-tags">
+          <span class="card-tag">Economy</span>
+          <span class="card-tag">South India</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     HARAPPAN QUOTE BAND
+═══════════════════════════════════════════════════ -->
+<section class="quote-band">
+  <blockquote>
+    <p>
+      The past is not a foreign country. It is the sediment beneath our feet — 
+      waiting for whoever is willing to dig.
+    </p>
+    <cite>— Sandeep Kumar, <em>The Grammar of Bharat</em></cite>
+  </blockquote>
+</section>
+
+<!-- ─── NEWSLETTER ─── -->
+<section class="newsletter-section">
+  <div class="container">
+    <h2 class="newsletter-title">History essays in your inbox</h2>
+    <p class="newsletter-subtitle">No noise. Just ideas worth sitting with.</p>
+    <div class="newsletter-form">
+      <input type="email" id="nl-email" placeholder="your@email.com" />
+      <button type="button" onclick="subscribeNewsletter()">Subscribe</button>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo-text">sk<span style="color:var(--saffron)">4</span>bharat</span>
+      <p class="footer-tagline">Writing on mythology, history, culture, and the ideas that shape modern India.</p>
+      <div class="social-links">
+        <a href="#" class="social-link">Twitter</a>
+        <a href="#" class="social-link">Instagram</a>
+        <a href="#" class="social-link">YouTube</a>
+        <a href="#" class="social-link">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="#">Articles</a>
+      <a href="#">Books</a>
+      <a href="#">Talks &amp; Podcasts</a>
+      <a href="#">Interviews</a>
+      <a href="#">Archive</a>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="#">Newsletter</a>
+      <a href="#">Press</a>
+      <a href="#">Store</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Sandeep Kumar. All rights reserved.</p>
+    <div class="footer-legal">
+      <a href="#">Terms of Use</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════════ -->
+<script>
+  /* ── Reading progress bar ── */
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrollTop = doc.scrollTop || document.body.scrollTop;
+    const scrollHeight = doc.scrollHeight - doc.clientHeight;
+    const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  }, { passive: true });
+
+  /* ── Hamburger / Mobile Nav ── */
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+
+  hamburger.addEventListener('click', () => {
+    const open = mobileNav.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileNav.classList.remove('open');
+      hamburger.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  /* ── Scroll animation for article cards ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.article-card').forEach(card => observer.observe(card));
+
+  /* ── Era filter tabs ── */
+  function filterEra(btn, era) {
+    document.querySelectorAll('.era-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+
+    const title = document.getElementById('grid-title');
+    const cards = document.querySelectorAll('#articles-grid .article-card');
+
+    cards.forEach((card, i) => {
+      const match = era === 'all' || card.dataset.era === era;
+      card.style.display = match ? '' : 'none';
+      if (match) {
+        card.classList.remove('visible');
+        setTimeout(() => card.classList.add('visible'), i * 80);
+      }
+    });
+
+    title.textContent = era === 'all'
+      ? 'All History Articles'
+      : btn.textContent.trim() + ' Articles';
+  }
+
+  /* ── Category chip toggle ── */
+  function toggleCat(btn) {
+    btn.classList.toggle('selected');
+  }
+
+  /* ── Char count ── */
+  function updateCharCount(input, countId, max) {
+    const el = document.getElementById(countId);
+    if (el) el.textContent = input.value.length + ' / ' + max;
+  }
+
+  /* ── Word count + read time ── */
+  function updateWordCount(textarea) {
+    const words = textarea.value.trim().split(/\s+/).filter(w => w).length;
+    const mins = Math.max(1, Math.ceil(words / 220));
+    document.getElementById('word-count').textContent = words.toLocaleString() + ' words';
+    document.getElementById('read-time').textContent = '~' + mins + ' min read';
+  }
+
+  /* ── Tag input ── */
+  function handleTagInput(e) {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      const input = document.getElementById('tag-input');
+      const val = input.value.replace(/,/g, '').trim();
+      if (!val) return;
+      const wrapper = document.getElementById('tags-wrapper');
+      const pill = document.createElement('span');
+      pill.className = 'tag-pill';
+      pill.innerHTML = val + ' <button onclick="removeTag(this)" type="button">×</button>';
+      wrapper.insertBefore(pill, input);
+      input.value = '';
+    }
+  }
+
+  function removeTag(btn) {
+    btn.parentElement.remove();
+  }
+
+  /* ── Toast helper ── */
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  /* ── Toolbar format buttons (visual only) ── */
+  function toggleFmt(btn) {
+    btn.classList.toggle('active');
+  }
+
+  function insertBlock(type) {
+    const ta = document.getElementById('art-body');
+    const map = {
+      h2: '\n\n## Section Heading\n\n',
+      h3: '\n\n### Sub-heading\n\n',
+      blockquote: '\n\n> "Quote text here"\n> — Source\n\n',
+      hr: '\n\n---\n\n'
+    };
+    const ins = map[type] || '';
+    const pos = ta.selectionStart;
+    ta.value = ta.value.slice(0, pos) + ins + ta.value.slice(pos);
+    ta.focus();
+    ta.selectionStart = ta.selectionEnd = pos + ins.length;
+    updateWordCount(ta);
+  }
+
+  /* ── Submit / Save / Clear ── */
+  function submitArticle() {
+    const title = document.getElementById('art-title').value.trim();
+    const body  = document.getElementById('art-body').value.trim();
+    if (!title) {
+      document.getElementById('art-title').style.borderColor = 'var(--terra)';
+      document.getElementById('art-title').focus();
+      showToast('⚠ Please add a title before publishing.');
+      return;
+    }
+    if (body.length < 100) {
+      document.getElementById('art-body').focus();
+      showToast('⚠ Article body is too short to publish.');
+      return;
+    }
+    showToast('✓ Article submitted for review!');
+  }
+
+  function saveDraft() {
+    showToast('✓ Article saved as draft');
+  }
+
+  function clearForm() {
+    if (!confirm('Clear all fields? This cannot be undone.')) return;
+    ['art-title','art-dek','art-era','art-region','art-body','art-sources'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    document.getElementById('word-count').textContent = '0 words';
+    document.getElementById('read-time').textContent = '~0 min read';
+    document.getElementById('title-count').textContent = '0 / 120';
+    document.getElementById('dek-count').textContent = '0 / 200';
+  }
+
+  /* ── Newsletter subscribe ── */
+  function subscribeNewsletter() {
+    const input = document.getElementById('nl-email');
+    const btn = input.nextElementSibling;
+    if (input.value && input.value.includes('@')) {
+      btn.textContent = 'Subscribed ✓';
+      btn.style.background = '#2d7a2d';
+      input.value = '';
+      setTimeout(() => { btn.textContent = 'Subscribe'; btn.style.background = ''; }, 3000);
+    } else {
+      input.style.borderColor = 'var(--saffron)';
+      input.focus();
+    }
+  }
+
+  /* ── Timeline hover: highlight current era ── */
+  document.querySelectorAll('.tl-item').forEach((item, i) => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.tl-item').forEach(t => t.classList.remove('active'));
+      item.classList.add('active');
+    });
+  });
+
+  /* ── Featured list item click → article page ── */
+  document.querySelectorAll('.featured-list-item').forEach(item => {
+    item.addEventListener('click', () => {
+      window.location.href = 'article.html';
+    });
+  });
+</script>
+</body>
+</html>
