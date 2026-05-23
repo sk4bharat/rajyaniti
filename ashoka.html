@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashoka's Silence: What the Rock Edicts Don't Tell Us</title>
+    <style>
+        :root {
+            --bg-color: #fdfbf7;
+            --text-color: #333;
+            --accent-color: #8b4513; /* Earthy brown for rock theme */
+            --rock-color: #a9a9a9;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--accent-color);
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            margin-top: 10px;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        h2 {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 5px;
+            margin-top: 2rem;
+        }
+
+        .article-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        /* Interactive Animation Section */
+        .interactive-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background-color: #fff;
+            border: 2px solid var(--rock-color);
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .rock-edict-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            margin: 0 auto 2rem auto;
+            background-color: #d3d3d3;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 4px solid #888;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rock-surface {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #a9a9a9, #808080);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+            z-index: 2;
+        }
+
+        .rock-surface h3 {
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 5px;
+            font-size: 1.5rem;
+            text-shadow: 1px 1px 2px #333;
+        }
+
+        .hidden-truth {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff8dc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .hidden-truth ul {
+            text-align: left;
+            font-size: 1.1rem;
+            color: #555;
+            font-weight: bold;
+        }
+
+        /* Flowchart animation styles */
+        .flowchart-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2rem;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+        }
+
+        .flow-box {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin: 10px 0;
+            width: 80%;
+            max-width: 400px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .flow-arrow {
+            color: var(--accent-color);
+            font-size: 24px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Animation classes toggled by JS */
+        .reveal-truth .rock-surface {
+            opacity: 0;
+            transform: scale(1.1);
+            pointer-events: none;
+        }
+        
+        .reveal-truth .hidden-truth {
+            opacity: 1;
+        }
+
+        .show-flowchart {
+            display: flex;
+            opacity: 1;
+        }
+
+        .flow-box.animate-in {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #6a320c;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Ashoka's Silence</h1>
+        <p>What the Rock Edicts Don't Tell Us | History Analysis</p>
+    </header>
+
+    <div class="container article-content">
+        <p>When studying the great dynasties of Indian History, Emperor Ashoka stands out as a unique figure. After the devastating Kalinga War, he carved his messages of peace, morality (Dhamma), and administration into large rock faces and towering pillars across the Mauryan Empire. These inscriptions are our primary primary sources for his reign.</p>
+        
+        <p>However, history is written by the victors. While the Rock Edicts provide incredible insight into Ashoka's mind and his official state policies, they also feature glaring omissions. What did the emperor choose <em>not</em> to record in stone?</p>
+
+        <h2>1. The Early Years: "Chandashoka"</h2>
+        <p>Buddhist texts from Sri Lanka and Northern India describe Ashoka's early life as incredibly violent. Known as "Chandashoka" (Ashoka the Fierce), legends claim he eliminated his brothers to seize the throne and ran an elaborate torture chamber. The Rock Edicts remain entirely silent on how Ashoka came to power. The emperor only begins his narrative in the stones *after* his consecration, projecting a sanitized image of a legitimate, unchallenged ruler.</p>
+
+        <h2>2. The Kalinga Perspective</h2>
+        <p>In Major Rock Edict XIII, Ashoka expresses profound sorrow for the conquest of Kalinga, stating that 100,000 people were killed and 150,000 were deported. Yet, this is Ashoka's grief, not Kalinga's. The edicts do not record the destruction of Kalinga's local culture, the political structure of the defeated people, or the voices of the survivors. Interestingly, the edicts expressing remorse for the Kalinga war were <em>never placed in Kalinga itself</em> (modern-day Odisha), likely to avoid provoking the traumatized local population.</p>
+
+        <h2>3. The Reality of the Common Citizen</h2>
+        <p>Ashoka's edicts are top-down royal decrees. They command officials (Mahamattas) to be just and encourage citizens to respect elders and all living creatures. But they are silent on the day-to-day struggles of the Mauryan peasant. Was there famine? How heavy was the taxation? Did local rebellions occur against his strict moral policing? The stones project a utopian empire of Dhamma, masking the complex realities of a vast, diverse subcontinent.</p>
+
+        <!-- Interactive Animated Section -->
+        <div class="interactive-section">
+            <h2 style="margin-top: 0; border: none;">Interactive Deciphering: Beyond the Stone</h2>
+            <p>Click the button below to erode the official history and reveal the structured truths hidden beneath the surface.</p>
+            
+            <div class="rock-edict-container" id="edictBox">
+                <div class="rock-surface">
+                    <h3>OFFICIAL MAURYAN EDICTS</h3>
+                </div>
+                <div class="hidden-truth">
+                    <h3 style="color: var(--accent-color); margin-top:0;">The Unsaid History</h3>
+                    <ul>
+                        <li>Violent War of Succession (Hidden)</li>
+                        <li>Local Resistance Movements (Unrecorded)</li>
+                        <li>Economic strain of maintaining a vast army</li>
+                        <li>The voices of the conquered Kalingans</li>
+                    </ul>
+                </div>
+            </div>
+
+            <button onclick="revealHistory()">Reveal the Hidden Flowchart</button>
+
+            <!-- Flowchart Animation -->
+            <div class="flowchart-container" id="flowchart">
+                <div class="flow-box" id="box1"><strong>The Official Record:</strong> Peaceful propagation of Dhamma</div>
+                <div class="flow-arrow" id="arrow1">↓</div>
+                <div class="flow-box" id="box2"><strong>The Omission:</strong> Silence on early atrocities and succession wars</div>
+                <div class="flow-arrow" id="arrow2">↓</div>
+                <div class="flow-box" id="box3"><strong>The Reality:</strong> A complex, heavily policed empire masked by moral decrees</div>
+            </div>
+        </div>
+
+        <h2>Conclusion</h2>
+        <p>Structured study tools like timelines and flowcharts help us see that historical sources are rarely the complete truth. Ashoka's Rock Edicts are a masterpiece of ancient political communication, but reading the "silences" between the lines is what truly brings the complexities of India's ancient past to life.</p>
+    </div>
+
+    <script>
+        function revealHistory() {
+            // 1. Erode the rock
+            document.getElementById('edictBox').classList.add('reveal-truth');
+            
+            // 2. Show the flowchart container
+            const flowchart = document.getElementById('flowchart');
+            flowchart.classList.add('show-flowchart');
+
+            // 3. Animate flowchart boxes sequentially
+            setTimeout(() => { document.getElementById('box1').classList.add('animate-in'); }, 500);
+            setTimeout(() => { document.getElementById('arrow1').style.opacity = '1'; }, 1000);
+            
+            setTimeout(() => { document.getElementById('box2').classList.add('animate-in'); }, 1500);
+            setTimeout(() => { document.getElementById('arrow2').style.opacity = '1'; }, 2000);
+            
+            setTimeout(() => { document.getElementById('box3').classList.add('animate-in'); }, 2500);
+        }
+    </script>
+</body>
+</html>
