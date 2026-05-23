@@ -132,7 +132,7 @@
   .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   .mobile-nav {
-    display: none;
+    display: flex;
     position: fixed;
     inset: 0;
     background: var(--ink);
@@ -141,9 +141,19 @@
     align-items: center;
     justify-content: center;
     gap: 1.5rem;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    visibility: hidden;
+    pointer-events: none;
   }
 
-  .mobile-nav.open { display: flex; }
+  .mobile-nav.open {
+    opacity: 1;
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: all;
+  }
 
   .mobile-link {
     font-family: 'Playfair Display', serif;
@@ -1031,21 +1041,29 @@
 
   /* ─── RESPONSIVE ─── */
   @media (max-width: 900px) {
-    .article-layout { grid-template-columns: 1fr; gap: 0; }
-    .article-sidebar { position: static; flex-direction: row; flex-wrap: wrap; gap: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); }
-    .sidebar-block { flex: 1 1 240px; }
     .more-articles-grid { grid-template-columns: 1fr 1fr; }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     nav { display: none; }
     .hamburger { display: flex; }
+    .article-layout { grid-template-columns: 1fr; gap: 0; }
+    .article-sidebar { position: static; flex-direction: row; flex-wrap: wrap; gap: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+    .sidebar-block { flex: 1 1 240px; }
     .article-masthead { padding: 3rem 1.5rem 0; }
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    .newsletter-form { flex-direction: column; }
+    .newsletter-form input, .newsletter-form button { width: 100%; }
+  }
+
+  @media (max-width: 640px) {
     .article-main-title { font-size: 2rem; }
     .more-articles-grid { grid-template-columns: 1fr; }
-    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
     .hero-image-block { height: 200px; }
-    .newsletter-form { flex-direction: column; }
+    .article-masthead { padding: 2.5rem 1.25rem 0; }
+    .article-body-wrapper { padding: 2.5rem 1.25rem; }
+    .section-header { flex-direction: column; gap: 0.5rem; }
   }
 </style>
 </head>
@@ -1061,12 +1079,10 @@
     <span class="logo-sub">Writer · Thinker · Speaker</span>
   </a>
   <nav>
-    <a href="#hero">Home</a>
-    <a href="article.html">Articles</a>
-    <a href="#books">Books</a>
-    <a href="store.html">Store</a>
-    <a href="#about">About</a>
-    <a href="#newsletter" class="nav-cta">Contact</a>
+    <a href="index.html#articles">Articles</a>
+    <a href="index.html#books">Books</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#newsletter" class="nav-cta">Subscribe</a>
   </nav>
   <button class="hamburger" id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
