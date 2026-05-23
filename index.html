@@ -785,6 +785,7 @@
     flex-direction: column;
     gap: 5px;
     padding: 5px;
+    z-index: 201;
   }
 
   .hamburger span {
@@ -794,6 +795,69 @@
     background: var(--parchment);
     transition: all 0.3s;
   }
+
+  /* Hamburger → X animation */
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ─── MOBILE NAV DRAWER ─── */
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--ink);
+    z-index: 200;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .mobile-nav.open {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .mobile-nav a {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--parchment);
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #222;
+    width: 100%;
+    text-align: center;
+    transition: color 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .mobile-nav a:hover { color: var(--saffron); }
+
+  .mobile-nav .mobile-cta {
+    margin-top: 1.5rem;
+    background: var(--saffron);
+    color: white !important;
+    border-radius: 2px;
+    border-bottom: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.9rem 2.5rem;
+    width: auto;
+  }
+
+  .mobile-nav .mobile-cta:hover { background: #c94f00; }
+
+  /* Active nav link highlight */
+  nav a.active { color: var(--saffron); }
+  .mobile-nav a.active { color: var(--saffron); }
 
   /* ─── RESPONSIVE ─── */
   @media (max-width: 1024px) {
@@ -806,6 +870,7 @@
     header { padding: 0 1.5rem; }
     nav { display: none; }
     .hamburger { display: flex; }
+    .mobile-nav { display: flex; }
 
     .hero { grid-template-columns: 1fr; min-height: auto; }
     .hero-left { padding: 3rem 2rem; }
@@ -827,24 +892,34 @@
 
 <!-- HEADER -->
 <header>
-  <a href="#" class="logo">
+  <a href="#hero" class="logo">
     <span class="logo-text">sk<span>4</span>bharat</span>
     <span class="logo-sub">Writer · Thinker · Speaker</span>
   </a>
   <nav>
-    <a href="#">Home</a>
-    <a href="#articles">Articles</a>
+    <a href="#hero">Home</a>
+    <a href="article.html">Articles</a>
     <a href="#books">Books</a>
+    <a href="store.html">Store</a>
     <a href="#about">About</a>
-    <a href="#" class="nav-cta">Contact</a>
+    <a href="#newsletter" class="nav-cta">Contact</a>
   </nav>
-  <button class="hamburger" aria-label="Menu">
+  <button class="hamburger" id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </header>
 
+<!-- MOBILE NAV DRAWER -->
+<nav class="mobile-nav" id="mobileNav">
+  <a href="#hero" class="mobile-link">Home</a>
+  <a href="#articles" class="mobile-link">Articles</a>
+  <a href="#books" class="mobile-link">Books</a>
+  <a href="#about" class="mobile-link">About</a>
+  <a href="#newsletter" class="mobile-link mobile-cta">Contact</a>
+</nav>
+
 <!-- HERO -->
-<section class="hero">
+<section class="hero" id="hero">
   <div class="hero-left">
     <p class="hero-eyebrow">✦ Welcome to sk4bharat</p>
     <h1 class="hero-title">Stories that<br><em>shape</em> how<br>we see India</h1>
@@ -1040,7 +1115,7 @@
 </section>
 
 <!-- NEWSLETTER -->
-<section class="newsletter-section">
+<section class="newsletter-section" id="newsletter">
   <div class="container">
     <h2 class="newsletter-title">Get new essays in your inbox</h2>
     <p class="newsletter-subtitle">No noise. Just ideas worth sitting with.</p>
@@ -1093,7 +1168,7 @@
 </footer>
 
 <script>
-  // Subtle scroll animation for article cards
+  // ── Scroll animation for article/book cards ──
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -1110,7 +1185,7 @@
     observer.observe(card);
   });
 
-  // Newsletter button feedback
+  // ── Newsletter button feedback ──
   document.querySelector('.newsletter-form button').addEventListener('click', function() {
     const input = document.querySelector('.newsletter-form input');
     if (input.value && input.value.includes('@')) {
@@ -1126,6 +1201,59 @@
       input.focus();
     }
   });
+
+  // ── Hamburger / Mobile Nav ──
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+
+  function openMenu() {
+    hamburger.classList.add('open');
+    mobileNav.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    mobileNav.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  hamburger.addEventListener('click', () => {
+    mobileNav.classList.contains('open') ? closeMenu() : openMenu();
+  });
+
+  // Close menu on mobile link click
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // ── Active nav highlight on scroll ──
+  const sections = [
+    { id: 'hero',       label: 'hero' },
+    { id: 'articles',   label: 'articles' },
+    { id: 'books',      label: 'books' },
+    { id: 'about',      label: 'about' },
+    { id: 'newsletter', label: 'newsletter' },
+  ];
+
+  const navLinks = document.querySelectorAll('nav a, .mobile-nav a');
+
+  function setActive() {
+    let current = 'hero';
+    sections.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 100) current = id;
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', setActive, { passive: true });
+  setActive();
 </script>
 </body>
 </html>
