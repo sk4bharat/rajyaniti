@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waiting for Shiva — Unearthing the Truth of Kashi's Gyan Vapi</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Proza+Libre:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --rudra: #7B2D2D;
+  --rudra-mid: #B04040;
+  --rudra-light: #E8A080;
+  --rudra-faint: #FDF4F0;
+  --ash: #F7F4EF;
+  --ash-dark: #EDE8E0;
+  --deep: #1A1008;
+  --deep-mid: #3A2510;
+  --deep-muted: #7A6040;
+  --bone: #FDFAF4;
+  --saffron: #C87820;
+  --saffron-pale: #FEF6E4;
+  --border-rudra: rgba(123, 45, 45, 0.18);
+  --border-saffron: rgba(200, 120, 32, 0.2);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Proza Libre', Georgia, serif;
+  background: var(--bone);
+  color: var(--deep-mid);
+  font-size: 18.5px;
+  line-height: 1.88;
+  font-weight: 300;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--deep);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative trishul / geometric SVG background */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+}
+
+/* Saffron stripe at top — the sacred tilak */
+.hero-tilak {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--rudra-mid) 0%, var(--saffron) 50%, var(--rudra-mid) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 80px 80px;
+  max-width: 900px;
+}
+
+.hero-eyebrow {
+  font-family: 'Proza Libre', serif;
+  font-size: 11.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rudra-light);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 36px; height: 1px;
+  background: var(--rudra-light);
+}
+
+.hero-title {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: clamp(50px, 6.5vw, 90px);
+  font-weight: 600;
+  line-height: 0.96;
+  color: #FDFAF4;
+  letter-spacing: -0.015em;
+  margin-bottom: 10px;
+}
+.hero-title em {
+  display: block;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.52em;
+  color: var(--rudra-light);
+  letter-spacing: 0.04em;
+  margin-top: 12px;
+}
+
+.hero-devanagari {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: 22px;
+  color: rgba(255,255,255,0.2);
+  margin: 20px 0 32px;
+  letter-spacing: 0.06em;
+}
+
+.hero-blurb {
+  font-size: 18px;
+  line-height: 1.74;
+  color: rgba(255,255,255,0.60);
+  max-width: 650px;
+  margin-bottom: 44px;
+  font-weight: 300;
+}
+
+.hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 44px;
+}
+.hero-pill {
+  border: 1px solid rgba(180, 90, 50, 0.4);
+  color: var(--rudra-light);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 1px;
+  font-family: 'Proza Libre', serif;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 44px;
+  flex-wrap: wrap;
+  padding-top: 28px;
+  border-top: 1px solid rgba(180, 90, 50, 0.2);
+}
+.hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+.hero-meta-key {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.26);
+}
+.hero-meta-val {
+  font-size: 15px;
+  color: rgba(255,255,255,0.76);
+  font-weight: 400;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 38px;
+  right: 80px;
+  writing-mode: vertical-rl;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.18);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-scroll::after {
+  content: '';
+  width: 1px; height: 52px;
+  background: rgba(255,255,255,0.12);
+  display: block;
+}
+
+/* ── NAV ── */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  background: rgba(253, 250, 244, 0.96);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-rudra);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 80px;
+  overflow-x: auto;
+}
+.nav-link {
+  font-family: 'Proza Libre', serif;
+  font-size: 11.5px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--deep-muted);
+  text-decoration: none;
+  padding: 18px 22px;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--rudra);
+  border-bottom-color: var(--rudra);
+}
+
+/* ── LAYOUT ── */
+.article-wrap {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 0;
+  max-width: 1320px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+main {
+  padding: 72px 72px 72px 80px;
+  border-right: 1px solid var(--border-rudra);
+}
+
+/* ── SECTION STYLES ── */
+section {
+  margin-bottom: 80px;
+}
+section + section {
+  padding-top: 64px;
+  border-top: 1px solid var(--border-saffron);
+}
+
+.sec-eyebrow {
+  font-family: 'Proza Libre', serif;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rudra-mid);
+  margin-bottom: 18px;
+}
+
+.sec-title {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(28px, 3.2vw, 44px);
+  font-weight: 600;
+  line-height: 1.12;
+  color: var(--deep);
+  margin-bottom: 32px;
+  letter-spacing: -0.01em;
+}
+.sec-title em { font-style: italic; color: var(--rudra); }
+
+main p {
+  margin-bottom: 24px;
+  color: var(--deep-mid);
+}
+main p:last-child { margin-bottom: 0; }
+
+/* ── PULL QUOTE ── */
+.pq {
+  display: flex;
+  gap: 0;
+  margin: 44px 0;
+}
+.pq-bar {
+  width: 3px;
+  background: var(--rudra-mid);
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin-right: 28px;
+}
+.pq-body p {
+  font-family: 'EB Garamond', serif;
+  font-size: 22px;
+  font-style: italic;
+  line-height: 1.56;
+  color: var(--deep);
+  margin-bottom: 14px !important;
+}
+.pq-body cite {
+  font-family: 'Proza Libre', serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--deep-muted);
+  font-style: normal;
+}
+
+/* ── PILLARS ── */
+.pillars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin: 40px 0;
+}
+.pillar {
+  background: var(--rudra-faint);
+  border: 1px solid var(--border-rudra);
+  padding: 28px 28px 28px 24px;
+  display: flex;
+  gap: 20px;
+}
+.pillar-n {
+  font-family: 'EB Garamond', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: rgba(123, 45, 45, 0.18);
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.pillar h4 {
+  font-family: 'EB Garamond', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--deep);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+.pillar p {
+  font-size: 15px;
+  line-height: 1.72;
+  color: var(--deep-mid);
+  margin-bottom: 0 !important;
+}
+
+/* ── VERDICT BOX ── */
+.verdict-box {
+  background: var(--saffron-pale);
+  border: 1px solid var(--border-saffron);
+  border-left: 4px solid var(--saffron);
+  padding: 32px 36px;
+  margin: 40px 0;
+}
+.verdict-box h3 {
+  font-family: 'EB Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--deep);
+  margin-bottom: 14px;
+}
+.verdict-box p {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--deep-mid);
+  margin-bottom: 14px !important;
+}
+.verdict-box p:last-child { margin-bottom: 0 !important; }
+
+/* ── TIMELINE ── */
+.timeline {
+  margin: 44px 0;
+  position: relative;
+  padding-left: 36px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px; top: 8px; bottom: 8px;
+  width: 1px;
+  background: linear-gradient(180deg, var(--rudra-mid), transparent);
+}
+.tl-item {
+  margin-bottom: 36px;
+  position: relative;
+}
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -30px; top: 9px;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--rudra-mid);
+  border: 2px solid var(--bone);
+  box-shadow: 0 0 0 2px var(--rudra-mid);
+}
+.tl-year {
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--rudra-mid);
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.tl-event {
+  font-size: 16px;
+  line-height: 1.68;
+  color: var(--deep-mid);
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  padding: 56px 44px 56px 40px;
+  position: sticky;
+  top: 60px;
+}
+.s-card {
+  background: var(--ash);
+  border: 1px solid var(--border-saffron);
+  padding: 28px;
+  margin-bottom: 20px;
+}
+.s-card h4 {
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--deep);
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-rudra);
+}
+.s-stat {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.s-stat:last-child { margin-bottom: 0; }
+.s-num {
+  font-family: 'EB Garamond', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--rudra);
+  line-height: 1;
+  flex-shrink: 0;
+  min-width: 52px;
+}
+.s-lbl {
+  font-size: 13px;
+  line-height: 1.52;
+  color: var(--deep-muted);
+  padding-top: 6px;
+}
+.toc-link {
+  display: block;
+  font-size: 13.5px;
+  color: var(--deep-muted);
+  text-decoration: none;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  line-height: 1.45;
+  transition: color 0.18s;
+}
+.toc-link:hover { color: var(--rudra); }
+.toc-link:last-child { border-bottom: none; }
+
+/* ── EPIGRAPH ── */
+.epigraph-closer {
+  background: var(--deep);
+  padding: 80px;
+  text-align: center;
+}
+.epigraph-closer blockquote {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-style: italic;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.6;
+  max-width: 780px;
+  margin: 0 auto 20px;
+}
+.epigraph-closer cite {
+  font-family: 'Proza Libre', serif;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rudra-light);
+  font-style: normal;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--deep);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 40px 80px;
+  display: flex;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+footer > div { flex: 1; min-width: 240px; }
+footer strong {
+  display: block;
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
+}
+footer p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.32);
+  line-height: 1.6;
+}
+
+@media (max-width: 1100px) {
+  .article-wrap { grid-template-columns: 1fr; }
+  .sidebar { position: static; padding: 40px 80px; border-top: 1px solid var(--border-saffron); }
+  main { padding: 56px 48px; border-right: none; }
+}
+@media (max-width: 700px) {
+  .hero-content { padding: 0 32px 60px; }
+  main { padding: 40px 28px; }
+  .sidebar { padding: 40px 28px; }
+  footer { padding: 36px 28px; }
+  .nav-bar { padding: 0 28px; }
+  .pillars { grid-template-columns: 1fr; }
+  .epigraph-closer { padding: 56px 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div class="hero-tilak"></div>
+
+  <!-- Decorative Trishul motif (SVG background) -->
+  <svg class="hero-bg" viewBox="0 0 900 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid slice">
+    <g fill="none" stroke="#FDFAF4" stroke-width="0.6">
+      <circle cx="700" cy="200" r="320"/><circle cx="700" cy="200" r="220"/>
+      <circle cx="700" cy="200" r="120"/>
+      <line x1="700" y1="200" x2="380" y2="520"/><line x1="700" y1="200" x2="1020" y2="520"/>
+      <line x1="700" y1="200" x2="700" y2="600"/>
+      <line x1="380" y1="-80" x2="1020" y2="480"/>
+      <line x1="1020" y1="-80" x2="380" y2="480"/>
+      <path d="M700 0 L720 80 L680 80 Z" />
+      <path d="M640 20 L660 80 L620 80 Z" />
+      <path d="M760 20 L780 80 L740 80 Z" />
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Book Review &nbsp;·&nbsp; History &nbsp;·&nbsp; Civilisation &nbsp;·&nbsp; Law</div>
+    <h1 class="hero-title">
+      Waiting for Shiva
+      <em>Unearthing the Truth of Kashi's Gyan Vapi</em>
+    </h1>
+    <div class="hero-devanagari">काशी की गंगा, शिव की नगरी — सत्य का अन्वेषण</div>
+    <p class="hero-blurb">
+      Few cities on earth are as old as they are alive. Kashi — ancient, imperishable, the axis mundi of the Hindu cosmos — carries its millennia not as dead weight but as living breath. In <em>Waiting for Shiva</em>, historian Dr. Vikram Sampath turns the full force of archival scholarship upon the most contested square of ground in this holiest of cities: the Gyan Vapi complex, where a mosque stands over the ruins of the Kashi Vishwanath temple, demolished by Aurangzeb in 1669, and where Shiva — according to his devotees — has waited ever since.
+    </p>
+    <div class="hero-pills">
+      <span class="hero-pill">Temple History</span>
+      <span class="hero-pill">Iconoclasm &amp; Resilience</span>
+      <span class="hero-pill">Colonial Jurisprudence</span>
+      <span class="hero-pill">ASI Survey 2023</span>
+      <span class="hero-pill">Places of Worship Act</span>
+    </div>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-key">Author</span>
+        <span class="hero-meta-val">Dr. Vikram Sampath</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-key">Publisher</span>
+        <span class="hero-meta-val">Garuda Prakashan</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-key">Published</span>
+        <span class="hero-meta-val">2024</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-key">ISBN</span>
+        <span class="hero-meta-val">978-81-96737-59-7</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">Scroll</div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav class="nav-bar">
+  <a href="#kashi" class="nav-link active">The City Eternal</a>
+  <a href="#temple" class="nav-link">The Temple &amp; Its Trials</a>
+  <a href="#iconoclasm" class="nav-link">Waves of Destruction</a>
+  <a href="#law" class="nav-link">The Legal Labyrinth</a>
+  <a href="#asi" class="nav-link">The ASI Survey</a>
+  <a href="#assessment" class="nav-link">Assessment</a>
+</nav>
+
+<!-- ══ MAIN LAYOUT ══ -->
+<div class="article-wrap">
+<main>
+
+  <!-- KASHI -->
+  <section id="kashi">
+    <div class="sec-eyebrow">Part One — The Sacred Geography</div>
+    <h2 class="sec-title">The City That <em>Refuses to Die</em></h2>
+
+    <p>Dr. Vikram Sampath opens his book not with a petition or a court date, but with a city. To understand the Gyan Vapi dispute, he insists, one must first understand what Kashi is — not merely as a geographical coordinate on the banks of the Ganga, but as a civilisational fact. Kashi is, in the Hindu conception, the city that Shiva himself inhabits, where death brings not another life but liberation itself — moksha, the final release from the cycle of rebirth. When Hindus speak of dying in Kashi, they are not being morbid. They are naming a privilege that no other place on earth can confer.</p>
+
+    <p>This is the book's first and most essential argument: that the dispute over Gyan Vapi is not, at its core, a property dispute. It is not a quarrel over bricks and mortar. It is a question about the meaning of sacred space — about whether civilisational memory can be erased by administrative decree, and whether a nation that calls itself democratic can in good conscience tell a people that their most sacred ground is permanently beyond legal reach.</p>
+
+    <div class="pq">
+      <div class="pq-bar"></div>
+      <div class="pq-body">
+        <p>Few places in the world carry the heavy burden of history as effortlessly as Kashi, or Varanasi, has. The holy city embodies the very soul of our civilisation and personifies the resilience that we have displayed over centuries in the face of numerous adversities and fatal attacks.</p>
+        <cite>— Dr. Vikram Sampath, Waiting for Shiva</cite>
+      </div>
+    </div>
+
+    <p>Sampath draws deep from the Vedic and Puranic tradition to establish the antiquity and sacredness of the Kashi Vishwanath shrine. The Jyotirlinga of Vishweshwara — the Lord of the Universe — is, in scriptural tradition, not a constructed temple but a swayambhu: a self-manifested form of Shiva that arose from the earth itself. The temple built around it is not the divinity; it is its vessel. And when the vessel is destroyed, the presence — according to the devout — does not depart. Nandi, the bull of Shiva, who sits facing the direction of his lord at the entry of every Shaiva temple, has been turned to face the Gyan Vapi mosque since Aurangzeb's demolition. It is from this image — patient, unmoving, faithful — that the book takes its title: Nandi waits, as Hindus have waited, for Shiva's return.</p>
+
+    <p>The author navigates this devotional landscape with the care of a historian who understands that to patronise faith is as distorting as to be uncritical of it. He is not writing hagiography. He is writing history in a city where history and theology are inseparable — and he does so with the discipline of a trained academic who holds a doctorate in history and music from the University of Queensland and a fellowship of the Royal Historical Society.</p>
+  </section>
+
+  <!-- TEMPLE -->
+  <section id="temple">
+    <div class="sec-eyebrow">Part Two — History of the Shrine</div>
+    <h2 class="sec-title">A Temple That <em>Rose and Rose Again</em></h2>
+
+    <p>The book's second movement reconstructs the long and turbulent history of the Kashi Vishwanath shrine from its Puranic origins through the medieval period and into the era of Mughal rule. Sampath is meticulous here in a way that popular writing on this subject rarely is, drawing on Sanskrit literary sources, Agama shastras, Jataka tales, Persian court chronicles, the travelogues of foreign visitors, and archival records from the colonial period to construct a multi-layered account of the site across more than two millennia.</p>
+
+    <p>What emerges is a story not of uninterrupted persecution but of a recurring pattern: destruction followed by reconstruction, demolition answered by devotion. The shrine was attacked and rebuilt multiple times across the centuries — under Qutb ud-Din Aibak, Sikandar Lodi, and others — before the final and most devastating blow fell in 1669 under Aurangzeb. Each time, the community of the faithful rebuilt. Each time, Kashi endured.</p>
+
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-n">01</div>
+        <div>
+          <h4>Vedic and Puranic Antiquity</h4>
+          <p>Sampath traces the Kashi Vishwanath tradition to the Puranas and Agama texts, establishing the swayambhu — self-manifested — nature of the Jyotirlinga of Vishweshwara. The site predates recorded history; its sanctity is woven into the very definition of Kashi as a city.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-n">02</div>
+        <div>
+          <h4>Medieval Assaults and Rebuilding</h4>
+          <p>The Vishwanath temple was attacked and desecrated multiple times under the Delhi Sultanate and early Mughal rule. Each time, its reconstruction was undertaken by Hindu rulers, queens, and merchants — a record of civic and religious tenacity that conventional textbooks rarely acknowledge.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-n">03</div>
+        <div>
+          <h4>Aurangzeb's Demolition of 1669</h4>
+          <p>The decisive blow: Aurangzeb's farmaan ordered the demolition of the existing temple and the construction of the Gyan Vapi mosque in its place. Sampath draws directly on Mughal court records to establish both the order and its execution — a document trail that has not always been adequately engaged by mainstream scholarship.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-n">04</div>
+        <div>
+          <h4>Ahilyabai Holkar's Shrine</h4>
+          <p>The existing Kashi Vishwanath temple — the one visible to pilgrims today — was built by Maratha queen Ahilyabai Holkar in 1780, adjacent to the mosque, on ground that was still available. The original temple site remained occupied. The Nandi bull, facing the mosque, continued to wait.</p>
+        </div>
+      </div>
+    </div>
+
+    <p>Sampath's account of Ahilyabai Holkar's restoration deserves particular attention. Here is a woman, a widow under the most restrictive conventions of her era, who personally directed the construction of a new Kashi Vishwanath temple as close to the desecrated original site as she could manage. The book's treatment of her vision and resolve is one of its most affecting passages — a reminder that India's story of civilisational resistance was often carried by figures whom conventional historiography has overlooked.</p>
+  </section>
+
+  <!-- ICONOCLASM -->
+  <section id="iconoclasm">
+    <div class="sec-eyebrow">Part Three — Civilisational Memory</div>
+    <h2 class="sec-title">The Weight of <em>Centuries</em></h2>
+
+    <p>Among the most intellectually powerful sections of the book is Sampath's engagement with the question of iconoclasm itself — not as a slur to be deployed in a communal argument, but as a historical phenomenon that must be examined honestly if India's present predicaments are to be understood clearly. He is careful to distinguish between the complex motivations of individual rulers (political, theological, strategic) and the cumulative civilisational effect of repeated destruction of sacred sites, which is the erasure of a people's relationship with their own past.</p>
+
+    <p>The relevant question, Sampath argues, is not whether particular medieval rulers acted for reasons comprehensible within their own frameworks — they often did — but whether their actions, and the structures built upon those actions, ought to be treated as permanent and unchallengeable in a democratic republic that claims to uphold the equal dignity of all citizens.</p>
+
+    <div class="pq">
+      <div class="pq-bar"></div>
+      <div class="pq-body">
+        <p>Sampath bemoans the historians' denial and denunciation of the umbilical cord India has with its civilisational ethos — a cord that Kashi, perhaps more than any other city, visibly embodies in stone, in scripture, in the daily rhythms of its ghats.</p>
+        <cite>— The Print, on the launch of Waiting for Shiva</cite>
+      </div>
+    </div>
+
+    <p>This is where the book engages most directly with contemporary historiographical debates. The dominant scholarly tradition in post-Independence India, shaped by the priorities of Nehruvian secularism, has often treated Hindu claims about temple desecration as communally motivated exaggeration. Sampath does not dismiss this concern — he acknowledges the dangers of historical grievance weaponised for political ends. But he argues, with considerable archival force, that the corrective to politically motivated distortion is more rigorous history, not less. The documents speak; the question is whether we are willing to read them.</p>
+
+    <!-- Timeline -->
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">11th–12th Century</div>
+        <div class="tl-event">Early attacks on the Kashi Vishwanath shrine under the early Delhi Sultanate; temple repeatedly rebuilt by Hindu patrons and rulers.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1194</div>
+        <div class="tl-event">Qutb ud-Din Aibak's forces destroy the Vishwanath temple during the sack of Varanasi; reconstruction follows under the patronage of subsequent Hindu rulers.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1669</div>
+        <div class="tl-event">Aurangzeb's farmaan orders the demolition of the Kashi Vishwanath temple. The Gyan Vapi mosque is constructed on the site, incorporating structural elements of the original temple into its walls.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1780</div>
+        <div class="tl-event">Maratha queen Ahilyabai Holkar builds the present Kashi Vishwanath temple on adjacent land. The Nandi bull, by tradition, is oriented to face the mosque — the direction of the original shrine's sanctum.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1936</div>
+        <div class="tl-event">A case filed by Din Mohammed and others before a colonial court concludes that the Gyan Vapi mosque was constructed in violation of Islamic jurisprudence — a finding Sampath argues has been systematically ignored in subsequent legal and historical discourse.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1991</div>
+        <div class="tl-event">The Places of Worship (Special Provisions) Act is passed by the Narasimha Rao government, freezing the religious character of all places of worship as they stood on 15 August 1947. The Ayodhya matter is explicitly exempted. The Gyan Vapi case is not.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2021</div>
+        <div class="tl-event">Five Hindu women file a petition before the Varanasi Civil Court seeking the right to worship at the Mata Shringar Gauri shrine within the Gyan Vapi complex. The court appoints an Advocate Commissioner to conduct a survey of the premises.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2023</div>
+        <div class="tl-event">The Archaeological Survey of India submits its survey report to the court in a sealed envelope. Its findings indicate that a large Hindu temple previously existed at the site of the mosque, with structural evidence of its fabric still visible within and beneath the present structure.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LAW -->
+  <section id="law">
+    <div class="sec-eyebrow">Part Four — The Legal Architecture</div>
+    <h2 class="sec-title">Justice Deferred — <em>The Places of Worship Act</em></h2>
+
+    <p>If the book's historical sections are its most richly documented, its legal chapters are its most provocative. Sampath turns here to the Places of Worship (Special Provisions) Act, 1991 — legislation enacted by the Congress government under P.V. Narasimha Rao in the heated atmosphere of the Ram Janmabhoomi movement — and subjects it to a sustained, detailed critique.</p>
+
+    <p>The Act's logic, as Sampath explains it, was to draw a legal line under the communal disputes of the post-Partition era by freezing the religious character of all places of worship as they existed on 15 August 1947. The only exception was the Ram Janmabhoomi dispute in Ayodhya, which was explicitly carved out. Every other site — including Gyan Vapi, including the Krishnajanmabhoomi at Mathura — was declared permanently settled as a matter of law, regardless of any historical evidence of prior religious claims.</p>
+
+    <div class="verdict-box">
+      <h3>The 1936 Case: A Verdict Ignored</h3>
+      <p>One of Sampath's most forensically significant contributions is his excavation of the 1936 case filed by Din Mohammed and others against the Government of India. The colonial court's findings in that case, he argues, established that the Gyan Vapi mosque had been constructed in violation of Islamic jurisprudence, since Islamic law prohibits the construction of a mosque on forcibly seized land. This ruling — never successfully challenged or overturned — has featured in recent petitions before the Varanasi court, but has received virtually no attention in mainstream academic or journalistic treatments of the dispute.</p>
+      <p>Sampath's recovery of this legal history matters not because it resolves the dispute, but because it demonstrates that the historical and legal case for Hindu claims at Gyan Vapi is considerably more substantive than the dominant framing — which tends to treat such claims as communal sentiment dressed up as jurisprudence — has been willing to acknowledge.</p>
+    </div>
+
+    <p>The author's challenge to the 1991 Act operates on two levels. The first is constitutional: he questions whether a democratic legislature can legitimately extinguish, by statute, the judicial remedy of a religious community — particularly when that extinguishing operates asymmetrically, exempting one community's most prominent claim while binding all Hindu claims without exception. The second is philosophical: he argues that the Act mistakes a political settlement for a moral one, and that durable peace between communities cannot be built on a foundation that one community experiences as permanent injustice.</p>
+
+    <p>He does not advocate violence or extra-legal action. On the contrary, he expresses a preference for dialogue, negotiation, and legal process over mass mobilisation. But he argues, with considerable force, that the legal process must be genuinely open — that a statute which tells one group of citizens that their historical grievances are not justiciable, regardless of the evidence, is not a neutral instrument of peace but a political decision with a winner and a loser.</p>
+  </section>
+
+  <!-- ASI SURVEY -->
+  <section id="asi">
+    <div class="sec-eyebrow">Part Five — Archaeological Evidence</div>
+    <h2 class="sec-title">The Survey Speaks — <em>What the Stones Remember</em></h2>
+
+    <p>The book's final movement — and the chapter most urgently awaited by readers following the contemporary legal drama — is Sampath's detailed engagement with the Archaeological Survey of India report submitted to the Varanasi court in December 2023. The report's contents were shared with the parties to the dispute in early 2024, and Sampath's account of its findings constitutes the most accessible and contextualised treatment available to the general reader.</p>
+
+    <p>The ASI survey found, through a combination of physical examination, ground-penetrating techniques, and the analysis of structural elements within the existing mosque, that a large Hindu temple appears to have existed at the site prior to the construction of the mosque. The survey identified stone sculptures — 55 in total, including representations of Hindu deities — as well as architectural elements consistent with a major Shaiva temple. The report concluded that the earlier structure appears to have been demolished in the 17th century during the reign of Aurangzeb, with parts of its fabric reused in the construction of the present mosque.</p>
+
+    <div class="pq">
+      <div class="pq-bar"></div>
+      <div class="pq-body">
+        <p>Piecing together Vedic and Puranic texts, Sanskrit literary sources, Agama shastras, Jataka tales, Persian accounts, travelogues of foreigners, archival records and copious legal documents detailing the contestation from the British era to modern Indian courts — the book recreates, for the first time with facts and cogent arguments, this stormy history right up to the present times.</p>
+        <cite>— Publisher's note on Waiting for Shiva</cite>
+      </div>
+    </div>
+
+    <p>Sampath is careful not to overread the ASI findings. An archaeological survey establishes what the physical evidence suggests; it does not, by itself, determine legal outcomes or establish what justice requires. But he argues persuasively that the survey's findings substantially validate what Hindu petitioners, historians, and devotees have maintained for decades against the dismissal of mainstream scholarship: that the Gyan Vapi mosque was built, in part, upon and from the ruins of a destroyed Hindu temple, and that this historical reality is no longer a matter of faith or grievance but of documented archaeological record.</p>
+
+    <p>The permission granted by the Varanasi court for Hindu worship to commence in the Vyasji ka Tekhana — a basement room within the mosque complex — in 2024 represents the first formal acknowledgment by an Indian court that the Hindu religious interest in the Gyan Vapi complex has a legitimate legal basis. It is a small and cautious step. But in the half-century history of this litigation, it is a step nonetheless. Nandi's patient vigil, it seems, has not been entirely in vain.</p>
+  </section>
+
+  <!-- ASSESSMENT -->
+  <section id="assessment">
+    <div class="sec-eyebrow">Critical Assessment</div>
+    <h2 class="sec-title">A Work of Reckoning — <em>With Reservations Noted</em></h2>
+
+    <p><em>Waiting for Shiva</em> is, on its own terms, a major work of popular scholarship. It accomplishes something that no previous book on the Gyan Vapi dispute has managed: it brings together the devotional, historical, and legal dimensions of the controversy into a single comprehensive narrative, backed by a formidable range of primary sources and written with the clarity and conviction of a historian who believes, viscerally, that the story he is telling has been too long suppressed.</p>
+
+    <p>Dr. Sampath is at his best when he is doing what historians do best: recovering documents, contextualising evidence, and forcing the reader to confront material they would otherwise never encounter. The 1936 court case, the Mughal farmaan of 1669, the legal arguments deployed before the colonial courts and their post-Independence successors — these are not well-known outside specialist circles, and Sampath's decision to make them accessible to the general reader is a genuine service to public understanding of one of India's most contested questions.</p>
+
+    <div class="verdict-box">
+      <h3>Caveats and Counterpoints</h3>
+      <p>Readers approaching the book from outside the civilisational-Hindu intellectual tradition may find the author's interpretive framework somewhat predetermined. The book is not a detached survey of competing claims; it is an argument, passionately made, for a particular reading of the evidence and a particular understanding of justice. This is not, in itself, a disqualification — all history involves argument — but it means that the book is less an adjudication than an advocacy, and should be read accordingly.</p>
+      <p>Some reviewers have noted a tendency toward what might be called civilisational maximalism: a reading in which the suffering of Hindu communities under medieval iconoclasm is foregrounded at the expense of attention to the internal complexity of those communities, the agency of Muslim reformers and legalists who opposed the desecration of temples, and the long periods of coexistence that punctuated the episodes of conflict.</p>
+      <p>These are legitimate reservations. They do not, however, negate the book's core scholarly contribution: a documented, rigorously sourced account of the Gyan Vapi dispute that treats its history as serious, recoverable, and consequential — rather than as a communal fable to be managed rather than examined.</p>
+    </div>
+
+    <p>What distinguishes Sampath from the polemicists who occupy the same territory is, finally, method. He does not ask the reader to take his word for the history; he asks them to read the documents. He provides the sources. He shows his work. The argument stands or falls on evidence, not on sentiment — and that, in the overheated climate in which this book inevitably arrives, is precisely the kind of scholarly honesty the subject demands.</p>
+
+    <p><em>Waiting for Shiva</em> will not be the last word on Gyan Vapi. The legal case is unresolved; the historical debate will continue; and the political energies the dispute attracts will shape and distort both. But as an account of how a civilisation remembers, how an ancient city holds its faith across centuries of demolition, and how the law has been both instrument and obstacle in the long effort to reckon honestly with the past, it is indispensable. Shiva, if these pages are believed, has been waiting long enough.</p>
+  </section>
+
+</main>
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+
+  <div class="s-card">
+    <h4>By the Numbers</h4>
+    <div class="s-stat">
+      <span class="s-num">3,500+</span>
+      <div class="s-lbl">Years of documented sacred history reconstructed by the book</div>
+    </div>
+    <div class="s-stat">
+      <span class="s-num">55</span>
+      <div class="s-lbl">Stone sculptures of Hindu deities identified in the 2023 ASI survey of the Gyan Vapi complex</div>
+    </div>
+    <div class="s-stat">
+      <span class="s-num">1669</span>
+      <div class="s-lbl">Year of Aurangzeb's farmaan ordering the demolition of the Kashi Vishwanath temple</div>
+    </div>
+    <div class="s-stat">
+      <span class="s-num">1991</span>
+      <div class="s-lbl">Year the Places of Worship Act was passed — the legal obstacle Sampath most trenchantly challenges</div>
+    </div>
+    <div class="s-stat">
+      <span class="s-num">8</span>
+      <div class="s-lbl">Acclaimed books in Vikram Sampath's portfolio, spanning music, biography, and civilisational history</div>
+    </div>
+  </div>
+
+  <div class="s-card">
+    <h4>Contents at a Glance</h4>
+    <a href="#kashi" class="toc-link">Kashi — the eternal city &amp; its sacred geography</a>
+    <a href="#temple" class="toc-link">History of the Vishweshwara shrine from Vedic times</a>
+    <a href="#iconoclasm" class="toc-link">Medieval assaults and the pattern of resilience</a>
+    <a href="#iconoclasm" class="toc-link">Aurangzeb's farmaan and the demolition of 1669</a>
+    <a href="#iconoclasm" class="toc-link">Ahilyabai Holkar and the Maratha reconstruction</a>
+    <a href="#law" class="toc-link">The 1936 court case — evidence ignored</a>
+    <a href="#law" class="toc-link">The Places of Worship Act, 1991 — a constitutional critique</a>
+    <a href="#law" class="toc-link">Legal proceedings from colonial courts to the Supreme Court</a>
+    <a href="#asi" class="toc-link">The ASI survey of 2023 — findings and significance</a>
+    <a href="#assessment" class="toc-link">Critical assessment and conclusion</a>
+  </div>
+
+  <div class="s-card">
+    <h4>Key Sources the Book Draws Upon</h4>
+    <a href="#temple" class="toc-link">Vedic and Puranic scriptures on Kashi</a>
+    <a href="#temple" class="toc-link">Agama shastras &amp; Sanskrit literary tradition</a>
+    <a href="#temple" class="toc-link">Jataka tales &amp; Buddhist accounts of Varanasi</a>
+    <a href="#iconoclasm" class="toc-link">Mughal Persian court chronicles</a>
+    <a href="#iconoclasm" class="toc-link">Foreign travelogues — from al-Biruni to European visitors</a>
+    <a href="#law" class="toc-link">Colonial archival records (1800s–1947)</a>
+    <a href="#law" class="toc-link">Case records — Din Mohammed v. Government of India (1936)</a>
+    <a href="#asi" class="toc-link">ASI Survey Report (December 2023)</a>
+    <a href="#law" class="toc-link">Post-Independence court petitions (1991–2024)</a>
+  </div>
+
+  <div class="s-card">
+    <h4>Sampath's Other Works</h4>
+    <a href="#assessment" class="toc-link"><em>Bravehearts of Bharat</em> (2022)</a>
+    <a href="#assessment" class="toc-link"><em>Savarkar: A Contested Legacy</em> (2021) — Vol. II</a>
+    <a href="#assessment" class="toc-link"><em>Savarkar: Echoes from a Forgotten Past</em> (2019) — Vol. I</a>
+    <a href="#assessment" class="toc-link"><em>The Voice of the Veena</em> — biography of S. Balachander</a>
+    <a href="#assessment" class="toc-link"><em>Splendours of Karnataka</em></a>
+    <a href="#assessment" class="toc-link"><em>Janaki Ammal</em> — biography of India's first woman botanist</a>
+  </div>
+
+</aside>
+</div>
+
+<!-- ══ EPIGRAPH CLOSER ══ -->
+<div class="epigraph-closer">
+  <blockquote>"Kashi is imbued with divinity; even when an idol is removed, its energy remains. A city that has survived millennia of erasure is not a city that forgets — it is a city that waits."</blockquote>
+  <cite>— Dr. Vikram Sampath, in interview on Waiting for Shiva</cite>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div>
+    <strong>Waiting for Shiva: Unearthing the Truth of Kashi's Gyan Vapi</strong>
+    <p>Dr. Vikram Sampath · Garuda Prakashan · 2024</p>
+    <p style="margin-top:6px">ISBN 978-81-96737-59-7</p>
+  </div>
+  <div>
+    <strong>About the Author</strong>
+    <p>Dr. Vikram Sampath holds a doctorate in history and music from the University of Queensland, Australia. He was a Senior Research Fellow at the Nehru Memorial Museum and Library, New Delhi (2017–2019), and was elected a Fellow of the Royal Historical Society in 2021.</p>
+  </div>
+  <div>
+    <strong>Review draws upon</strong>
+    <p>Full text of the book · Publisher's notes · Launch proceedings at Pradhan Mantri Museum and Library, New Delhi · The Week interview (March 2024) · The Interview World (March 2024) · ASI Survey Report 2023</p>
+  </div>
+</footer>
+
+<script>
+  const links = document.querySelectorAll('.nav-link');
+  const sects = document.querySelectorAll('section[id]');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+      }
+    });
+  }, { rootMargin: '-38% 0px -52% 0px' });
+  sects.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
