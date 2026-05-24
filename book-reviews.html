@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Reviews — sk4bharat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --saffron: #E8600A;
+    --ink: #1A1208;
+    --parchment: #FAF6EE;
+    --cream: #F5EFE0;
+    --gold: #C8922A;
+    --warm-gray: #8A7968;
+    --border: #DDD5C0;
+    --text: #2C2010;
+    --muted: #7A6E5A;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--parchment); color: var(--text); font-family: 'EB Garamond', Georgia, serif; font-size: 18px; line-height: 1.7; overflow-x: hidden; }
+
+  /* NOISE */
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9999; opacity: 0.4; }
+
+  /* HEADER */
+  header { background: var(--ink); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 500; border-bottom: 3px solid var(--saffron); min-height: 64px; }
+  .logo { padding: 0.75rem 0; text-decoration: none; flex-shrink: 0; }
+  .logo-text { font-family: 'Playfair Display', serif; font-size: clamp(1.2rem, 4vw, 1.6rem); font-weight: 700; color: var(--parchment); letter-spacing: -0.02em; }
+  .logo-text span { color: var(--saffron); }
+  .logo-sub { font-family: 'DM Sans', sans-serif; font-size: 0.6rem; color: var(--warm-gray); letter-spacing: 0.18em; text-transform: uppercase; display: block; margin-top: -2px; }
+  nav { display: flex; align-items: center; gap: 0.1rem; }
+  nav a { font-family: 'DM Sans', sans-serif; font-size: 0.78rem; color: #BBB; text-decoration: none; padding: 0.45rem 0.75rem; letter-spacing: 0.07em; text-transform: uppercase; transition: color 0.2s; white-space: nowrap; }
+  nav a:hover, nav a.active { color: var(--saffron); }
+  nav .nav-cta { background: var(--saffron); color: white; padding: 0.4rem 0.9rem; border-radius: 2px; font-weight: 500; margin-left: 0.4rem; }
+  nav .nav-cta:hover { background: #c94f00; color: white; }
+
+  .hamburger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 8px; z-index: 600; flex-shrink: 0; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--parchment); transition: all 0.3s; border-radius: 1px; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-nav { display: none; position: fixed; top: 64px; left: 0; right: 0; background: var(--ink); border-bottom: 3px solid var(--saffron); z-index: 490; flex-direction: column; padding: 1rem 1.5rem 1.5rem; gap: 0.25rem; }
+  .mobile-nav.open { display: flex; animation: mobileNavIn 0.25s ease; }
+  @keyframes mobileNavIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+  .mobile-nav a { font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: #CCC; text-decoration: none; padding: 0.65rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--saffron); }
+  .mobile-nav a.nav-cta { color: var(--saffron); border: 1px solid var(--saffron); text-align: center; padding: 0.7rem; margin-top: 0.75rem; border-radius: 2px; border-bottom: 1px solid var(--saffron); }
+
+  /* ═══ HERO BANNER ═══ */
+  .reviews-hero {
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  /* Decorative mandala ring */
+  .hero-mandala {
+    position: absolute;
+    right: -120px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(520px, 80vw);
+    height: min(520px, 80vw);
+    opacity: 0.06;
+    pointer-events: none;
+  }
+
+  .hero-mandala circle, .hero-mandala path { stroke: var(--gold); fill: none; stroke-width: 1; }
+
+  .hero-banner-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem 5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-banner-left {}
+
+  .banner-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--saffron);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .banner-eyebrow::before { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--saffron); }
+
+  .banner-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 700;
+    color: var(--parchment);
+    line-height: 1.08;
+    margin-bottom: 1.5rem;
+  }
+  .banner-title em { font-style: italic; color: var(--gold); }
+
+  .banner-desc {
+    font-size: clamp(0.95rem, 2vw, 1.08rem);
+    color: #9A9088;
+    max-width: 46ch;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+
+  .banner-stats {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .stat { text-align: left; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--saffron); line-height: 1; }
+  .stat-label { font-family: 'DM Sans', sans-serif; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: #666; margin-top: 0.2rem; }
+
+  /* Featured book in banner */
+  .hero-banner-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .banner-featured-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.25rem;
+  }
+
+  .banner-book-stack {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-left: 3px solid var(--saffron);
+    padding: 1.5rem;
+    border-radius: 1px;
+    transition: background 0.2s;
+    text-decoration: none;
+    animation: floatIn 0.8s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  .banner-book-stack:nth-child(2) { animation-delay: 0.15s; }
+  .banner-book-stack:nth-child(3) { animation-delay: 0.3s; }
+  .banner-book-stack:hover { background: rgba(255,255,255,0.07); }
+  @keyframes floatIn { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
+
+  .mini-cover {
+    width: 56px;
+    flex-shrink: 0;
+    aspect-ratio: 2/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.4);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.5rem;
+    font-style: italic;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 4px;
+    line-height: 1.2;
+  }
+
+  .mini-book-info {}
+  .mini-rating { display: flex; gap: 2px; margin-bottom: 0.4rem; }
+  .star { color: var(--gold); font-size: 0.8rem; }
+  .star.empty { color: #444; }
+  .mini-book-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 600; color: var(--parchment); line-height: 1.3; margin-bottom: 0.2rem; }
+  .mini-book-author { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; color: #888; letter-spacing: 0.05em; }
+
+  /* Scrolling genre ticker */
+  .genre-ticker {
+    background: var(--saffron);
+    overflow: hidden;
+    padding: 0.65rem 0;
+    white-space: nowrap;
+  }
+  .ticker-track {
+    display: inline-block;
+    animation: ticker 22s linear infinite;
+  }
+  .ticker-track span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: white;
+    margin: 0 2rem;
+  }
+  .ticker-track span::before { content: '✦'; margin-right: 0.8rem; }
+  @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+  /* FILTER BAR */
+  .filter-section {
+    background: var(--cream);
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 64px;
+    z-index: 100;
+  }
+  .filter-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .filter-label { font-family: 'DM Sans', sans-serif; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); flex-shrink: 0; margin-right: 0.25rem; }
+  .filter-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover, .filter-btn.active { background: var(--saffron); color: white; border-color: var(--saffron); }
+
+  /* MAIN REVIEWS SECTION */
+  .reviews-section { padding: 4rem 0 6rem; }
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 1.5rem; }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+
+  /* ─── REVIEW CARD ─── */
+  .review-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--border);
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 0;
+    overflow: hidden;
+    box-shadow: 4px 4px 0 var(--border);
+    transition: box-shadow 0.25s, border-top-color 0.25s, transform 0.25s;
+    opacity: 0;
+    transform: translateY(28px);
+    animation: cardReveal 0.6s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .review-card:nth-child(1) { animation-delay: 0.05s; }
+  .review-card:nth-child(2) { animation-delay: 0.15s; }
+  .review-card:nth-child(3) { animation-delay: 0.25s; }
+  .review-card:nth-child(4) { animation-delay: 0.35s; }
+  .review-card:nth-child(5) { animation-delay: 0.45s; }
+  .review-card:nth-child(6) { animation-delay: 0.55s; }
+  @keyframes cardReveal { to{opacity:1;transform:translateY(0)} }
+  .review-card:hover { box-shadow: 8px 8px 0 var(--border); transform: translateY(-3px); border-top-color: var(--saffron); }
+
+  /* COVER SPINE */
+  .review-cover {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    position: relative;
+    min-height: 220px;
+  }
+  .cover-art {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 0.75rem;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+  .cover-spine-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    font-style: italic;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.3;
+    text-align: center;
+    transform: rotate(180deg);
+  }
+
+  /* REVIEW BODY */
+  .review-body { padding: 1.5rem 1.75rem 1.5rem 1.5rem; display: flex; flex-direction: column; }
+
+  .review-genre-badge {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--saffron);
+    border: 1px solid var(--saffron);
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    width: fit-content;
+  }
+
+  .review-book-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.25;
+    margin-bottom: 0.35rem;
+  }
+
+  .review-book-author {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .review-book-author::before { content: ''; display: inline-block; width: 20px; height: 1px; background: var(--border); }
+
+  .star-row { display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.85rem; }
+  .stars { display: flex; gap: 2px; }
+  .s { font-size: 0.9rem; color: var(--gold); }
+  .s.e { color: #D5CEC2; }
+  .rating-text { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.05em; }
+
+  .review-excerpt {
+    font-size: 0.92rem;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 1.1rem;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .review-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .review-date { font-family: 'DM Sans', sans-serif; font-size: 0.68rem; color: #B0A898; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .read-review-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--saffron);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: gap 0.2s;
+  }
+  .read-review-btn:hover { gap: 0.6rem; }
+
+  /* FEATURED REVIEW — full width */
+  .review-card.featured {
+    grid-column: 1 / -1;
+    grid-template-columns: 180px 1fr;
+  }
+  .review-card.featured .review-cover { min-height: 280px; }
+  .review-card.featured .review-book-title { font-size: clamp(1.3rem, 2.5vw, 1.7rem); }
+  .review-card.featured .review-excerpt { -webkit-line-clamp: 5; }
+
+  /* PULL QUOTE within card */
+  .pull-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--ink);
+    border-left: 3px solid var(--saffron);
+    padding: 0.5rem 0 0.5rem 1rem;
+    margin: 0.75rem 0 0.85rem;
+    line-height: 1.6;
+  }
+
+  /* NEWSLETTER INLINE */
+  .newsletter-inline {
+    background: var(--ink);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-top: 3px solid var(--saffron);
+    padding: 2.5rem;
+    text-align: center;
+    grid-column: 1 / -1;
+  }
+  .newsletter-inline-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-style: italic; color: var(--parchment); margin-bottom: 0.5rem; }
+  .newsletter-inline-sub { font-family: 'DM Sans', sans-serif; font-size: 0.8rem; color: #777; margin-bottom: 1.5rem; letter-spacing: 0.05em; }
+  .nl-form { display: flex; gap: 0.75rem; max-width: 400px; margin: 0 auto; flex-wrap: wrap; }
+  .nl-form input { flex:1; min-width:160px; background:rgba(255,255,255,0.06); border:1px solid #444; border-radius:2px; padding:0.75rem 1rem; color:var(--parchment); font-family:'EB Garamond',serif; font-size:0.95rem; outline:none; transition:border-color 0.2s; }
+  .nl-form input::placeholder { color:#666; }
+  .nl-form input:focus { border-color:var(--saffron); }
+  .nl-form button { background:var(--saffron); border:none; color:white; font-family:'DM Sans',sans-serif; font-size:0.75rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; padding:0.75rem 1.3rem; border-radius:2px; cursor:pointer; transition:background 0.2s; white-space:nowrap; }
+  .nl-form button:hover { background:#c94f00; }
+
+  /* FOOTER */
+  footer { background:#0E0B04; border-top:3px solid var(--saffron); padding:3rem 0; }
+  .footer-inner { display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
+  .footer-brand .logo-text { font-size:1.3rem; display:block; margin-bottom:0.5rem; }
+  .footer-tagline { font-size:0.9rem; color:#666; margin-top:0.75rem; line-height:1.6; }
+  .footer-col h4 { font-family:'DM Sans',sans-serif; font-size:0.68rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--saffron); margin-bottom:1.2rem; }
+  .footer-col a { display:block; font-family:'DM Sans',sans-serif; font-size:0.82rem; color:#777; text-decoration:none; margin-bottom:0.6rem; transition:color 0.2s; }
+  .footer-col a:hover { color:var(--parchment); }
+  .social-links { display:flex; gap:0.75rem; margin-top:1.5rem; flex-wrap:wrap; }
+  .social-link { font-family:'DM Sans',sans-serif; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:#666; text-decoration:none; border:1px solid #333; padding:0.35rem 0.75rem; border-radius:2px; transition:all 0.2s; }
+  .social-link:hover { border-color:var(--saffron); color:var(--saffron); }
+  .footer-bottom { border-top:1px solid #222; padding-top:2rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+  .footer-copy { font-family:'DM Sans',sans-serif; font-size:0.72rem; color:#555; }
+  .footer-legal { display:flex; gap:1.5rem; }
+  .footer-legal a { font-family:'DM Sans',sans-serif; font-size:0.7rem; color:#555; text-decoration:none; transition:color 0.2s; }
+  .footer-legal a:hover { color:var(--saffron); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .hero-banner-inner { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; }
+    .hero-mandala { opacity: 0.03; }
+  }
+
+  @media (max-width: 768px) {
+    nav { display: none; }
+    .hamburger { display: flex; }
+    .reviews-hero { padding: 0; }
+    .hero-banner-inner { padding: 3rem 1.25rem; gap: 2rem; }
+    .banner-title { font-size: clamp(2rem,8vw,2.8rem); }
+    .reviews-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+    .review-card { grid-template-columns: 90px 1fr; }
+    .review-card.featured { grid-template-columns: 100px 1fr; }
+    .review-cover { min-height: 160px !important; }
+    .review-body { padding: 1.25rem 1.25rem 1.25rem 1rem; }
+    .filter-section { top: 64px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    .banner-stats { gap: 1.5rem; }
+    .nl-form { flex-direction: column; }
+    .nl-form input, .nl-form button { width: 100%; }
+  }
+
+  @media (max-width: 480px) {
+    .review-card { grid-template-columns: 72px 1fr; }
+    .review-card.featured { grid-template-columns: 80px 1fr; }
+    .review-body { padding: 1rem; }
+    .container { padding: 0 1.25rem; }
+    .hero-banner-inner { padding: 2.5rem 1.25rem; }
+  }
+
+  /* Hidden cards for filter */
+  .review-card.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <span class="logo-text">sk<span>4</span>bharat</span>
+    <span class="logo-sub">Writer · Thinker · Speaker</span>
+  </a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="article.html">Articles</a>
+    <a href="book-reviews.html" class="active">Book Reviews</a>
+    <a href="index.html#books">Books</a>
+    <a href="store.html">Store</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#newsletter" class="nav-cta">Contact</a>
+  </nav>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">Home</a>
+  <a href="article.html">Articles</a>
+  <a href="book-reviews.html" class="active">Book Reviews</a>
+  <a href="index.html#books">Books</a>
+  <a href="store.html">Store</a>
+  <a href="index.html#about">About</a>
+  <a href="index.html#newsletter" class="nav-cta">Contact</a>
+</div>
+
+<!-- ═══ HERO BANNER ═══ -->
+<div class="reviews-hero">
+  <!-- Decorative mandala SVG -->
+  <svg class="hero-mandala" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="200" cy="200" r="190"/>
+    <circle cx="200" cy="200" r="160"/>
+    <circle cx="200" cy="200" r="130"/>
+    <circle cx="200" cy="200" r="100"/>
+    <circle cx="200" cy="200" r="70"/>
+    <circle cx="200" cy="200" r="40"/>
+    <path d="M200 10 L200 390 M10 200 L390 200 M58 58 L342 342 M342 58 L58 342"/>
+    <path d="M200 10 L230 70 L200 50 L170 70 Z"/>
+    <path d="M200 390 L230 330 L200 350 L170 330 Z"/>
+    <path d="M10 200 L70 230 L50 200 L70 170 Z"/>
+    <path d="M390 200 L330 230 L350 200 L330 170 Z"/>
+    <circle cx="200" cy="10" r="5"/>
+    <circle cx="200" cy="390" r="5"/>
+    <circle cx="10" cy="200" r="5"/>
+    <circle cx="390" cy="200" r="5"/>
+    <circle cx="58" cy="58" r="5"/>
+    <circle cx="342" cy="342" r="5"/>
+    <circle cx="342" cy="58" r="5"/>
+    <circle cx="58" cy="342" r="5"/>
+  </svg>
+
+  <div class="hero-banner-inner">
+    <div class="hero-banner-left">
+      <p class="banner-eyebrow">Reading India Deeply</p>
+      <h1 class="banner-title">Books that<br>make you see<br><em>Bharat anew</em></h1>
+      <p class="banner-desc">Considered readings of the most important books on Indian history, civilisation, mythology, and culture — from ancient texts to contemporary scholarship.</p>
+      <div class="banner-stats">
+        <div class="stat"><div class="stat-num">24</div><div class="stat-label">Reviews Written</div></div>
+        <div class="stat"><div class="stat-num">8</div><div class="stat-label">Categories</div></div>
+        <div class="stat"><div class="stat-num">5★</div><div class="stat-label">Avg Rating</div></div>
+      </div>
+    </div>
+
+    <div class="hero-banner-right">
+      <p class="banner-featured-label">✦ Recently Reviewed</p>
+
+      <a href="#review-1" class="banner-book-stack">
+        <div class="mini-cover" style="background:linear-gradient(160deg,#1a0500,#6b2000);">India that is Bharat</div>
+        <div class="mini-book-info">
+          <div class="mini-rating">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <div class="mini-book-title">India that is Bharat</div>
+          <div class="mini-book-author">J. Sai Deepak</div>
+        </div>
+      </a>
+
+      <a href="#review-2" class="banner-book-stack">
+        <div class="mini-cover" style="background:linear-gradient(160deg,#001a10,#00432a);">The Golden Road</div>
+        <div class="mini-book-info">
+          <div class="mini-rating">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span>
+          </div>
+          <div class="mini-book-title">The Golden Road</div>
+          <div class="mini-book-author">William Dalrymple</div>
+        </div>
+      </a>
+
+      <a href="#review-3" class="banner-book-stack">
+        <div class="mini-cover" style="background:linear-gradient(160deg,#100020,#380060);">Waiting for Shiva</div>
+        <div class="mini-book-info">
+          <div class="mini-rating">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <div class="mini-book-title">Waiting for Shiva</div>
+          <div class="mini-book-author">Dr. Vikram Sampath</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- GENRE TICKER -->
+<div class="genre-ticker">
+  <div class="ticker-track">
+    <span>History</span><span>Civilisation</span><span>Mythology</span><span>Philosophy</span><span>Culture</span><span>Politics</span><span>Religion</span><span>Biography</span>
+    <span>History</span><span>Civilisation</span><span>Mythology</span><span>Philosophy</span><span>Culture</span><span>Politics</span><span>Religion</span><span>Biography</span>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-section">
+  <div class="filter-inner">
+    <span class="filter-label">Filter by:</span>
+    <button class="filter-btn active" data-filter="all">All Reviews</button>
+    <button class="filter-btn" data-filter="history">History</button>
+    <button class="filter-btn" data-filter="civilisation">Civilisation</button>
+    <button class="filter-btn" data-filter="mythology">Mythology</button>
+    <button class="filter-btn" data-filter="philosophy">Philosophy</button>
+    <button class="filter-btn" data-filter="biography">Biography</button>
+  </div>
+</div>
+
+<!-- REVIEWS GRID -->
+<section class="reviews-section">
+  <div class="container">
+    <div class="reviews-grid" id="reviewsGrid">
+
+      <!-- FEATURED: India That Is Bharat -->
+      <div class="review-card featured" id="review-1" data-genre="civilisation history">
+        <div class="review-cover">
+          <div class="cover-art" style="background:linear-gradient(160deg,#1a0500 0%,#6b2000 60%,#a33000 100%);">
+            <span class="cover-spine-title">India that is Bharat — J. Sai Deepak</span>
+          </div>
+        </div>
+        <div class="review-body">
+          <span class="review-genre-badge">Civilisation · History</span>
+          <h2 class="review-book-title">India that is Bharat: Colossus of the Ancient World</h2>
+          <p class="review-book-author">J. Sai Deepak</p>
+          <div class="star-row">
+            <div class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span></div>
+            <span class="rating-text">5 / 5 — Essential</span>
+          </div>
+          <div class="pull-quote">"Deepak does what few Indian scholars dare: he names the civilisational wound without flinching, and insists that the naming is itself the first act of healing."</div>
+          <p class="review-excerpt">This is not a comfortable book. J. Sai Deepak's first volume of the India that is Bharat trilogy is a prosecutorial brief — methodical, learned, and deliberately uncomfortable — arguing that what colonial discourse called "Hinduism" is better understood as the indigenous consciousness of a civilisation that survived centuries of epistemological dismemberment. Drawing on international law, comparative religion, and Sanskrit textual traditions, Deepak builds a case that the secular-liberal framing of the Indian state is itself a colonial inheritance that continues to disadvantage the very civilisation it claims to represent. Whether you agree with his conclusions or not, the quality of his argument demands serious engagement.</p>
+          <div class="review-meta-row">
+            <span class="review-date">May 20, 2026</span>
+            <a href="#" class="read-review-btn">Read Full Review →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- The Golden Road -->
+      <div class="review-card" id="review-2" data-genre="history civilisation">
+        <div class="review-cover">
+          <div class="cover-art" style="background:linear-gradient(160deg,#001a10 0%,#00432a 50%,#006640 100%);">
+            <span class="cover-spine-title">The Golden Road — William Dalrymple</span>
+          </div>
+        </div>
+        <div class="review-body">
+          <span class="review-genre-badge">History</span>
+          <h2 class="review-book-title">The Golden Road: How Ancient India Transformed the World</h2>
+          <p class="review-book-author">William Dalrymple</p>
+          <div class="star-row">
+            <div class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s e">★</span></div>
+            <span class="rating-text">4 / 5 — Highly Recommended</span>
+          </div>
+          <p class="review-excerpt">Dalrymple's sweeping survey of India's civilisational export — from Borobudur to Angkor Wat, from Arabian numerals to Buddhist manuscripts in Central Asia — is nothing short of revelatory. The book corrects a centuries-old blindspot in Western historiography: that ancient India was a receiver, not a transmitter, of civilisational ideas. A few caveats apply — Dalrymple occasionally slips into familiar romantic framings — but the sheer breadth of evidence he marshals is overwhelming.</p>
+          <div class="review-meta-row">
+            <span class="review-date">May 10, 2026</span>
+            <a href="#" class="read-review-btn">Read Full Review →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Waiting for Shiva -->
+      <div class="review-card" id="review-3" data-genre="history mythology">
+        <div class="review-cover">
+          <div class="cover-art" style="background:linear-gradient(160deg,#100020 0%,#380060 50%,#5a0080 100%);">
+            <span class="cover-spine-title">Waiting for Shiva — Dr. Vikram Sampath</span>
+          </div>
+        </div>
+        <div class="review-body">
+          <span class="review-genre-badge">History · Mythology</span>
+          <h2 class="review-book-title">Waiting for Shiva: Unearthing the Truth of Kashi's Gyanvapi</h2>
+          <p class="review-book-author">Dr. Vikram Sampath</p>
+          <div class="star-row">
+            <div class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span></div>
+            <span class="rating-text">5 / 5 — Essential</span>
+          </div>
+          <p class="review-excerpt">Sampath approaches the Gyanvapi question not as a polemicist but as a historian — marshalling court records, travellers' accounts, Mughal chronicles, and archaeological evidence to reconstruct what happened and why it still matters. The result is a scrupulously documented account that refuses the easy consolations of either side. A reminder that history is not in the past; it lives in stone and in law and in the silences between official narratives.</p>
+          <div class="review-meta-row">
+            <span class="review-date">Apr 28, 2026</span>
+            <a href="#" class="read-review-btn">Read Full Review →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- The Case for India -->
+      <div class="review-card" data-genre="history civilisation">
+        <div class="review-cover">
+          <div class="cover-art" style="background:linear-gradient(160deg,#1a0800 0%,#4a2000 50%,#7a3800 100%);">
+            <span class="cover-spine-title">The Case for India — Will Durant</span>
+          </div>
+        </div>
+        <div class="review-body">
+          <span class="review-genre-badge">History</span>
+          <h2 class="review-book-title">The Case for India</h2>
+          <p class="review-book-author">Will Durant</p>
+          <div class="star-row">
+            <div class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span></div>
+            <span class="rating-text">5 / 5 — A Classic</span>
+          </div>
+          <p class="review-excerpt">Written in 1930 but shockingly current, Durant's short book is a moral indictment of British rule in India — written by an American who visited and was horrified by what he found. Its power lies not in ideology but in documented fact: famines engineered by policy, deindustrialisation by design, and the systematic dismantling of a civilisation that had outshone Europe for most of recorded history. Every Indian should read this before debating colonialism.</p>
+          <div class="review-meta-row">
+            <span class="review-date">Apr 15, 2026</span>
+            <a href="#" class="read-review-btn">Read Full Review →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEWSLETTER INLINE -->
+      <div class="newsletter-inline">
+        <h3 class="newsletter-inline-title">Never miss a review</h3>
+        <p class="newsletter-inline-sub">Join readers who get new book reviews delivered directly to their inbox.</p>
+        <div class="nl-form">
+          <input type="email" placeholder="your@email.com" />
+          <button type="button" class="nl-btn">Subscribe</button>
+        </div>
+      </div>
+
+      <!-- Being Different -->
+      <div class="review-card" data-genre="philosophy civilisation">
+        <div class="review-cover">
+          <div class="cover-art" style="background:linear-gradient(160deg,#001015 0%,#002030 50%,#004060 100%);">
+            <span class="cover-spine-title">Being Different — Rajiv Malhotra</span>
+          </div>
+        </div>
+        <div class="review-body">
+          <span class="review-genre-badge">Philosophy</span>
+          <h2 class="review-book-title">Being Different: An Indian Challenge to Western Universalism</h2>
+          <p class="review-book-author">Rajiv Malhotra</p>
+          <div class="star-row">
+            <div class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s e">★</span></div>
+            <span class="rating-text">4 / 5 — Highly Recommended</span>
+          </div>
+          <p class="review-excerpt">Malhotra's most philosophically rigorous work inverts the usual comparative religion gaze: instead of measuring Indian traditions against a Western yardstick, he examines the assumptions embedded in Western thought by looking at them through a Dharmic lens. The result is disorienting in the best way — history-centrism versus mythos, integral versus synthetic unity — concepts that genuinely reorganise how you think about tradition, knowledge, and selfhood.</p>
+          <div class="review-meta-row">
+            <span class="review-date">Apr 5, 2026</span>
+            <a href="#" class="read-review-btn">Read Full Review →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- The Discovery of India -->
+      <div class="review-card" data-genre="history civilisation biography">
+        <div class="review-cover">
+          <div class="cover-art" style="background:linear-gradient(160deg,#0f1500 0%,#2a3800 50%,#3d5500 100%);">
+            <span class="cover-spine-title">The Discovery of India — Jawaharlal Nehru</span>
+          </div>
+        </div>
+        <div class="review-body">
+          <span class="review-genre-badge">History · Biography</span>
+          <h2 class="review-book-title">The Discovery of India</h2>
+          <p class="review-book-author">Jawaharlal Nehru</p>
+          <div class="star-row">
+            <div class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s e">★</span></div>
+            <span class="rating-text">4 / 5 — Canonical</span>
+          </div>
+          <p class="review-excerpt">Written in a British jail between 1942 and 1946, Nehru's panoramic meditation on Indian history is as much a self-portrait as a history. His prose has a melancholy grandeur — a man in love with a civilisation he only partly understands, filtered through a Western education that he is simultaneously grateful for and suspicious of. Reading it in 2026 is a strange experience: you see both the genius and the blind spots, the synthesis that shaped a nation and the contradictions that still haunt it.</p>
+          <div class="review-meta-row">
+            <span class="review-date">Mar 22, 2026</span>
+            <a href="#" class="read-review-btn">Read Full Review →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Savarkar -->
+      <div class="review-card" data-genre="biography history">
+        <div class="review-cover">
+          <div class="cover-art" style="background:linear-gradient(160deg,#150000 0%,#400010 50%,#660020 100%);">
+            <span class="cover-spine-title">Savarkar — Dr. Vikram Sampath</span>
+          </div>
+        </div>
+        <div class="review-body">
+          <span class="review-genre-badge">Biography</span>
+          <h2 class="review-book-title">Savarkar: Echoes from a Forgotten Past</h2>
+          <p class="review-book-author">Dr. Vikram Sampath</p>
+          <div class="star-row">
+            <div class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span></div>
+            <span class="rating-text">5 / 5 — Definitive</span>
+          </div>
+          <p class="review-excerpt">Sampath's two-volume biography of Vinayak Damodar Savarkar is a model of historical biography: exhaustively researched, scrupulously fair, and deeply human. The man who emerges from these pages is more complicated than either his admirers or detractors allow — a revolutionary, a poet, a social reformer who fought untouchability while developing ideas that would later be weaponised in ways he might or might not have intended. Volume One, covering 1883 to 1924, is particularly essential.</p>
+          <div class="review-meta-row">
+            <span class="review-date">Mar 10, 2026</span>
+            <a href="#" class="read-review-btn">Read Full Review →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- The Argumentative Indian -->
+      <div class="review-card" data-genre="philosophy civilisation">
+        <div class="review-cover">
+          <div class="cover-art" style="background:linear-gradient(160deg,#0a0a00 0%,#282800 50%,#444400 100%);">
+            <span class="cover-spine-title">The Argumentative Indian — Amartya Sen</span>
+          </div>
+        </div>
+        <div class="review-body">
+          <span class="review-genre-badge">Philosophy</span>
+          <h2 class="review-book-title">The Argumentative Indian</h2>
+          <p class="review-book-author">Amartya Sen</p>
+          <div class="star-row">
+            <div class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s e">★</span></div>
+            <span class="rating-text">4 / 5 — Important</span>
+          </div>
+          <p class="review-excerpt">Sen's collection of essays on Indian intellectual history and public reasoning is elegant and learned — a celebration of heterodoxy as India's defining civilisational trait. His reading of Akbar as a proto-secularist, of Ashoka as a democrat avant la lettre, is bracing even where it stretches the evidence. The book is best understood as a counterweight to reductive readings of Hindu tradition — though one suspects it overcompensates in the opposite direction.</p>
+          <div class="review-meta-row">
+            <span class="review-date">Feb 28, 2026</span>
+            <a href="#" class="read-review-btn">Read Full Review →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-text">sk<span style="color:var(--saffron)">4</span>bharat</span>
+        <p class="footer-tagline">Writing on mythology, history, culture, and the ideas that shape modern India.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">Twitter</a>
+          <a href="#" class="social-link">Instagram</a>
+          <a href="#" class="social-link">YouTube</a>
+          <a href="#" class="social-link">LinkedIn</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="index.html">Articles</a>
+        <a href="book-reviews.html">Book Reviews</a>
+        <a href="index.html#books">Books</a>
+        <a href="#">Talks & Podcasts</a>
+        <a href="#">Archive</a>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <a href="index.html#about">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Newsletter</a>
+        <a href="#">Press</a>
+        <a href="#">Store</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 sk4bharat. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#">Terms of Use</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileNav.classList.toggle('open');
+  });
+  mobileNav.querySelectorAll('a').forEach(l => l.addEventListener('click', () => {
+    hamburger.classList.remove('open'); mobileNav.classList.remove('open');
+  }));
+
+  // Filter
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      const filter = this.dataset.filter;
+      document.querySelectorAll('#reviewsGrid .review-card').forEach(card => {
+        if (filter === 'all') {
+          card.classList.remove('hidden');
+        } else {
+          const genres = card.dataset.genre || '';
+          card.classList.toggle('hidden', !genres.includes(filter));
+        }
+      });
+    });
+  });
+
+  // Newsletter
+  document.querySelectorAll('.nl-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const input = this.previousElementSibling;
+      if (input && input.value && input.value.includes('@')) {
+        this.textContent = 'Subscribed ✓'; this.style.background = '#2d7a2d'; input.value = '';
+        setTimeout(() => { this.textContent = 'Subscribe'; this.style.background = ''; }, 3000);
+      } else if (input) { input.style.borderColor = 'var(--saffron)'; input.focus(); }
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.animationPlayState = 'running';
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.review-card').forEach(card => {
+    card.style.animationPlayState = 'paused';
+    observer.observe(card);
+  });
+</script>
+</body>
+</html>
