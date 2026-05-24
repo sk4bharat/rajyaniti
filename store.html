@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Article — sk4bharat</title>
+<title>Store — sk4bharat</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  /* ─── DESIGN TOKENS (identical to index) ─── */
   :root {
     --saffron: #E8600A;
     --deep-red: #8B1A1A;
@@ -34,7 +33,7 @@
     overflow-x: hidden;
   }
 
-  /* Noise texture */
+  /* ─── NOISE TEXTURE ─── */
   body::before {
     content: '';
     position: fixed;
@@ -45,7 +44,7 @@
     opacity: 0.4;
   }
 
-  /* ─── HEADER (identical to index) ─── */
+  /* ─── HEADER ─── */
   header {
     background: var(--ink);
     padding: 0 2rem;
@@ -59,7 +58,6 @@
   }
 
   .logo { padding: 1rem 0; text-decoration: none; }
-
   .logo-text {
     font-family: 'Playfair Display', serif;
     font-size: 1.6rem;
@@ -67,9 +65,7 @@
     color: var(--parchment);
     letter-spacing: -0.02em;
   }
-
   .logo-text span { color: var(--saffron); }
-
   .logo-sub {
     font-family: 'DM Sans', sans-serif;
     font-size: 0.65rem;
@@ -81,7 +77,6 @@
   }
 
   nav { display: flex; align-items: center; gap: 0.2rem; }
-
   nav a {
     font-family: 'DM Sans', sans-serif;
     font-size: 0.8rem;
@@ -94,9 +89,8 @@
     transition: color 0.2s;
     border-radius: 2px;
   }
-
   nav a:hover { color: var(--saffron); }
-
+  nav a.active { color: var(--saffron); }
   nav .nav-cta {
     background: var(--saffron);
     color: white;
@@ -105,8 +99,42 @@
     font-weight: 500;
     margin-left: 0.5rem;
   }
-
   nav .nav-cta:hover { background: #c94f00; color: white; }
+
+  /* Cart badge in header */
+  .cart-btn {
+    position: relative;
+    background: none;
+    border: 1px solid #333;
+    color: #AAA;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .cart-btn:hover { border-color: var(--saffron); color: var(--saffron); }
+  .cart-count {
+    background: var(--saffron);
+    color: white;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    transition: transform 0.2s;
+  }
+  .cart-count.bump { transform: scale(1.4); }
 
   .hamburger {
     display: none;
@@ -116,55 +144,135 @@
     flex-direction: column;
     gap: 5px;
     padding: 5px;
-    z-index: 201;
   }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--parchment); }
 
-  .hamburger span {
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: var(--parchment);
-    transition: all 0.3s;
-  }
-
-  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .hamburger.open span:nth-child(2) { opacity: 0; }
-  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-  .mobile-nav {
-    display: flex;
-    position: fixed;
-    inset: 0;
+  /* ─── STORE HERO ─── */
+  .store-hero {
     background: var(--ink);
-    z-index: 200;
-    flex-direction: column;
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Animated geometric background */
+  .store-hero::before {
+    content: '';
+    position: absolute;
+    width: 900px;
+    height: 900px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Ccircle cx='200' cy='200' r='195' fill='none' stroke='%23C8922A' stroke-width='0.4' opacity='0.15'/%3E%3Ccircle cx='200' cy='200' r='160' fill='none' stroke='%23E8600A' stroke-width='0.4' opacity='0.12'/%3E%3Ccircle cx='200' cy='200' r='125' fill='none' stroke='%23C8922A' stroke-width='0.4' opacity='0.10'/%3E%3Ccircle cx='200' cy='200' r='90' fill='none' stroke='%23E8600A' stroke-width='0.3' opacity='0.10'/%3E%3Ccircle cx='200' cy='200' r='55' fill='none' stroke='%23C8922A' stroke-width='0.3' opacity='0.10'/%3E%3Cpolygon points='200,5 395,395 5,395' fill='none' stroke='%23C8922A' stroke-width='0.3' opacity='0.08'/%3E%3Cpolygon points='200,395 5,5 395,5' fill='none' stroke='%23E8600A' stroke-width='0.3' opacity='0.08'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    animation: heroSpin 100s linear infinite;
+    opacity: 0.7;
+  }
+
+  @keyframes heroSpin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  .store-hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .store-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--saffron);
+    margin-bottom: 1.2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .store-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 700;
+    color: var(--parchment);
+    line-height: 1.1;
+    margin-bottom: 1.2rem;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+
+  .store-title em { font-style: italic; color: var(--gold); }
+
+  .store-subtitle {
+    font-size: 1.05rem;
+    color: #9A9085;
+    max-width: 50ch;
+    margin: 0 auto 2.5rem;
+    line-height: 1.75;
+    animation: fadeUp 0.7s ease 0.2s both;
+  }
+
+  /* Category tabs */
+  .category-tabs {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.7s ease 0.3s both;
+  }
+
+  .tab-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid #333;
+    border-radius: 2px;
+    background: none;
+    color: #888;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { border-color: var(--saffron); color: var(--saffron); }
+  .tab-btn.active { background: var(--saffron); border-color: var(--saffron); color: white; }
+
+  /* Wave separator */
+  .hero-wave { display: block; width: 100%; line-height: 0; margin-top: 3rem; }
+
+  /* ─── TRUST BAR ─── */
+  .trust-bar {
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+  }
+
+  .trust-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
-    opacity: 0;
-    transform: translateX(100%);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    visibility: hidden;
-    pointer-events: none;
+    gap: 3rem;
+    flex-wrap: wrap;
   }
 
-  .mobile-nav.open {
-    opacity: 1;
-    transform: translateX(0);
-    visibility: visible;
-    pointer-events: all;
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
   }
 
-  .mobile-link {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    font-style: italic;
-    color: var(--parchment);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .mobile-link:hover { color: var(--saffron); }
+  .trust-icon { color: var(--saffron); font-size: 0.9rem; }
 
   /* ─── CONTAINER ─── */
   .container {
@@ -173,606 +281,7 @@
     padding: 0 2rem;
   }
 
-  /* ─── ARTICLE HERO / MASTHEAD ─── */
-  .article-masthead {
-    background: var(--ink);
-    padding: 5rem 2rem 0;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .article-masthead::before {
-    content: '✦';
-    position: absolute;
-    font-size: 40rem;
-    color: rgba(255,255,255,0.015);
-    top: -10rem;
-    right: -5rem;
-    line-height: 1;
-    pointer-events: none;
-    font-family: 'Playfair Display', serif;
-  }
-
-  .masthead-inner {
-    max-width: 820px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-  }
-
-  .article-breadcrumb {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--warm-gray);
-    margin-bottom: 2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .article-breadcrumb a {
-    color: var(--warm-gray);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .article-breadcrumb a:hover { color: var(--saffron); }
-
-  .article-breadcrumb .sep { color: #444; }
-
-  .article-category-badge {
-    display: inline-block;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--saffron);
-    border: 1px solid var(--saffron);
-    padding: 0.25rem 0.75rem;
-    border-radius: 2px;
-    margin-bottom: 1.5rem;
-  }
-
-  .article-main-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.2rem, 5vw, 3.8rem);
-    font-weight: 700;
-    color: var(--parchment);
-    line-height: 1.12;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.7s ease both;
-  }
-
-  .article-main-title em {
-    font-style: italic;
-    color: var(--gold);
-  }
-
-  .article-dek {
-    font-family: 'EB Garamond', serif;
-    font-size: 1.2rem;
-    font-style: italic;
-    color: #AAA09A;
-    line-height: 1.7;
-    max-width: 62ch;
-    margin-bottom: 2.5rem;
-    animation: fadeUp 0.7s ease 0.1s both;
-  }
-
-  .article-meta-bar {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-    padding: 1.5rem 0;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    animation: fadeUp 0.7s ease 0.2s both;
-  }
-
-  .meta-author {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-  }
-
-  .author-avatar {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #3d2b10, var(--saffron));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    color: var(--parchment);
-    font-size: 0.9rem;
-    flex-shrink: 0;
-  }
-
-  .author-info-name {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: var(--parchment);
-    letter-spacing: 0.02em;
-  }
-
-  .author-info-role {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.68rem;
-    color: var(--warm-gray);
-    letter-spacing: 0.1em;
-  }
-
-  .meta-divider { width: 1px; height: 28px; background: rgba(255,255,255,0.12); }
-
-  .meta-item {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
-    color: var(--warm-gray);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-
-  .meta-item strong {
-    color: #CCC;
-    font-weight: 500;
-    font-size: 0.78rem;
-    letter-spacing: 0.04em;
-  }
-
-  .article-tags-bar {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    padding: 1.5rem 0 0;
-    animation: fadeUp 0.7s ease 0.3s both;
-  }
-
-  .tag {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    background: rgba(255,255,255,0.06);
-    color: #AAA;
-    border: 1px solid rgba(255,255,255,0.12);
-    padding: 0.25rem 0.65rem;
-    border-radius: 999px;
-    text-decoration: none;
-    transition: all 0.2s;
-    cursor: pointer;
-  }
-
-  .tag:hover { background: var(--saffron); color: white; border-color: var(--saffron); }
-
-  /* Pull the hero image out of the dark section */
-  .masthead-image-strip {
-    background: var(--ink);
-    padding: 2.5rem 2rem 0;
-  }
-
-  .masthead-image {
-    max-width: 820px;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .hero-image-block {
-    width: 100%;
-    height: 340px;
-    background: linear-gradient(135deg, #1f0a00 0%, #3a2000 40%, #1a0a0a 100%);
-    border: 1px solid rgba(255,255,255,0.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-image-block::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 30% 50%, rgba(232,96,10,0.12) 0%, transparent 65%),
-                radial-gradient(ellipse at 80% 60%, rgba(200,146,42,0.08) 0%, transparent 55%);
-  }
-
-  .hero-image-placeholder {
-    font-family: 'Playfair Display', serif;
-    font-size: 6rem;
-    font-style: italic;
-    color: rgba(232,96,10,0.18);
-    user-select: none;
-    z-index: 1;
-    position: relative;
-  }
-
-  .hero-image-caption {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.68rem;
-    color: #555;
-    letter-spacing: 0.05em;
-    padding: 0.6rem 0 0;
-    font-style: italic;
-  }
-
-  /* ─── ARTICLE BODY ─── */
-  .article-body-wrapper {
-    padding: 4rem 2rem;
-    background: var(--parchment);
-  }
-
-  .article-layout {
-    max-width: 820px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 220px;
-    gap: 4rem;
-    align-items: start;
-  }
-
-  /* ─── PROSE ─── */
-  .article-prose { min-width: 0; }
-
-  .article-prose .drop-cap::first-letter {
-    font-family: 'Playfair Display', serif;
-    font-size: 4.8rem;
-    font-weight: 700;
-    float: left;
-    line-height: 0.8;
-    margin-right: 0.12em;
-    margin-top: 0.1em;
-    color: var(--saffron);
-  }
-
-  .article-prose p {
-    font-size: 1.1rem;
-    line-height: 1.85;
-    color: var(--text);
-    margin-bottom: 1.6rem;
-  }
-
-  .article-prose h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.7rem;
-    font-weight: 600;
-    color: var(--ink);
-    margin: 3rem 0 1.2rem;
-    line-height: 1.25;
-  }
-
-  .article-prose h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.25rem;
-    font-weight: 600;
-    font-style: italic;
-    color: var(--ink);
-    margin: 2rem 0 0.8rem;
-  }
-
-  .article-prose blockquote {
-    border-left: 3px solid var(--saffron);
-    margin: 2.5rem 0;
-    padding: 0.5rem 0 0.5rem 2rem;
-    position: relative;
-  }
-
-  .article-prose blockquote p {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.25rem;
-    font-style: italic;
-    color: var(--ink);
-    margin-bottom: 0.6rem;
-    line-height: 1.5;
-  }
-
-  .article-prose blockquote cite {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
-    color: var(--muted);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    font-style: normal;
-  }
-
-  .article-prose .pull-quote {
-    background: var(--cream);
-    border-top: 3px solid var(--saffron);
-    border-bottom: 1px solid var(--border);
-    padding: 2rem 2.5rem;
-    margin: 2.5rem 0;
-    text-align: center;
-  }
-
-  .article-prose .pull-quote p {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    font-style: italic;
-    color: var(--ink);
-    line-height: 1.4;
-    margin-bottom: 0;
-  }
-
-  .article-prose hr {
-    border: none;
-    text-align: center;
-    color: var(--saffron);
-    font-size: 1.2rem;
-    letter-spacing: 0.6em;
-    margin: 3rem 0;
-  }
-
-  .article-prose hr::after {
-    content: '✦  ✦  ✦';
-  }
-
-  .article-prose strong { color: var(--ink); font-weight: 600; }
-  .article-prose em { color: var(--deep-red); }
-
-  .article-prose a {
-    color: var(--saffron);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-    transition: color 0.2s;
-  }
-
-  .article-prose a:hover { color: var(--deep-red); }
-
-  /* Inline image */
-  .article-prose figure {
-    margin: 2.5rem 0;
-  }
-
-  .article-prose figure .fig-img {
-    width: 100%;
-    height: 260px;
-    background: linear-gradient(135deg, var(--cream) 0%, var(--border) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .article-prose figure figcaption {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-    padding-top: 0.6rem;
-    font-style: italic;
-  }
-
-  /* End-of-article signature */
-  .article-signature {
-    border-top: 1px solid var(--border);
-    padding-top: 2rem;
-    margin-top: 3rem;
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-  }
-
-  .signature-avatar {
-    width: 56px;
-    height: 56px;
-    background: linear-gradient(135deg, #3d2b10, var(--saffron));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    color: var(--parchment);
-    font-size: 1.1rem;
-    flex-shrink: 0;
-  }
-
-  .signature-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 0.2rem;
-  }
-
-  .signature-bio {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-
-  /* ─── ARTICLE ACTIONS (share, save) ─── */
-  .article-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin: 2rem 0 3rem;
-    flex-wrap: wrap;
-  }
-
-  .action-btn {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    font-weight: 500;
-    padding: 0.55rem 1.1rem;
-    border-radius: 2px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-
-  .action-btn:hover { border-color: var(--saffron); color: var(--saffron); }
-  .action-btn.active { background: var(--saffron); border-color: var(--saffron); color: white; }
-
-  .action-divider { flex: 1; }
-
-  /* Reading time indicator */
-  .reading-time-pill {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    border: 1px solid var(--border);
-    padding: 0.35rem 0.85rem;
-    border-radius: 999px;
-  }
-
-  /* ─── SIDEBAR ─── */
-  .article-sidebar {
-    position: sticky;
-    top: 90px;
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-  }
-
-  .sidebar-block {
-    border-top: 3px solid var(--border);
-    padding-top: 1.2rem;
-  }
-
-  .sidebar-block.accent { border-color: var(--saffron); }
-
-  .sidebar-label {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--saffron);
-    margin-bottom: 1rem;
-  }
-
-  /* Table of contents */
-  .toc-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .toc-list li a {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    color: var(--muted);
-    text-decoration: none;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    line-height: 1.4;
-    transition: color 0.2s;
-  }
-
-  .toc-list li a::before {
-    content: '';
-    width: 12px;
-    height: 1px;
-    background: var(--border);
-    margin-top: 0.6rem;
-    flex-shrink: 0;
-    transition: background 0.2s, width 0.2s;
-  }
-
-  .toc-list li a:hover { color: var(--saffron); }
-  .toc-list li a:hover::before { background: var(--saffron); width: 18px; }
-  .toc-list li.active a { color: var(--ink); font-weight: 500; }
-  .toc-list li.active a::before { background: var(--saffron); width: 18px; }
-
-  /* Related articles */
-  .related-item {
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .related-item:last-child { border-bottom: none; margin-bottom: 0; }
-
-  .related-meta {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.62rem;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 0.3rem;
-  }
-
-  .related-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--ink);
-    line-height: 1.3;
-    text-decoration: none;
-    display: block;
-    transition: color 0.2s;
-  }
-
-  .related-title:hover { color: var(--saffron); }
-
-  /* Share block */
-  .share-links {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .share-link {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #666;
-    text-decoration: none;
-    border: 1px solid #333;
-    padding: 0.3rem 0.65rem;
-    border-radius: 2px;
-    transition: all 0.2s;
-    background: var(--ink);
-    color: #999;
-  }
-
-  .share-link:hover { border-color: var(--saffron); color: var(--saffron); }
-
-  /* ─── PROGRESS BAR ─── */
-  #progress-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 0%;
-    height: 3px;
-    background: linear-gradient(90deg, var(--saffron), var(--gold));
-    z-index: 9998;
-    transition: width 0.1s linear;
-  }
-
-  /* ─── MORE ARTICLES / NEXT SECTION ─── */
-  .more-articles-section {
-    background: var(--cream);
-    border-top: 1px solid var(--border);
-    padding: 4rem 2rem;
-  }
-
+  /* ─── SECTION COMMON ─── */
   .section-header {
     display: flex;
     align-items: baseline;
@@ -808,83 +317,739 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
-
   .section-link:hover { text-decoration: underline; }
 
-  .more-articles-grid {
-    max-width: 1180px;
-    margin: 0 auto;
+  /* ─── FEATURED PRODUCT BANNER ─── */
+  .featured-product {
+    background: var(--ink);
+    margin: 4rem 0 0;
+    padding: 4rem 2rem;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    min-height: 420px;
+    position: relative;
+    overflow: hidden;
   }
 
-  .article-card {
-    border-top: 3px solid var(--border);
-    padding-top: 1.5rem;
-    transition: border-color 0.2s;
-    opacity: 0;
-    transform: translateY(24px);
+  .featured-product::after {
+    content: '';
+    position: absolute;
+    right: -30px;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    background: var(--ink);
+    clip-path: polygon(0 0, 100% 20%, 100% 80%, 0 100%);
+    z-index: 2;
   }
 
-  .article-card.visible {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.55s ease, transform 0.55s ease;
+  .featured-product-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 4rem 2rem 2rem;
+    position: relative;
+    z-index: 1;
+    max-width: 620px;
+    margin: 0 auto;
+    width: 100%;
   }
 
-  .article-card:hover { border-color: var(--saffron); }
-
-  .article-card-meta {
+  .feat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.7rem;
-    color: var(--muted);
-    letter-spacing: 0.08em;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
+    background: rgba(232,96,10,0.15);
+    color: var(--saffron);
+    border: 1px solid rgba(232,96,10,0.3);
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    margin-bottom: 1.2rem;
+    width: fit-content;
+  }
+
+  .feat-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 700;
+    color: var(--parchment);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+
+  .feat-title em { font-style: italic; color: var(--gold); }
+
+  .feat-desc {
+    font-size: 1rem;
+    color: #9A9085;
+    line-height: 1.75;
+    margin-bottom: 1.8rem;
+    max-width: 45ch;
+  }
+
+  .feat-price-row {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .feat-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .feat-price-old {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: #555;
+    text-decoration: line-through;
+  }
+
+  .feat-save {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: rgba(200, 146, 42, 0.15);
+    color: var(--gold);
+    border: 1px solid rgba(200,146,42,0.3);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+  }
+
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.85rem 1.8rem;
+    border-radius: 2px;
+    transition: all 0.2s;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary { background: var(--saffron); color: white; }
+  .btn-primary:hover { background: #c94f00; transform: translateY(-1px); }
+  .btn-outline { border: 1px solid #444; color: #CCC; background: none; }
+  .btn-outline:hover { border-color: var(--saffron); color: var(--saffron); }
+  .btn-dark { background: var(--ink); color: var(--parchment); border: 1px solid #333; }
+  .btn-dark:hover { border-color: var(--saffron); color: var(--saffron); }
+
+  .feat-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  /* Featured product right — book cover display */
+  .featured-product-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    z-index: 3;
+  }
+
+  .feat-book-stack {
+    position: relative;
+    width: 200px;
+    height: 280px;
+  }
+
+  .feat-book {
+    position: absolute;
+    width: 175px;
+    height: 255px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 8px 8px 30px rgba(0,0,0,0.5);
+  }
+
+  .feat-book-shadow {
+    background: linear-gradient(135deg, #0a0500, #2a1200);
+    top: 20px;
+    left: 20px;
+    opacity: 0.5;
+  }
+
+  .feat-book-main {
+    background: linear-gradient(135deg, #1a0a00 0%, #3d1f00 100%);
+    top: 0;
+    left: 0;
+    border-left: 6px solid var(--saffron);
+    animation: floatBook 4s ease-in-out infinite;
+  }
+
+  @keyframes floatBook {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-8px); }
+  }
+
+  .feat-book-inner {
+    text-align: center;
+    padding: 1.5rem;
+    width: 100%;
+  }
+
+  .feat-book-title-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--parchment);
+    line-height: 1.3;
     margin-bottom: 0.6rem;
   }
 
-  .article-card-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    line-height: 1.35;
-    color: var(--ink);
-    margin-bottom: 0.75rem;
-    text-decoration: none;
-    display: block;
-    transition: color 0.2s;
+  .feat-book-line {
+    width: 30px;
+    height: 2px;
+    background: var(--saffron);
+    margin: 0.5rem auto;
   }
 
-  .article-card-title:hover { color: var(--saffron); }
+  .feat-book-author-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
 
-  .article-card-excerpt {
-    font-size: 0.88rem;
+  /* ─── PRODUCTS GRID SECTION ─── */
+  .products-section { padding: 5rem 0; }
+  .products-section.alt { background: var(--cream); }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  .products-grid.three-col { grid-template-columns: repeat(3, 1fr); }
+
+  /* ─── PRODUCT CARD ─── */
+  .product-card {
+    background: white;
+    border: 1px solid var(--border);
+    transition: transform 0.25s, box-shadow 0.25s;
+    position: relative;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.55s ease, transform 0.55s ease, box-shadow 0.25s;
+  }
+
+  .product-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(26,18,8,0.12);
+  }
+
+  /* Badge */
+  .product-badge {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.8rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    z-index: 2;
+    font-weight: 500;
+  }
+
+  .badge-new { background: var(--saffron); color: white; }
+  .badge-bestseller { background: var(--gold); color: white; }
+  .badge-digital { background: var(--ink); color: var(--parchment); }
+  .badge-signed { background: var(--deep-red); color: white; }
+
+  /* Product image area */
+  .product-img {
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Book product cover */
+  .product-cover {
+    width: 110px;
+    height: 160px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 6px 6px 20px rgba(0,0,0,0.25);
+    transition: transform 0.3s;
+  }
+
+  .product-card:hover .product-cover { transform: rotate(-2deg) scale(1.04); }
+
+  .product-cover-inner {
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.7rem;
+    font-style: italic;
+    color: var(--parchment);
+    line-height: 1.25;
+    margin-bottom: 0.3rem;
+  }
+
+  .cover-line { width: 20px; height: 1.5px; background: var(--saffron); margin: 0.3rem auto; }
+
+  .cover-author {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* Course / print product image */
+  .product-img-panel {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .product-img-icon {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: rgba(200,146,42,0.3);
+    line-height: 1;
+  }
+
+  .product-img-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-gray);
+    opacity: 0.6;
+  }
+
+  /* Quick-add overlay */
+  .product-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(26,18,8,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    backdrop-filter: blur(2px);
+  }
+
+  .product-card:hover .product-overlay { opacity: 1; }
+
+  .quick-add-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--saffron);
+    color: white;
+    border: none;
+    padding: 0.65rem 1.4rem;
+    border-radius: 2px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .quick-add-btn:hover { background: #c94f00; }
+  .quick-add-btn:active { transform: scale(0.97); }
+
+  /* Product info */
+  .product-info {
+    padding: 1.2rem 1.2rem 1.4rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .product-category {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--saffron);
+    margin-bottom: 0.3rem;
+  }
+
+  .product-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 0.4rem;
+  }
+
+  .product-subtitle {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.85rem;
     color: var(--muted);
-    line-height: 1.7;
+    line-height: 1.5;
+    margin-bottom: 0.8rem;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
-  .card-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
+  .product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.8rem;
+  }
 
-  .card-tag {
+  .product-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .product-price .old-price {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: line-through;
+    margin-right: 0.4rem;
+    font-weight: 400;
+  }
+
+  .add-btn {
     font-family: 'DM Sans', sans-serif;
     font-size: 0.65rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    background: var(--parchment);
-    color: var(--muted);
-    border: 1px solid var(--border);
-    padding: 0.2rem 0.6rem;
-    border-radius: 999px;
+    background: var(--ink);
+    color: var(--parchment);
+    border: none;
+    padding: 0.45rem 0.9rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-weight: 500;
   }
 
-  /* ─── NEWSLETTER BAND ─── */
-  .newsletter-section {
+  .add-btn:hover { background: var(--saffron); }
+
+  /* ─── CART DRAWER ─── */
+  .cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .cart-overlay.open { opacity: 1; pointer-events: all; }
+
+  .cart-drawer {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 400px;
+    max-width: 95vw;
+    background: var(--parchment);
+    z-index: 600;
+    border-left: 3px solid var(--saffron);
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    display: flex;
+    flex-direction: column;
+  }
+  .cart-drawer.open { transform: translateX(0); }
+
+  .cart-header {
     background: var(--ink);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .cart-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--parchment);
+  }
+
+  .cart-close {
+    background: none;
+    border: 1px solid #333;
+    color: #888;
+    width: 32px;
+    height: 32px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .cart-close:hover { border-color: var(--saffron); color: var(--saffron); }
+
+  .cart-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+  }
+
+  .cart-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+  }
+
+  .cart-empty-icon {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: var(--border);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .cart-empty p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .cart-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+    animation: slideIn 0.25s ease both;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  .cart-item-thumb {
+    width: 52px;
+    height: 72px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.7rem;
+    font-style: italic;
+    color: var(--gold);
+    border: 1px solid var(--border);
+  }
+
+  .cart-item-info { flex: 1; min-width: 0; }
+
+  .cart-item-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 0.2rem;
+  }
+
+  .cart-item-type {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .cart-item-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .qty-btn {
+    width: 24px;
+    height: 24px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .qty-btn:hover { border-color: var(--saffron); color: var(--saffron); }
+
+  .qty-num {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    min-width: 20px;
+    text-align: center;
+    color: var(--text);
+  }
+
+  .cart-item-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  .cart-remove {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.2rem;
+    transition: color 0.15s;
+    flex-shrink: 0;
+  }
+  .cart-remove:hover { color: var(--deep-red); }
+
+  .cart-footer {
+    flex-shrink: 0;
+    border-top: 1px solid var(--border);
+    padding: 1.5rem;
+    background: var(--cream);
+  }
+
+  .cart-subtotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .cart-subtotal-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .cart-subtotal-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .checkout-btn {
+    width: 100%;
+    background: var(--saffron);
+    border: none;
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 1rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-bottom: 0.6rem;
+  }
+  .checkout-btn:hover { background: #c94f00; }
+
+  .cart-note {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── QUOTE BAND ─── */
+  .quote-band {
+    background: var(--ink);
+    padding: 4rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .quote-band::before {
+    content: '\201C';
+    position: absolute;
+    font-family: 'Playfair Display', serif;
+    font-size: 30rem;
+    color: rgba(255,255,255,0.02);
+    top: -8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .quote-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.9rem);
+    font-style: italic;
+    color: var(--parchment);
+    max-width: 740px;
+    margin: 0 auto 1.2rem;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+  }
+
+  .quote-attr {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    color: var(--saffron);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* ─── NEWSLETTER ─── */
+  .newsletter-section {
+    background: var(--cream);
+    border-top: 1px solid var(--border);
     text-align: center;
     padding: 5rem 2rem;
   }
@@ -893,15 +1058,15 @@
     font-family: 'Playfair Display', serif;
     font-size: 2rem;
     font-style: italic;
-    color: var(--parchment);
-    margin-bottom: 0.75rem;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
   }
 
   .newsletter-subtitle {
     font-family: 'DM Sans', sans-serif;
     font-size: 0.85rem;
-    color: #888;
-    margin-bottom: 2.5rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
     letter-spacing: 0.05em;
   }
 
@@ -914,20 +1079,17 @@
 
   .newsletter-form input {
     flex: 1;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid #444;
+    background: white;
+    border: 1px solid var(--border);
     border-radius: 2px;
     padding: 0.85rem 1.2rem;
-    color: var(--parchment);
+    color: var(--text);
     font-family: 'EB Garamond', serif;
     font-size: 0.95rem;
     outline: none;
     transition: border-color 0.2s;
   }
-
-  .newsletter-form input::placeholder { color: #666; }
   .newsletter-form input:focus { border-color: var(--saffron); }
-
   .newsletter-form button {
     background: var(--saffron);
     border: none;
@@ -943,19 +1105,16 @@
     transition: background 0.2s;
     white-space: nowrap;
   }
-
   .newsletter-form button:hover { background: #c94f00; }
 
-  /* ─── FOOTER (identical to index) ─── */
+  /* ─── FOOTER ─── */
   footer {
     background: #0E0B04;
     border-top: 3px solid var(--saffron);
-    padding: 3rem 2rem;
+    padding: 3rem 0;
   }
 
   .footer-inner {
-    max-width: 1180px;
-    margin: 0 auto;
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr;
     gap: 3rem;
@@ -963,13 +1122,7 @@
   }
 
   .footer-brand .logo-text { font-size: 1.3rem; display: block; margin-bottom: 0.5rem; }
-
-  .footer-tagline {
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 0.75rem;
-    line-height: 1.6;
-  }
+  .footer-tagline { font-size: 0.9rem; color: #666; margin-top: 0.75rem; line-height: 1.6; }
 
   .footer-col h4 {
     font-family: 'DM Sans', sans-serif;
@@ -989,11 +1142,9 @@
     margin-bottom: 0.6rem;
     transition: color 0.2s;
   }
-
   .footer-col a:hover { color: var(--parchment); }
 
   .social-links { display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap; }
-
   .social-link {
     font-family: 'DM Sans', sans-serif;
     font-size: 0.68rem;
@@ -1006,12 +1157,9 @@
     border-radius: 2px;
     transition: all 0.2s;
   }
-
   .social-link:hover { border-color: var(--saffron); color: var(--saffron); }
 
   .footer-bottom {
-    max-width: 1180px;
-    margin: 0 auto;
     border-top: 1px solid #222;
     padding-top: 2rem;
     display: flex;
@@ -1020,59 +1168,70 @@
   }
 
   .footer-copy { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: #555; }
-
   .footer-legal { display: flex; gap: 1.5rem; }
-
-  .footer-legal a {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.7rem;
-    color: #555;
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
+  .footer-legal a { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; color: #555; text-decoration: none; transition: color 0.2s; }
   .footer-legal a:hover { color: var(--saffron); }
 
   /* ─── ANIMATIONS ─── */
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(24px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
+  /* Toast notification */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    padding: 0.8rem 1.8rem;
+    border-radius: 2px;
+    border-left: 3px solid var(--saffron);
+    z-index: 800;
+    opacity: 0;
+    transition: opacity 0.25s, transform 0.25s;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
   /* ─── RESPONSIVE ─── */
-  @media (max-width: 900px) {
-    .more-articles-grid { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 1024px) {
+    .products-grid { grid-template-columns: repeat(3, 1fr); }
+    .products-grid.three-col { grid-template-columns: repeat(2, 1fr); }
+    .featured-product { grid-template-columns: 1fr; }
+    .featured-product::after { display: none; }
+    .featured-product-left { max-width: 100%; padding: 2rem; }
+    .featured-product-right { padding: 1.5rem 2rem 3rem; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
   }
 
   @media (max-width: 768px) {
+    header { padding: 0 1.5rem; }
     nav { display: none; }
     .hamburger { display: flex; }
-    .article-layout { grid-template-columns: 1fr; gap: 0; }
-    .article-sidebar { position: static; flex-direction: row; flex-wrap: wrap; gap: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); }
-    .sidebar-block { flex: 1 1 240px; }
-    .article-masthead { padding: 3rem 1.5rem 0; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    .products-grid.three-col { grid-template-columns: 1fr; }
     .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
     .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
     .newsletter-form { flex-direction: column; }
     .newsletter-form input, .newsletter-form button { width: 100%; }
+    .trust-inner { gap: 1.5rem; }
   }
 
-  @media (max-width: 640px) {
-    .article-main-title { font-size: 2rem; }
-    .more-articles-grid { grid-template-columns: 1fr; }
-    .hero-image-block { height: 200px; }
-    .article-masthead { padding: 2.5rem 1.25rem 0; }
-    .article-body-wrapper { padding: 2.5rem 1.25rem; }
-    .section-header { flex-direction: column; gap: 0.5rem; }
+  @media (max-width: 480px) {
+    .products-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
-<!-- READING PROGRESS BAR -->
-<div id="progress-bar"></div>
-
-<!-- ─── HEADER ─── -->
+<!-- HEADER -->
 <header>
   <a href="index.html" class="logo">
     <span class="logo-text">sk<span>4</span>bharat</span>
@@ -1081,334 +1240,206 @@
   <nav>
     <a href="index.html">Home</a>
     <a href="article.html">Articles</a>
-    <a href="#books">Books</a>
     <a href="store.html">Store</a>
-    <a href="#about">About</a>
-    <a href="#newsletter" class="nav-cta">Contact</a>
+    <a href="index.html#books">Books</a>
+    <a href="index.html#about">About</a>
+    <a href="store.html" class="active" style="color:var(--saffron)">Store</a>
+    <a href="#" class="nav-cta">Contact</a>
   </nav>
-  <button class="hamburger" id="hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
+  <button class="cart-btn" id="cartToggle" aria-label="Open cart">
+    ✦ Cart
+    <span class="cart-count" id="cartCount">0</span>
   </button>
+  <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
 </header>
 
-<!-- MOBILE NAV -->
-<div class="mobile-nav" id="mobileNav">
-  <a href="index.html" class="mobile-link">Home</a>
-  <a href="article.html" class="mobile-link">Articles</a>
-  <a href="store.html" class="mobile-link">Store</a>
-  <a href="index.html#books" class="mobile-link">Books</a>
-  <a href="index.html#about" class="mobile-link">About</a>
-  <a href="index.html#newsletter" class="mobile-link">Subscribe</a>
-</div>
-
-<!-- ─── ARTICLE MASTHEAD ─── -->
-<div class="article-masthead">
-  <div class="masthead-inner">
-
-    <p class="article-breadcrumb">
-      <a href="index.html">Home</a>
-      <span class="sep">›</span>
-      <a href="#">Articles</a>
-      <span class="sep">›</span>
-      Mythology
-    </p>
-
-    <span class="article-category-badge">✦ Mythology &amp; History</span>
-
-    <h1 class="article-main-title" id="article-main-title">
-      What the <em>Mahabharata</em> Says About<br>Decision-Making Under Uncertainty
-    </h1>
-
-    <p class="article-dek">
-      The Kurukshetra war is, among other things, a 100,000-verse meditation on the agony of choice. Its lessons apply surprisingly well to anyone navigating impossible situations.
-    </p>
-
-    <div class="article-meta-bar">
-      <div class="meta-author">
-        <div class="author-avatar">sk</div>
-        <div>
-          <div class="author-info-name">Sandeep Kumar</div>
-          <div class="author-info-role">Writer · Cultural Thinker</div>
-        </div>
-      </div>
-      <div class="meta-divider"></div>
-      <div class="meta-item">
-        <span>Published</span>
-        <strong>Apr 12, 2026</strong>
-      </div>
-      <div class="meta-divider"></div>
-      <div class="meta-item">
-        <span>Read time</span>
-        <strong>14 min</strong>
-      </div>
-      <div class="meta-divider"></div>
-      <div class="meta-item">
-        <span>Category</span>
-        <strong>Leadership</strong>
-      </div>
+<!-- CART OVERLAY + DRAWER -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>Your Cart</h3>
+    <button class="cart-close" id="cartClose">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty" id="cartEmpty">
+      <span class="cart-empty-icon">✦</span>
+      <p>Your cart is empty.<br>Add something to begin.</p>
     </div>
-
-    <div class="article-tags-bar">
-      <span class="tag">Mahabharata</span>
-      <span class="tag">Leadership</span>
-      <span class="tag">Philosophy</span>
-      <span class="tag">Decision-Making</span>
-      <span class="tag">Indian History</span>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-subtotal">
+      <span class="cart-subtotal-label">Subtotal</span>
+      <span class="cart-subtotal-amount" id="cartTotal">₹0</span>
     </div>
-
+    <button class="checkout-btn">Proceed to Checkout →</button>
+    <p class="cart-note">Secure checkout · Free shipping on orders above ₹999</p>
   </div>
 </div>
 
-<!-- HERO IMAGE -->
-<div class="masthead-image-strip">
-  <div class="masthead-image">
-    <div class="hero-image-block">
-      <span class="hero-image-placeholder">✦</span>
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- STORE HERO -->
+<div class="store-hero">
+  <div class="store-hero-inner">
+    <p class="store-eyebrow">✦ sk4bharat · Store</p>
+    <h1 class="store-title">Books, Courses &amp;<br><em>Curated Ideas</em></h1>
+    <p class="store-subtitle">Everything written, taught, and recommended — in one place. Take a piece of the work home.</p>
+    <div class="category-tabs">
+      <button class="tab-btn active" data-filter="all">All</button>
+      <button class="tab-btn" data-filter="books">Books</button>
+      <button class="tab-btn" data-filter="courses">Courses</button>
+      <button class="tab-btn" data-filter="prints">Art Prints</button>
+      <button class="tab-btn" data-filter="merch">Merchandise</button>
     </div>
-    <p class="hero-image-caption">The battlefield of Kurukshetra — a cosmological diagram of human choice. Illustration: sk4bharat archive.</p>
+  </div>
+  <svg class="hero-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 48" preserveAspectRatio="none">
+    <path d="M0,48 L0,24 C120,42 240,8 360,24 C480,40 600,16 720,24 C840,32 960,10 1080,20 C1200,30 1320,14 1440,24 L1440,48 Z" fill="#FAF6EE"/>
+  </svg>
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item"><span class="trust-icon">✦</span> Free shipping above ₹999</div>
+    <div class="trust-item"><span class="trust-icon">✦</span> Secure payments</div>
+    <div class="trust-item"><span class="trust-icon">✦</span> Signed copies available</div>
+    <div class="trust-item"><span class="trust-icon">✦</span> Instant digital delivery</div>
   </div>
 </div>
 
-<!-- ─── ARTICLE BODY ─── -->
-<div class="article-body-wrapper">
-  <div class="article-layout">
-
-    <!-- MAIN PROSE -->
-    <article class="article-prose" id="article-content">
-
-      <div class="article-actions">
-        <button class="action-btn" id="save-btn" onclick="toggleSave(this)">☆ Save</button>
-        <button class="action-btn" onclick="copyLink(this)">↗ Copy Link</button>
-        <span class="action-divider"></span>
-        <span class="reading-time-pill">14 min read</span>
+<!-- FEATURED PRODUCT BANNER -->
+<div class="container">
+  <div class="featured-product" data-category="books">
+    <div class="featured-product-left">
+      <span class="feat-badge">✦ New Release · 2025</span>
+      <h2 class="feat-title">The Grammar of <em>Bharat</em></h2>
+      <p class="feat-desc">A sweeping inquiry into the civilisational logic that holds India together — its myths, its contradictions, its unspoken rules. sk4bharat's most ambitious work yet.</p>
+      <div class="feat-price-row">
+        <span class="feat-price">₹699</span>
+        <span class="feat-price-old">₹899</span>
+        <span class="feat-save">Save 22%</span>
       </div>
-
-      <p class="drop-cap" id="section-opening">
-        There is a moment, roughly forty verses into the Bhagavad Gita, when Arjuna does something no warrior before him in Sanskrit literature had done. He puts down his bow. Not from cowardice — he is arguably the finest archer in the known world — but from a paralysis that any leader in any century would recognise instantly: the complete inability to act when every available action carries an unacceptable cost.
-      </p>
-
-      <p>
-        The Mahabharata is often called the world's longest poem. It is also, beneath its mythology and genealogy, one of the most rigorous explorations of practical ethics ever written. Its authors — the tradition names Vyasa, though the text accumulated over centuries — were not interested in easy answers. Every major character in the epic faces a decision under conditions of radical uncertainty, and almost every one of them gets something catastrophically wrong.
-      </p>
-
-      <p>
-        That is precisely what makes it useful.
-      </p>
-
-      <hr>
-
-      <h2 id="section-arjuna">The Arjuna Problem: When All Options Are Bad</h2>
-
-      <p>
-        Arjuna's crisis on the battlefield of Kurukshetra is not a spiritual problem first. It is a decision-theory problem. He surveys the enemy lines and recognises his teachers, his cousins, his friends. He calculates: if we win, we inherit a kingdom built on the corpses of everyone who made us who we are. If we lose, we die. If we don't fight, we break our dharma as warriors and abandon the cause we spent thirteen years in exile defending.
-      </p>
-
-      <blockquote>
-        <p>"What pleasure can we find in killing our own kinsmen? Having killed these men eager for war, we could only live with sin as our companion."</p>
-        <cite>— Arjuna, Bhagavad Gita, Chapter 1</cite>
-      </blockquote>
-
-      <p>
-        This is what decision theorists call a <strong>dilemma of incommensurable values</strong> — a situation where the options cannot be compared on a single scale because they violate different foundational commitments. Modern frameworks for handling such dilemmas (satisficing, lexical ordering, moral residue theory) were formalised in the twentieth century. The Gita's answer, delivered through Krishna across eighteen chapters, is older and arguably stranger.
-      </p>
-
-      <p>
-        Krishna does not tell Arjuna which option is best. He reconstructs Arjuna's entire framework for evaluating options. He asks: what if the problem is not "which outcome do I choose" but "who is doing the choosing, and why?"
-      </p>
-
-      <div class="pull-quote">
-        <p>"You have a right to your actions — never to the fruits of your actions. Do not let the fruit of action be your motive, nor let your attachment be to inaction."</p>
+      <div class="feat-buttons">
+        <button class="btn btn-primary" onclick="addToCart('The Grammar of Bharat', 699, 'Book', '#1a0a00')">Add to Cart</button>
+        <button class="btn btn-outline" onclick="addToCart('The Grammar of Bharat (Signed)', 899, 'Signed Book', '#3d1f00')">Get Signed Copy</button>
       </div>
-
-      <p>
-        The doctrine of <em>nishkama karma</em> — action without attachment to results — is often misread as fatalism or passivity. It is the opposite. It is a prescription for <strong>sustained action under radical uncertainty</strong>: do what the situation demands, with full effort, without calculating returns that you cannot control.
-      </p>
-
-      <figure>
-        <div class="fig-img">[ Illustration: Kurukshetra — the armies arrayed ]</div>
-        <figcaption>The moment before the war — both armies arranged in vyuha formations, flags barely moving in the pre-dawn air. The Gita begins here.</figcaption>
-      </figure>
-
-      <h2 id="section-yudhishthira">Yudhishthira's Curse: When Honesty Becomes a Liability</h2>
-
-      <p>
-        If Arjuna's problem is emotional paralysis, Yudhishthira's is structural. He is the eldest Pandava, the one raised to embody dharma above all else. His defining characteristic — the one that gives him the divine epithet <em>Dharmaraja</em>, King of Righteousness — is that he cannot tell a lie. The word itself causes him physical pain.
-      </p>
-
-      <p>
-        The Mahabharata proceeds to destroy him with this virtue.
-      </p>
-
-      <p>
-        Yudhishthira loses his kingdom, his wife, and his brothers at dice not because he is stupid but because the rules of the game make it impossible for him to refuse without violating the code of conduct his entire identity is built upon. A Kshatriya king does not refuse a challenge. A man of dharma honours his word. The Kauravas, knowing this, engineer a situation where his virtues become the mechanism of his defeat.
-      </p>
-
-      <p>
-        The lesson the text draws is uncomfortable: <strong>rigid virtue in a manipulated environment is indistinguishable from vice in its outcomes</strong>. Yudhishthira's refusal to adapt his ethical framework to the context of the game is itself a kind of moral failure — not of intention, but of wisdom.
-      </p>
-
-      <hr>
-
-      <h2 id="section-karna">Karna's Loyalty: The Trap of Allegiance</h2>
-
-      <p>
-        No character in the Mahabharata embodies the tragedy of misplaced allegiance more precisely than Karna. He is, by most measures, the equal or superior of Arjuna in skill. He knows — is told explicitly, by his divine father Surya and by Krishna himself — that he fights on the wrong side of history. He stays anyway.
-      </p>
-
-      <p>
-        His loyalty to Duryodhana is not blind. It is a considered choice. Duryodhana elevated him when the caste system excluded him; he will repay that debt regardless of the cost. In another text, this would be heroism. In the Mahabharata, it is framed as a catastrophic error — not because loyalty is wrong, but because <strong>the object of loyalty must itself be worthy of it</strong>.
-      </p>
-
-      <p>
-        Modern organisations produce Karnas with disturbing frequency: individuals of exceptional competence whose allegiance to a person or institution persists long after the institution has revealed itself to be unworthy. The question Karna's story poses is not "how loyal should you be?" but "to what are you actually loyal — the person, or the values they once represented?"
-      </p>
-
-      <h2 id="section-krishna">Krishna's Statecraft: The Ethics of Strategic Ambiguity</h2>
-
-      <p>
-        Of all the major figures in the Mahabharata, Krishna is the one who most consistently wins. He also lies, manipulates, breaks battlefield conventions, and engineers outcomes through means that no character in the text would call straightforwardly dharmic. The text does not present this as hypocrisy. It presents it as a different order of ethics — one operating at the level of the whole rather than the individual transaction.
-      </p>
-
-      <p>
-        Krishna's actions are legible only if you accept his premise: that some situations are so structurally corrupt that playing by the rules of that situation is itself a form of complicity. When he has the sun obscured to allow Arjuna to kill Jayadratha after the rules forbid it, he is not cheating — he is refusing to let an unjust rule determine a just outcome.
-      </p>
-
-      <blockquote>
-        <p>"When the wicked take shelter in wickedness, the righteous must respond with wisdom — and wisdom sometimes wears the face of cunning."</p>
-        <cite>— Attributed to Vyasa's commentary on Krishna's statecraft</cite>
-      </blockquote>
-
-      <p>
-        This is, among other things, a remarkably sophisticated account of <strong>second-order ethics</strong> — the question of what principles govern the choice of which principles to apply. The Mahabharata's answer is that this requires not rules but judgement: what the tradition calls <em>prajna</em>, a quality that combines knowledge, experience, and the capacity to read the specific texture of a situation.
-      </p>
-
-      <hr>
-
-      <h2 id="section-lessons">What This Means for Anyone Making Hard Decisions</h2>
-
-      <p>
-        The Mahabharata was not written as a management primer. Its characters are divine, semi-divine, or touched by forces no spreadsheet can model. But the ethical grammar it encodes is surprisingly portable.
-      </p>
-
-      <p>
-        <strong>First:</strong> Clarity about your commitments before the crisis, not during it. Arjuna's paralysis is partly caused by the fact that he has never genuinely examined what he would do when his warrior duty and his relational duties collide. The text suggests — through Krishna's eighteen-chapter intervention — that this examination cannot happen in the moment of decision.
-      </p>
-
-      <p>
-        <strong>Second:</strong> The quality of your information environment matters more than the quality of your intentions. Yudhishthira is a genuinely good man making genuinely bad decisions because he is playing in an environment designed to exploit his goodness. Good character is necessary but not sufficient.
-      </p>
-
-      <p>
-        <strong>Third:</strong> Loyalty is a virtue that requires an object worthy of it. Karna's story is not a critique of loyalty. It is a critique of loyalty that has been separated from its original purpose and now serves only its own continuation.
-      </p>
-
-      <p>
-        <strong>Finally:</strong> Some situations cannot be resolved — only survived and learned from. The Pandavas win the war and spend the rest of their lives living with what winning cost. The text does not offer them consolation. It offers them the dignity of having chosen, with full awareness, in impossible circumstances.
-      </p>
-
-      <p>
-        That, perhaps, is as much as any of us can hope for.
-      </p>
-
-      <hr>
-
-      <div class="article-signature">
-        <div class="signature-avatar">sk</div>
-        <div>
-          <div class="signature-name">Sandeep Kumar</div>
-          <div class="signature-bio">Writes on mythology, history, culture, and the ideas that shape modern India. Author of <em>The Grammar of Bharat</em> and three other books.</div>
+    </div>
+    <div class="featured-product-right">
+      <div class="feat-book-stack">
+        <div class="feat-book feat-book-shadow"></div>
+        <div class="feat-book feat-book-main">
+          <div class="feat-book-inner">
+            <div class="feat-book-title-text">The Grammar of Bharat</div>
+            <div class="feat-book-line"></div>
+            <div class="feat-book-author-text">sk4bharat</div>
+          </div>
         </div>
       </div>
-
-    </article>
-
-    <!-- SIDEBAR -->
-    <aside class="article-sidebar">
-
-      <div class="sidebar-block accent">
-        <p class="sidebar-label">✦ In This Essay</p>
-        <ul class="toc-list" id="toc">
-          <li data-target="section-opening"><a href="#section-opening">Opening</a></li>
-          <li data-target="section-arjuna"><a href="#section-arjuna">The Arjuna Problem</a></li>
-          <li data-target="section-yudhishthira"><a href="#section-yudhishthira">Yudhishthira's Curse</a></li>
-          <li data-target="section-karna"><a href="#section-karna">Karna's Loyalty</a></li>
-          <li data-target="section-krishna"><a href="#section-krishna">Krishna's Statecraft</a></li>
-          <li data-target="section-lessons"><a href="#section-lessons">What This Means</a></li>
-        </ul>
-      </div>
-
-      <div class="sidebar-block">
-        <p class="sidebar-label">✦ Share</p>
-        <div class="share-links">
-          <a href="#" class="share-link">Twitter</a>
-          <a href="#" class="share-link">LinkedIn</a>
-          <a href="#" class="share-link">WhatsApp</a>
-          <a href="#" class="share-link">Copy</a>
-        </div>
-      </div>
-
-      <div class="sidebar-block">
-        <p class="sidebar-label">✦ Related Essays</p>
-
-        <div class="related-item">
-          <p class="related-meta">May 5, 2026 · Philosophy</p>
-          <a href="#" class="related-title">What "Dharma" Really Meant Before the British Translated It</a>
-        </div>
-
-        <div class="related-item">
-          <p class="related-meta">Apr 20, 2026 · Art</p>
-          <a href="#" class="related-title">The Grammar of Indian Temple Architecture Nobody Teaches</a>
-        </div>
-
-        <div class="related-item">
-          <p class="related-meta">Mar 28, 2026 · History</p>
-          <a href="#" class="related-title">The River Saraswati and the Problem of Mythological Geography</a>
-        </div>
-      </div>
-
-    </aside>
+    </div>
   </div>
 </div>
 
-<!-- ─── MORE ARTICLES ─── -->
-<section class="more-articles-section">
+<!-- BOOKS SECTION -->
+<section class="products-section" id="books">
   <div class="container">
     <div class="section-header">
       <div>
-        <span class="section-label">✦ Continue Reading</span>
-        <h2 class="section-title">More Essays</h2>
+        <span class="section-label">✦ Published Works</span>
+        <h2 class="section-title">Books</h2>
       </div>
-      <a href="#" class="section-link">All Articles →</a>
+      <a href="index.html#books" class="section-link">View All →</a>
     </div>
-    <div class="more-articles-grid">
+    <div class="products-grid" id="booksGrid">
 
-      <div class="article-card">
-        <p class="article-card-meta">May 5, 2026 · Philosophy</p>
-        <a href="#" class="article-card-title">What "Dharma" Really Meant Before the British Translated It</a>
-        <p class="article-card-excerpt">Colonial translations flattened dharma into a Victorian sense of obligation. The original concept was richer, stranger, and far more interesting than the word "duty" can contain.</p>
-        <div class="card-tags">
-          <span class="card-tag">Philosophy</span>
-          <span class="card-tag">Hinduism</span>
+      <div class="product-card" data-category="books">
+        <span class="product-badge badge-bestseller">Bestseller</span>
+        <div class="product-img" style="background: linear-gradient(135deg, #f5efe0, #e8dfc8);">
+          <div class="product-cover" style="background: linear-gradient(135deg, #1a0a00, #3d1f00);">
+            <div class="product-cover-inner">
+              <div class="cover-title">Sacred &amp; Secular</div>
+              <div class="cover-line"></div>
+              <div class="cover-author">sk4bharat</div>
+            </div>
+          </div>
+        </div>
+        <div class="product-overlay"><button class="quick-add-btn" onclick="addToCart('Sacred & Secular',549,'Book','#0a1a00')">Quick Add</button></div>
+        <div class="product-info">
+          <p class="product-category">Book · 2024</p>
+          <h3 class="product-title">Sacred &amp; Secular</h3>
+          <p class="product-subtitle">Notes on the negotiation between tradition and modernity in contemporary Indian life.</p>
+          <div class="product-footer">
+            <div class="product-price">₹549</div>
+            <button class="add-btn" onclick="addToCart('Sacred & Secular',549,'Book','#0a1a00')">Add →</button>
+          </div>
         </div>
       </div>
 
-      <div class="article-card">
-        <p class="article-card-meta">Apr 20, 2026 · Art</p>
-        <a href="#" class="article-card-title">The Grammar of Indian Temple Architecture Nobody Teaches</a>
-        <p class="article-card-excerpt">Temples are not just beautiful buildings. They are cosmological diagrams in stone — encoding a worldview so complete that every carved figure, every directional alignment, carries meaning.</p>
-        <div class="card-tags">
-          <span class="card-tag">Architecture</span>
-          <span class="card-tag">Art</span>
+      <div class="product-card" data-category="books">
+        <span class="product-badge badge-signed">Signed</span>
+        <div class="product-img" style="background: linear-gradient(135deg, #f0eaff, #ddd0f5);">
+          <div class="product-cover" style="background: linear-gradient(135deg, #0a0018, #200038);">
+            <div class="product-cover-inner">
+              <div class="cover-title">Myth, Memory &amp; the Making of a Nation</div>
+              <div class="cover-line"></div>
+              <div class="cover-author">sk4bharat</div>
+            </div>
+          </div>
+        </div>
+        <div class="product-overlay"><button class="quick-add-btn" onclick="addToCart('Myth, Memory & the Making of a Nation',499,'Signed Book','#0a0018')">Quick Add</button></div>
+        <div class="product-info">
+          <p class="product-category">Book · 2023</p>
+          <h3 class="product-title">Myth, Memory &amp; the Making of a Nation</h3>
+          <p class="product-subtitle">How civilisational stories shape the modern Indian identity.</p>
+          <div class="product-footer">
+            <div class="product-price">₹499</div>
+            <button class="add-btn" onclick="addToCart('Myth, Memory & the Making of a Nation',499,'Signed Book','#0a0018')">Add →</button>
+          </div>
         </div>
       </div>
 
-      <div class="article-card">
-        <p class="article-card-meta">Mar 28, 2026 · History</p>
-        <a href="#" class="article-card-title">The River Saraswati and the Problem of Mythological Geography</a>
-        <p class="article-card-excerpt">A river that may or may not have existed. A civilisation built on its banks. And the question of how literally we should read the landscapes encoded in sacred texts.</p>
-        <div class="card-tags">
-          <span class="card-tag">History</span>
-          <span class="card-tag">Mythology</span>
+      <div class="product-card" data-category="books">
+        <div class="product-img" style="background: linear-gradient(135deg, #fff0f5, #f5d5e0);">
+          <div class="product-cover" style="background: linear-gradient(135deg, #180008, #3d001a);">
+            <div class="product-cover-inner">
+              <div class="cover-title">The River and the Root</div>
+              <div class="cover-line"></div>
+              <div class="cover-author">sk4bharat</div>
+            </div>
+          </div>
+        </div>
+        <div class="product-overlay"><button class="quick-add-btn" onclick="addToCart('The River and the Root',449,'Book','#180008')">Quick Add</button></div>
+        <div class="product-info">
+          <p class="product-category">Book · 2022</p>
+          <h3 class="product-title">The River and the Root</h3>
+          <p class="product-subtitle">Sacred landscapes and the civilisational memory they carry.</p>
+          <div class="product-footer">
+            <div class="product-price">₹449</div>
+            <button class="add-btn" onclick="addToCart('The River and the Root',449,'Book','#180008')">Add →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" data-category="books">
+        <span class="product-badge badge-new">New</span>
+        <div class="product-img" style="background: linear-gradient(135deg, #1a1208, #2a1a08);">
+          <div class="product-cover" style="background: linear-gradient(135deg, #1a0a00, #3d1f00);">
+            <div class="product-cover-inner">
+              <div class="cover-title">The Grammar of Bharat</div>
+              <div class="cover-line"></div>
+              <div class="cover-author">sk4bharat</div>
+            </div>
+          </div>
+        </div>
+        <div class="product-overlay"><button class="quick-add-btn" onclick="addToCart('The Grammar of Bharat',699,'Book','#1a0a00')">Quick Add</button></div>
+        <div class="product-info">
+          <p class="product-category">Book · 2025</p>
+          <h3 class="product-title">The Grammar of Bharat</h3>
+          <p class="product-subtitle">The civilisational logic that holds India together across millennia.</p>
+          <div class="product-footer">
+            <div class="product-price"><span class="old-price">₹899</span>₹699</div>
+            <button class="add-btn" onclick="addToCart('The Grammar of Bharat',699,'Book','#1a0a00')">Add →</button>
+          </div>
         </div>
       </div>
 
@@ -1416,145 +1447,482 @@
   </div>
 </section>
 
-<!-- ─── NEWSLETTER ─── -->
-<section class="newsletter-section">
+<!-- QUOTE BAND -->
+<div class="quote-band">
+  <p class="quote-text">"To understand where India is going, one must first understand — without romanticising — where it has been."</p>
+  <p class="quote-attr">— sk4bharat</p>
+</div>
+
+<!-- COURSES SECTION -->
+<section class="products-section alt" id="courses">
   <div class="container">
-    <h2 class="newsletter-title">Get new essays in your inbox</h2>
-    <p class="newsletter-subtitle">No noise. Just ideas worth sitting with.</p>
-    <div class="newsletter-form">
-      <input type="email" placeholder="your@email.com" />
-      <button type="button">Subscribe</button>
+    <div class="section-header">
+      <div>
+        <span class="section-label">✦ Learn</span>
+        <h2 class="section-title">Courses</h2>
+      </div>
+    </div>
+    <div class="products-grid three-col">
+
+      <div class="product-card" data-category="courses">
+        <span class="product-badge badge-digital">Digital</span>
+        <div class="product-img" style="background: linear-gradient(135deg, #1a1208, #3d2b10);">
+          <div class="product-img-panel">
+            <div class="product-img-icon" style="color:rgba(232,96,10,0.5)">✦</div>
+            <p class="product-img-label" style="color:#8A7968; opacity:1;">10-Module Course</p>
+          </div>
+        </div>
+        <div class="product-overlay"><button class="quick-add-btn" onclick="addToCart('Mythology & the Indian Mind',1499,'Course','#1a1208')">Enroll Now</button></div>
+        <div class="product-info">
+          <p class="product-category">Course · Self-paced</p>
+          <h3 class="product-title">Mythology &amp; the Indian Mind</h3>
+          <p class="product-subtitle">A 10-module deep-dive into the mythological frameworks that structure Indian thought, culture, and society.</p>
+          <div class="product-footer">
+            <div class="product-price"><span class="old-price">₹2,499</span>₹1,499</div>
+            <button class="add-btn" onclick="addToCart('Mythology & the Indian Mind',1499,'Course','#1a1208')">Enroll →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" data-category="courses">
+        <span class="product-badge badge-digital">Digital</span>
+        <div class="product-img" style="background: linear-gradient(135deg, #0a0018, #1a0030);">
+          <div class="product-img-panel">
+            <div class="product-img-icon" style="color:rgba(200,146,42,0.4)">✦</div>
+            <p class="product-img-label" style="color:#8A7968; opacity:1;">6-Module Course</p>
+          </div>
+        </div>
+        <div class="product-overlay"><button class="quick-add-btn" onclick="addToCart('Reading the Mahabharata',999,'Course','#0a0018')">Enroll Now</button></div>
+        <div class="product-info">
+          <p class="product-category">Course · Self-paced</p>
+          <h3 class="product-title">Reading the Mahabharata</h3>
+          <p class="product-subtitle">Six sessions on what the great epic actually says — about ethics, power, grief, and the cost of righteousness.</p>
+          <div class="product-footer">
+            <div class="product-price">₹999</div>
+            <button class="add-btn" onclick="addToCart('Reading the Mahabharata',999,'Course','#0a0018')">Enroll →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" data-category="courses">
+        <span class="product-badge badge-new">New</span>
+        <div class="product-img" style="background: linear-gradient(135deg, #180008, #3d0020);">
+          <div class="product-img-panel">
+            <div class="product-img-icon" style="color:rgba(139,26,26,0.5)">✦</div>
+            <p class="product-img-label" style="color:#8A7968; opacity:1;">8-Module Course</p>
+          </div>
+        </div>
+        <div class="product-overlay"><button class="quick-add-btn" onclick="addToCart('Temple Architecture Decoded',1299,'Course','#180008')">Enroll Now</button></div>
+        <div class="product-info">
+          <p class="product-category">Course · Self-paced</p>
+          <h3 class="product-title">Temple Architecture Decoded</h3>
+          <p class="product-subtitle">The cosmological grammar of Indian sacred architecture — from Vastu to Vimana, nothing is decorative.</p>
+          <div class="product-footer">
+            <div class="product-price">₹1,299</div>
+            <button class="add-btn" onclick="addToCart('Temple Architecture Decoded',1299,'Course','#180008')">Enroll →</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- ─── FOOTER ─── -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <span class="logo-text">sk<span style="color:var(--saffron)">4</span>bharat</span>
-      <p class="footer-tagline">Writing on mythology, history, culture, and the ideas that shape modern India.</p>
-      <div class="social-links">
-        <a href="#" class="social-link">Twitter</a>
-        <a href="#" class="social-link">Instagram</a>
-        <a href="#" class="social-link">YouTube</a>
-        <a href="#" class="social-link">LinkedIn</a>
+<!-- ART PRINTS SECTION -->
+<section class="products-section" id="prints">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="section-label">✦ Collectibles</span>
+        <h2 class="section-title">Art Prints</h2>
       </div>
     </div>
-    <div class="footer-col">
-      <h4>Explore</h4>
-      <a href="#">Articles</a>
-      <a href="#">Books</a>
-      <a href="#">Talks & Podcasts</a>
-      <a href="#">Interviews</a>
-      <a href="#">Archive</a>
-    </div>
-    <div class="footer-col">
-      <h4>Navigate</h4>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-      <a href="#">Newsletter</a>
-      <a href="#">Press</a>
-      <a href="#">Store</a>
+    <div class="products-grid">
+
+      <div class="product-card" data-category="prints">
+        <span class="product-badge badge-new">Limited</span>
+        <div class="product-img" style="background: var(--cream); position:relative;">
+          <div style="width:140px;height:180px;border:1px solid var(--border);background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;box-shadow:4px 4px 0 var(--border);">
+            <div style="width:60px;height:60px;border:1px solid rgba(200,146,42,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+              <span style="color:var(--gold);font-family:'Playfair Display',serif;font-size:1.4rem;">✦</span>
+            </div>
+            <span style="font-family:'DM Sans',sans-serif;font-size:0.5rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--warm-gray);">A3 Giclée</span>
+          </div>
+        </div>
+        <div class="product-overlay"><button class="quick-add-btn" onclick="addToCart('Mandala of Dharma Print',599,'Art Print','#1a1208')">Quick Add</button></div>
+        <div class="product-info">
+          <p class="product-category">Art Print · A3</p>
+          <h3 class="product-title">Mandala of Dharma</h3>
+          <p class="product-subtitle">Archival giclée on cotton rag. The cosmic order rendered as geometry.</p>
+          <div class="product-footer">
+            <div class="product-price">₹599</div>
+            <button class="add-btn" onclick="addToCart('Mandala of Dharma Print',599,'Art Print','#1a1208')">Add →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" data-category="prints">
+        <div class="product-img" style="background: var(--cream);">
+          <div style="width:140px;height:180px;border:1px solid var(--border);background:linear-gradient(135deg,#0a0018,#1a0030);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;box-shadow:4px 4px 0 var(--border);">
+            <div style="width:60px;height:60px;border:1px solid rgba(232,96,10,0.3);display:flex;align-items:center;justify-content:center;">
+              <span style="color:var(--saffron);font-family:'Playfair Display',serif;font-size:1.4rem;font-style:italic;">Om</span>
+            </div>
+            <span style="font-family:'DM Sans',sans-serif;font-size:0.5rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--warm-gray);">A2 Giclée</span>
+          </div>
+        </div>
+        <div class="product-overlay"><button class="quick-add-btn" onclick="addToCart('Sacred Rivers Map Print',799,'Art Print','#0a0018')">Quick Add</button></div>
+        <div class="product-info">
+          <p class="product-category">Art Print · A2</p>
+          <h3 class="product-title">Sacred Rivers of Bharat</h3>
+          <p class="product-subtitle">Illustrated map of India's seven sacred rivers with mythological annotations.</p>
+          <div class="product-footer">
+            <div class="product-price">₹799</div>
+            <button class="add-btn" onclick="addToCart('Sacred Rivers Map Print',799,'Art Print','#0a0018')">Add →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" data-category="prints">
+        <span class="product-badge badge-bestseller">Popular</span>
+        <div class="product-img" style="background: var(--cream);">
+          <div style="width:140px;height:180px;border:1px solid var(--border);background:linear-gradient(135deg,#0a1a00,#1f3d00);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;box-shadow:4px 4px 0 var(--border);">
+            <div style="width:60px;height:60px;border:1px solid rgba(200,146,42,0.4);border-radius:2px;transform:rotate(45deg);display:flex;align-items:center;justify-content:center;">
+              <span style="color:var(--gold);font-family:'Playfair Display',serif;font-size:1rem;transform:rotate(-45deg)">✦</span>
+            </div>
+            <span style="font-family:'DM Sans',sans-serif;font-size:0.5rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--warm-gray);">A3 Giclée</span>
+          </div>
+        </div>
+        <div class="product-overlay"><button class="quick-add-btn" onclick="addToCart('Chakra Cosmology Print',649,'Art Print','#0a1a00')">Quick Add</button></div>
+        <div class="product-info">
+          <p class="product-category">Art Print · A3</p>
+          <h3 class="product-title">Chakra Cosmology</h3>
+          <p class="product-subtitle">The Vedic model of the cosmos as concentric rings of existence.</p>
+          <div class="product-footer">
+            <div class="product-price">₹649</div>
+            <button class="add-btn" onclick="addToCart('Chakra Cosmology Print',649,'Art Print','#0a1a00')">Add →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" data-category="prints">
+        <div class="product-img" style="background: var(--cream);">
+          <div style="width:140px;height:180px;border:1px solid var(--border);background:linear-gradient(135deg,#180008,#3d001a);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;box-shadow:4px 4px 0 var(--border);">
+            <div style="width:55px;height:55px;border-radius:50%;border:1px solid rgba(139,26,26,0.4);display:flex;align-items:center;justify-content:center;">
+              <span style="color:#8B1A1A;font-family:'Playfair Display',serif;font-size:1.1rem;opacity:0.8">✦</span>
+            </div>
+            <span style="font-family:'DM Sans',sans-serif;font-size:0.5rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--warm-gray);">A3 Giclée</span>
+          </div>
+        </div>
+        <div class="product-overlay"><button class="quick-add-btn" onclick="addToCart('Ashoka Wheel Print',549,'Art Print','#180008')">Quick Add</button></div>
+        <div class="product-info">
+          <p class="product-category">Art Print · A3</p>
+          <h3 class="product-title">The Ashoka Wheel</h3>
+          <p class="product-subtitle">Dharma rendered in motion. Archival print with gold ink accents.</p>
+          <div class="product-footer">
+            <div class="product-price">₹549</div>
+            <button class="add-btn" onclick="addToCart('Ashoka Wheel Print',549,'Art Print','#180008')">Add →</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
-  <div class="footer-bottom">
-    <p class="footer-copy">© 2026 Sandeep Kumar. All rights reserved.</p>
-    <div class="footer-legal">
-      <a href="#">Terms of Use</a>
-      <a href="#">Privacy Policy</a>
+</section>
+
+<!-- MERCH SECTION -->
+<section class="products-section alt" id="merch">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="section-label">✦ Wear the Words</span>
+        <h2 class="section-title">Merchandise</h2>
+      </div>
+    </div>
+    <div class="products-grid">
+
+      <div class="product-card" data-category="merch">
+        <span class="product-badge badge-new">New</span>
+        <div class="product-img" style="background: var(--ink); display:flex; align-items:center; justify-content:center;">
+          <div style="width:130px;height:130px;border-radius:50%;background:linear-gradient(135deg,#2a1a08,#1a0a00);border:1px solid rgba(200,146,42,0.2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.3rem;">
+            <span style="font-family:'Playfair Display',serif;font-size:0.7rem;font-style:italic;color:var(--gold);text-align:center;line-height:1.3;">Mythology<br>is Memory</span>
+            <div style="width:20px;height:1px;background:var(--saffron);margin:0.3rem 0;"></div>
+            <span style="font-family:'DM Sans',sans-serif;font-size:0.45rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--warm-gray);">sk4bharat</span>
+          </div>
+        </div>
+        <div class="product-overlay"><button class="quick-add-btn" onclick="addToCart('Mythology is Memory Tee',699,'Merchandise','#1a1208')">Quick Add</button></div>
+        <div class="product-info">
+          <p class="product-category">T-Shirt · Unisex</p>
+          <h3 class="product-title">"Mythology is Memory" Tee</h3>
+          <p class="product-subtitle">100% organic cotton. Screenprinted quote on premium ink-black fabric.</p>
+          <div class="product-footer">
+            <div class="product-price">₹699</div>
+            <button class="add-btn" onclick="addToCart('Mythology is Memory Tee',699,'Merchandise','#1a1208')">Add →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" data-category="merch">
+        <div class="product-img" style="background: var(--cream); display:flex; align-items:center; justify-content:center;">
+          <div style="width:100px;height:130px;background:linear-gradient(135deg,#f5efe0,#e8dfc8);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.3rem;box-shadow:3px 3px 0 var(--border);">
+            <span style="font-family:'Playfair Display',serif;font-size:0.65rem;font-style:italic;color:var(--ink);text-align:center;line-height:1.3;padding:0 0.5rem;">The Grammar of Bharat</span>
+            <div style="width:20px;height:1px;background:var(--saffron);"></div>
+            <span style="font-family:'DM Sans',sans-serif;font-size:0.42rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">Reading Journal</span>
+          </div>
+        </div>
+        <div class="product-overlay"><button class="quick-add-btn" onclick="addToCart('sk4bharat Reading Journal',349,'Merchandise','#f5efe0')">Quick Add</button></div>
+        <div class="product-info">
+          <p class="product-category">Stationery</p>
+          <h3 class="product-title">sk4bharat Reading Journal</h3>
+          <p class="product-subtitle">Handcrafted hardcover journal on parchment-toned paper. 200 ruled pages.</p>
+          <div class="product-footer">
+            <div class="product-price">₹349</div>
+            <button class="add-btn" onclick="addToCart('sk4bharat Reading Journal',349,'Merchandise','#f5efe0')">Add →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" data-category="merch">
+        <div class="product-img" style="background: var(--ink); display:flex; align-items:center; justify-content:center;">
+          <div style="position:relative;width:100px;height:100px;">
+            <div style="position:absolute;inset:0;border:1px solid rgba(200,146,42,0.3);border-radius:50%;"></div>
+            <div style="position:absolute;inset:8px;border:1px solid rgba(232,96,10,0.2);border-radius:50%;"></div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+              <span style="font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--gold);opacity:0.6">✦</span>
+            </div>
+          </div>
+        </div>
+        <div class="product-overlay"><button class="quick-add-btn" onclick="addToCart('Brass Bookmark Set',249,'Merchandise','#C8922A')">Quick Add</button></div>
+        <div class="product-info">
+          <p class="product-category">Accessories</p>
+          <h3 class="product-title">Brass Bookmark Set</h3>
+          <p class="product-subtitle">Set of 3 hand-etched brass bookmarks with Vedic motifs. Gift-boxed.</p>
+          <div class="product-footer">
+            <div class="product-price">₹249</div>
+            <button class="add-btn" onclick="addToCart('Brass Bookmark Set',249,'Merchandise','#C8922A')">Add →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" data-category="merch">
+        <span class="product-badge badge-bestseller">Popular</span>
+        <div class="product-img" style="background: var(--ink); display:flex; align-items:center; justify-content:center;">
+          <div style="width:90px;height:90px;background:linear-gradient(135deg,#2a1a08,#1a1208);border:1px solid rgba(200,146,42,0.2);border-radius:2px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.3rem;">
+            <span style="font-family:'DM Sans',sans-serif;font-size:0.45rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold)">sk4bharat</span>
+            <div style="width:25px;height:1px;background:var(--saffron);"></div>
+            <span style="font-family:'Playfair Display',serif;font-size:0.55rem;font-style:italic;color:var(--parchment);text-align:center;line-height:1.3">Enamel Pin</span>
+          </div>
+        </div>
+        <div class="product-overlay"><button class="quick-add-btn" onclick="addToCart('sk4bharat Enamel Pin',149,'Merchandise','#1a1208')">Quick Add</button></div>
+        <div class="product-info">
+          <p class="product-category">Accessories</p>
+          <h3 class="product-title">sk4bharat Enamel Pin</h3>
+          <p class="product-subtitle">Hard enamel collector's pin with the signature saffron motif. 3cm.</p>
+          <div class="product-footer">
+            <div class="product-price">₹149</div>
+            <button class="add-btn" onclick="addToCart('sk4bharat Enamel Pin',149,'Merchandise','#1a1208')">Add →</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="newsletter-section">
+  <h2 class="newsletter-title">New releases, first.</h2>
+  <p class="newsletter-subtitle">Subscribers hear about new books and store drops before anyone else.</p>
+  <div class="newsletter-form">
+    <input type="email" placeholder="your@email.com" id="nl-email" />
+    <button id="nl-btn" type="button">Subscribe</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-text">sk<span style="color:var(--saffron)">4</span>bharat</span>
+        <p class="footer-tagline">Writing on mythology, history, culture, and the ideas that shape modern India.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">Twitter</a>
+          <a href="#" class="social-link">Instagram</a>
+          <a href="#" class="social-link">YouTube</a>
+          <a href="#" class="social-link">LinkedIn</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="index.html#articles">Articles</a>
+        <a href="index.html#books">Books</a>
+        <a href="#">Talks &amp; Podcasts</a>
+        <a href="#">Interviews</a>
+        <a href="#">Archive</a>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <a href="index.html#about">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Newsletter</a>
+        <a href="#">Press</a>
+        <a href="store.html">Store</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 sk4bharat. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#">Terms of Use</a>
+        <a href="#">Privacy Policy</a>
+      </div>
     </div>
   </div>
 </footer>
 
 <script>
-  // ── Reading progress bar ──
-  window.addEventListener('scroll', () => {
-    const doc = document.documentElement;
-    const scrollTop = doc.scrollTop || document.body.scrollTop;
-    const scrollHeight = doc.scrollHeight - doc.clientHeight;
-    const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-    document.getElementById('progress-bar').style.width = pct + '%';
-  }, { passive: true });
+  // ─── CART STATE ───
+  let cart = [];
 
-  // ── Table of contents active state ──
-  const tocItems = document.querySelectorAll('#toc li[data-target]');
-  const headingIds = Array.from(tocItems).map(li => li.dataset.target);
+  function addToCart(name, price, type, bg) {
+    const existing = cart.find(i => i.name === name);
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ name, price, type, bg, qty: 1 });
+    }
+    updateCart();
+    showToast(`"${name.length > 30 ? name.slice(0,30)+'…' : name}" added to cart`);
+    // Bump animation
+    const count = document.getElementById('cartCount');
+    count.classList.add('bump');
+    setTimeout(() => count.classList.remove('bump'), 300);
+  }
 
-  function updateToc() {
-    let active = headingIds[0];
-    headingIds.forEach(id => {
-      const el = document.getElementById(id);
-      if (el && window.scrollY >= el.getBoundingClientRect().top + window.scrollY - 160) {
-        active = id;
+  function removeFromCart(name) {
+    cart = cart.filter(i => i.name !== name);
+    updateCart();
+  }
+
+  function changeQty(name, delta) {
+    const item = cart.find(i => i.name === name);
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) cart = cart.filter(i => i.name !== name);
+    updateCart();
+  }
+
+  function updateCart() {
+    const count = document.getElementById('cartCount');
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+
+    count.textContent = totalQty;
+    document.getElementById('cartTotal').textContent = '₹' + total.toLocaleString('en-IN');
+
+    const itemsEl = document.getElementById('cartItems');
+    const emptyEl = document.getElementById('cartEmpty');
+
+    if (cart.length === 0) {
+      itemsEl.innerHTML = '';
+      itemsEl.appendChild(emptyEl);
+      emptyEl.style.display = 'block';
+      return;
+    }
+
+    emptyEl.style.display = 'none';
+    itemsEl.innerHTML = '';
+
+    cart.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML = `
+        <div class="cart-item-thumb" style="background:${item.bg || 'var(--ink)'}">
+          <span style="font-family:'Playfair Display',serif;font-style:italic;font-size:0.6rem;color:var(--gold);text-align:center;padding:0.2rem;line-height:1.2">${item.name.split(' ').slice(0,2).join(' ')}</span>
+        </div>
+        <div class="cart-item-info">
+          <p class="cart-item-name">${item.name}</p>
+          <p class="cart-item-type">${item.type}</p>
+          <div class="cart-item-controls">
+            <button class="qty-btn" onclick="changeQty('${item.name.replace(/'/g,"\\'")}', -1)">−</button>
+            <span class="qty-num">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty('${item.name.replace(/'/g,"\\'")}', 1)">+</button>
+          </div>
+        </div>
+        <span class="cart-item-price">₹${(item.price * item.qty).toLocaleString('en-IN')}</span>
+        <button class="cart-remove" onclick="removeFromCart('${item.name.replace(/'/g,"\\'")}')">✕</button>
+      `;
+      itemsEl.appendChild(div);
+    });
+  }
+
+  // ─── CART DRAWER ───
+  const cartToggle = document.getElementById('cartToggle');
+  const cartClose  = document.getElementById('cartClose');
+  const cartOverlay = document.getElementById('cartOverlay');
+  const cartDrawer  = document.getElementById('cartDrawer');
+
+  function openCart()  { cartDrawer.classList.add('open'); cartOverlay.classList.add('open'); }
+  function closeCart() { cartDrawer.classList.remove('open'); cartOverlay.classList.remove('open'); }
+
+  cartToggle.addEventListener('click', openCart);
+  cartClose.addEventListener('click', closeCart);
+  cartOverlay.addEventListener('click', closeCart);
+
+  // ─── TOAST ───
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // ─── CATEGORY FILTER TABS ───
+  const tabs = document.querySelectorAll('.tab-btn');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter = tab.dataset.filter;
+      document.querySelectorAll('.product-card').forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      // Also show/hide featured banner (always books)
+      const featBanner = document.querySelector('.featured-product');
+      if (featBanner) {
+        featBanner.closest('.container').style.display =
+          (filter === 'all' || filter === 'books') ? '' : 'none';
       }
     });
-    tocItems.forEach(li => {
-      li.classList.toggle('active', li.dataset.target === active);
-    });
-  }
+  });
 
-  window.addEventListener('scroll', updateToc, { passive: true });
-  updateToc();
-
-  // ── Scroll animation for cards ──
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 100);
-        observer.unobserve(entry.target);
+  // ─── SCROLL REVEAL ───
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        revealObs.unobserve(e.target);
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.08 });
 
-  document.querySelectorAll('.article-card').forEach(card => observer.observe(card));
+  document.querySelectorAll('.product-card').forEach(c => revealObs.observe(c));
 
-  // ── Save toggle ──
-  function toggleSave(btn) {
-    const saved = btn.classList.toggle('active');
-    btn.textContent = saved ? '★ Saved' : '☆ Save';
-  }
-
-  // ── Copy link ──
-  function copyLink(btn) {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      const orig = btn.textContent;
-      btn.textContent = '✓ Copied!';
-      btn.classList.add('active');
-      setTimeout(() => { btn.textContent = orig; btn.classList.remove('active'); }, 2000);
-    });
-  }
-
-  // ── Newsletter subscribe ──
-  document.querySelector('.newsletter-form button').addEventListener('click', function() {
-    const input = document.querySelector('.newsletter-form input');
-    if (input.value && input.value.includes('@')) {
+  // ─── NEWSLETTER ───
+  document.getElementById('nl-btn').addEventListener('click', function() {
+    const inp = document.getElementById('nl-email');
+    if (inp.value && inp.value.includes('@')) {
       this.textContent = 'Subscribed ✓';
       this.style.background = '#2d7a2d';
-      input.value = '';
+      inp.value = '';
       setTimeout(() => { this.textContent = 'Subscribe'; this.style.background = ''; }, 3000);
     } else {
-      input.style.borderColor = 'var(--saffron)';
-      input.focus();
+      inp.style.borderColor = 'var(--saffron)';
+      inp.focus();
     }
-  });
-
-  // ── Hamburger / Mobile Nav ──
-  const hamburger = document.getElementById('hamburger');
-  const mobileNav = document.getElementById('mobileNav');
-
-  hamburger.addEventListener('click', () => {
-    const open = mobileNav.classList.toggle('open');
-    hamburger.classList.toggle('open', open);
-    document.body.style.overflow = open ? 'hidden' : '';
-  });
-
-  document.querySelectorAll('.mobile-link').forEach(link => {
-    link.addEventListener('click', () => {
-      mobileNav.classList.remove('open');
-      hamburger.classList.remove('open');
-      document.body.style.overflow = '';
-    });
   });
 </script>
 </body>
