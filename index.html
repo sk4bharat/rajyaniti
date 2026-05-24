@@ -34,6 +34,149 @@
     overflow-x: hidden;
   }
 
+  /* ─── PRELOADER ─── */
+  #preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #1A1208;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+  }
+
+  #preloader.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .pre-avatar-wrap {
+    position: relative;
+    width: min(220px, 52vw);
+    height: min(220px, 52vw);
+    margin-bottom: 2rem;
+    animation: preAvatarIn 0.7s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  .pre-avatar-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    background: conic-gradient(var(--saffron) 0deg, #C8922A 120deg, var(--saffron) 240deg, transparent 360deg);
+    animation: preSpin 2.5s linear infinite;
+  }
+
+  .pre-avatar-wrap::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: #1A1208;
+  }
+
+  .pre-avatar-img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .pre-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+    font-weight: 700;
+    color: #FAF6EE;
+    letter-spacing: -0.02em;
+    animation: preFadeUp 0.7s 0.3s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  .pre-logo span { color: #E8600A; }
+
+  .pre-tagline {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(0.6rem, 2.5vw, 0.72rem);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #8A7968;
+    margin-top: 0.4rem;
+    animation: preFadeUp 0.7s 0.45s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  .pre-bar-wrap {
+    margin-top: 2.5rem;
+    width: min(180px, 45vw);
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 1px;
+    overflow: hidden;
+    animation: preFadeUp 0.7s 0.6s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  .pre-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #E8600A, #C8922A);
+    border-radius: 1px;
+    animation: preLoad 2.2s cubic-bezier(0.4,0,0.2,1) forwards;
+  }
+
+  .pre-dots {
+    display: flex;
+    gap: 6px;
+    margin-top: 1.2rem;
+    animation: preFadeUp 0.7s 0.7s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  .pre-dots span {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #E8600A;
+    opacity: 0.3;
+    animation: preDot 1.2s ease-in-out infinite;
+  }
+
+  .pre-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .pre-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes preAvatarIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes preFadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes preSpin {
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes preLoad {
+    0%   { width: 0%; }
+    60%  { width: 70%; }
+    80%  { width: 88%; }
+    100% { width: 100%; }
+  }
+
+  @keyframes preDot {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50%       { opacity: 1;   transform: scale(1.4); }
+  }
+
+  /* Hide main content while loading */
+  body.loading > *:not(#preloader) {
+    visibility: hidden;
+  }
+
   /* ─── NOISE TEXTURE overlay ─── */
   body::before {
     content: '';
