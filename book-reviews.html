@@ -161,6 +161,7 @@
   .banner-book-stack:hover { background: rgba(255,255,255,0.07); }
   @keyframes floatIn { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
 
+  /* ─── UPDATED: mini-cover now supports both <div> and <img> ─── */
   .mini-cover {
     width: 56px;
     flex-shrink: 0;
@@ -169,6 +170,10 @@
     align-items: center;
     justify-content: center;
     box-shadow: 3px 3px 0 rgba(0,0,0,0.4);
+    border-radius: 1px;
+    /* For <img> elements */
+    object-fit: cover;
+    /* For <div> fallback elements */
     font-family: 'Playfair Display', serif;
     font-size: 0.5rem;
     font-style: italic;
@@ -551,8 +556,17 @@
     <div class="hero-banner-right">
       <p class="banner-featured-label">✦ Recently Reviewed</p>
 
+      <!-- ─── BOOK 1: India that is Bharat ─── -->
+      <!-- TO USE YOUR OWN IMAGE: replace the src URL below with your image path -->
+      <!-- e.g. src="assets/covers/india-that-is-bharat.jpg" -->
+      <!-- The onerror attribute falls back to the gradient if the image fails to load -->
       <a href="india-that-is-bharat.html" class="banner-book-stack">
-        <div class="mini-cover" style="background:linear-gradient(160deg,#1a0500,#6b2000);">India that is Bharat</div>
+        <img
+          class="mini-cover"
+          src="https://m.media-amazon.com/images/I/51A7M17pBRL._SY445_SX342_FMwebp_.jpg"
+          alt="India that is Bharat book cover"
+          onerror="this.onerror=null;this.style.cssText='width:56px;flex-shrink:0;aspect-ratio:2/3;background:linear-gradient(160deg,#1a0500,#6b2000);box-shadow:3px 3px 0 rgba(0,0,0,0.4);border-radius:1px;display:flex;align-items:center;justify-content:center;font-family:Playfair Display,serif;font-size:0.5rem;font-style:italic;color:rgba(255,255,255,0.5);text-align:center;padding:4px;line-height:1.2;';"
+        >
         <div class="mini-book-info">
           <div class="mini-rating">
             <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
@@ -562,8 +576,15 @@
         </div>
       </a>
 
+      <!-- ─── BOOK 2: The Golden Road ─── -->
+      <!-- TO USE YOUR OWN IMAGE: replace the src URL below with your image path -->
       <a href="the-golden-road.html" class="banner-book-stack">
-        <div class="mini-cover" style="background:linear-gradient(160deg,#001a10,#00432a);">The Golden Road</div>
+        <img
+          class="mini-cover"
+          src="https://m.media-amazon.com/images/I/51ozAvvP6gL._SY445_SX342_FMwebp_.jpg"
+          alt="The Golden Road book cover"
+          onerror="this.onerror=null;this.style.cssText='width:56px;flex-shrink:0;aspect-ratio:2/3;background:linear-gradient(160deg,#001a10,#00432a);box-shadow:3px 3px 0 rgba(0,0,0,0.4);border-radius:1px;display:flex;align-items:center;justify-content:center;font-family:Playfair Display,serif;font-size:0.5rem;font-style:italic;color:rgba(255,255,255,0.5);text-align:center;padding:4px;line-height:1.2;';"
+        >
         <div class="mini-book-info">
           <div class="mini-rating">
             <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span>
@@ -573,8 +594,15 @@
         </div>
       </a>
 
+      <!-- ─── BOOK 3: Waiting for Shiva ─── -->
+      <!-- TO USE YOUR OWN IMAGE: replace the src URL below with your image path -->
       <a href="waiting-for-shiva.html" class="banner-book-stack">
-        <div class="mini-cover" style="background:linear-gradient(160deg,#100020,#380060);">Waiting for Shiva</div>
+        <img
+          class="mini-cover"
+          src="https://m.media-amazon.com/images/I/51uA+tMSCnL._SY445_SX342_FMwebp_.jpg"
+          alt="Waiting for Shiva book cover"
+          onerror="this.onerror=null;this.style.cssText='width:56px;flex-shrink:0;aspect-ratio:2/3;background:linear-gradient(160deg,#100020,#380060);box-shadow:3px 3px 0 rgba(0,0,0,0.4);border-radius:1px;display:flex;align-items:center;justify-content:center;font-family:Playfair Display,serif;font-size:0.5rem;font-style:italic;color:rgba(255,255,255,0.5);text-align:center;padding:4px;line-height:1.2;';"
+        >
         <div class="mini-book-info">
           <div class="mini-rating">
             <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
