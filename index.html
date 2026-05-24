@@ -928,7 +928,6 @@
     flex-direction: column;
     gap: 5px;
     padding: 5px;
-    z-index: 201;
   }
 
   .hamburger span {
@@ -938,73 +937,6 @@
     background: var(--parchment);
     transition: all 0.3s;
   }
-
-  /* Hamburger → X animation */
-  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .hamburger.open span:nth-child(2) { opacity: 0; }
-  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-  /* ─── MOBILE NAV DRAWER ─── */
-  .mobile-nav {
-    display: flex;
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: var(--ink);
-    z-index: 200;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    opacity: 0;
-    transform: translateX(100%);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    visibility: hidden;
-    pointer-events: none;
-  }
-
-  .mobile-nav.open {
-    opacity: 1;
-    transform: translateX(0);
-    visibility: visible;
-    pointer-events: all;
-  }
-
-  .mobile-nav a {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    font-weight: 600;
-    color: var(--parchment);
-    text-decoration: none;
-    padding: 1rem 2rem;
-    border-bottom: 1px solid #222;
-    width: 100%;
-    text-align: center;
-    transition: color 0.2s;
-    letter-spacing: 0.02em;
-  }
-
-  .mobile-nav a:hover { color: var(--saffron); }
-
-  .mobile-nav .mobile-cta {
-    margin-top: 1.5rem;
-    background: var(--saffron);
-    color: white !important;
-    border-radius: 2px;
-    border-bottom: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.9rem 2.5rem;
-    width: auto;
-  }
-
-  .mobile-nav .mobile-cta:hover { background: #c94f00; }
-
-  /* Active nav link highlight */
-  nav a.active { color: var(--saffron); }
-  .mobile-nav a.active { color: var(--saffron); }
 
   /* ─── RESPONSIVE ─── */
   @media (max-width: 1024px) {
@@ -1019,62 +951,58 @@
     .hamburger { display: flex; }
 
     .hero { grid-template-columns: 1fr; min-height: auto; }
-    .hero-left { padding: 3rem 1.5rem; }
+    .hero-left { padding: 3rem 2rem; }
     .hero-left::after { display: none; }
-    .hero-right { padding: 2rem 1.5rem; }
+    .hero-right { padding: 2rem; }
 
     .articles-grid { grid-template-columns: 1fr; }
     .books-grid { grid-template-columns: repeat(2, 1fr); }
     .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .about-portrait { max-width: 200px; margin: 0 auto; }
+    .about-portrait { max-width: 200px; }
     .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
     .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
     .newsletter-form { flex-direction: column; }
     .newsletter-form input, .newsletter-form button { width: 100%; }
   }
-
-  @media (max-width: 480px) {
-    .books-grid { grid-template-columns: 1fr; }
-    .hero-title { font-size: 2.4rem; }
-    .hero-left { padding: 2.5rem 1.25rem; }
-    .hero-right { padding: 1.5rem 1.25rem; }
-    .hero-card { padding: 1.75rem; }
-    .section-header { flex-direction: column; gap: 0.5rem; }
-  }
 </style>
 </head>
 <body>
 
+<!-- ─── PRELOADER ─── -->
+<div id="preloader">
+  <div class="pre-avatar-wrap">
+    <img class="pre-avatar-img" src="avatar.png" alt="sk4bharat" />
+  </div>
+  <div class="pre-logo">sk<span>4</span>bharat</div>
+  <div class="pre-tagline">Writer · Thinker · Speaker</div>
+  <div class="pre-bar-wrap">
+    <div class="pre-bar"></div>
+  </div>
+  <div class="pre-dots">
+    <span></span><span></span><span></span>
+  </div>
+</div>
+
 <!-- HEADER -->
 <header>
-  <a href="#hero" class="logo">
+  <a href="#" class="logo">
     <span class="logo-text">sk<span>4</span>bharat</span>
     <span class="logo-sub">Writer · Thinker · Speaker</span>
   </a>
   <nav>
-    <a href="#hero">Home</a>
-    <a href="article.html">Articles</a>
+    <a href="#">Home</a>
+    <a href="#articles">Articles</a>
     <a href="#books">Books</a>
-    <a href="store.html">Store</a>
     <a href="#about">About</a>
-    <a href="#newsletter" class="nav-cta">Contact</a>
+    <a href="#" class="nav-cta">Contact</a>
   </nav>
-  <button class="hamburger" id="hamburger" aria-label="Menu">
+  <button class="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </header>
 
-<!-- MOBILE NAV DRAWER -->
-<nav class="mobile-nav" id="mobileNav">
-  <a href="#hero" class="mobile-link">Home</a>
-  <a href="#articles" class="mobile-link">Articles</a>
-  <a href="#books" class="mobile-link">Books</a>
-  <a href="#about" class="mobile-link">About</a>
-  <a href="#newsletter" class="mobile-link mobile-cta">Contact</a>
-</nav>
-
 <!-- HERO -->
-<section class="hero" id="hero">
+<section class="hero">
   <div class="hero-left">
     <p class="hero-eyebrow">✦ Welcome to sk4bharat</p>
     <h1 class="hero-title">Stories that<br><em>shape</em> how<br>we see India</h1>
@@ -1095,7 +1023,7 @@
         <a href="#" class="tag">Identity</a>
         <a href="#" class="tag">Society</a>
       </div>
-      <a href="article.html" class="read-more">Read Article →</a>
+      <a href="#" class="read-more">Read Article →</a>
     </div>
   </div>
 </section>
@@ -1180,7 +1108,7 @@
 <div class="quote-band">
   <div class="container">
     <p class="quote-text">"Mythology is not primitive science. It is civilisational memory — encoded in story because story outlasts empires."</p>
-    <p class="quote-attr">— Sandeep Kumar</p>
+    <p class="quote-attr">— sk4bharat</p>
   </div>
 </div>
 
@@ -1201,7 +1129,7 @@
           <div class="book-cover-inner">
             <div class="book-cover-title">The Grammar of Bharat</div>
             <div class="book-cover-line"></div>
-            <div class="book-cover-author">Sandeep Kumar</div>
+            <div class="book-cover-author">sk4bharat</div>
           </div>
         </div>
         <div class="book-title">The Grammar of Bharat</div>
@@ -1213,7 +1141,7 @@
           <div class="book-cover-inner">
             <div class="book-cover-title">Sacred & Secular: Notes on Modern India</div>
             <div class="book-cover-line"></div>
-            <div class="book-cover-author">Sandeep Kumar</div>
+            <div class="book-cover-author">sk4bharat</div>
           </div>
         </div>
         <div class="book-title">Sacred & Secular</div>
@@ -1225,7 +1153,7 @@
           <div class="book-cover-inner">
             <div class="book-cover-title">Myth, Memory & the Making of a Nation</div>
             <div class="book-cover-line"></div>
-            <div class="book-cover-author">Sandeep Kumar</div>
+            <div class="book-cover-author">sk4bharat</div>
           </div>
         </div>
         <div class="book-title">Myth, Memory & the Making of a Nation</div>
@@ -1237,7 +1165,7 @@
           <div class="book-cover-inner">
             <div class="book-cover-title">The River and the Root</div>
             <div class="book-cover-line"></div>
-            <div class="book-cover-author">Sandeep Kumar</div>
+            <div class="book-cover-author">sk4bharat</div>
           </div>
         </div>
         <div class="book-title">The River and the Root</div>
@@ -1256,7 +1184,7 @@
       <div class="about-content">
         <span class="section-label">✦ About</span>
         <h2 class="about-title">Writing India<br>from the <em>inside</em></h2>
-        <p class="about-text">Sandeep Kumar writes at the crossroads of mythology, history, culture, and contemporary Indian life. The work draws on a belief that to understand where India is going, one must first understand — without romanticizing — where it has been.</p>
+        <p class="about-text">sk4bharat writes at the crossroads of mythology, history, culture, and contemporary Indian life. The work draws on a belief that to understand where India is going, one must first understand — without romanticizing — where it has been.</p>
         <p class="about-text">Articles, books, and talks have appeared across national publications, universities, and literary festivals. The audience spans students of history, professionals navigating modern India, and anyone who suspects that the old stories still have something urgent to say.</p>
         <div class="about-roles">
           <span class="role-pill">Writer</span>
@@ -1270,7 +1198,7 @@
 </section>
 
 <!-- NEWSLETTER -->
-<section class="newsletter-section" id="newsletter">
+<section class="newsletter-section">
   <div class="container">
     <h2 class="newsletter-title">Get new essays in your inbox</h2>
     <p class="newsletter-subtitle">No noise. Just ideas worth sitting with.</p>
@@ -1290,7 +1218,7 @@
         <p class="footer-tagline">Writing on mythology, history, culture, and the ideas that shape modern India.</p>
         <div class="social-links">
           <a href="#" class="social-link">Twitter</a>
-          <a href="https://www.instagram.com/sk.4bharat/" class="social-link">Instagram</a>
+          <a href="#" class="social-link">Instagram</a>
           <a href="#" class="social-link">YouTube</a>
           <a href="#" class="social-link">LinkedIn</a>
         </div>
@@ -1313,7 +1241,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-copy">© 2026 Sandeep Kumar. All rights reserved.</p>
+      <p class="footer-copy">© 2026 sk4bharat. All rights reserved.</p>
       <div class="footer-legal">
         <a href="#">Terms of Use</a>
         <a href="#">Privacy Policy</a>
@@ -1323,7 +1251,24 @@
 </footer>
 
 <script>
-  // ── Scroll animation for article/book cards ──
+  // ─── PRELOADER LOGIC ───
+  document.body.classList.add('loading');
+
+  function dismissPreloader() {
+    const pre = document.getElementById('preloader');
+    pre.classList.add('hide');
+    document.body.classList.remove('loading');
+    setTimeout(() => pre.remove(), 700);
+  }
+
+  const minDelay = new Promise(res => setTimeout(res, 2500));
+  const pageLoad = new Promise(res => {
+    if (document.readyState === 'complete') res();
+    else window.addEventListener('load', res);
+  });
+  Promise.all([minDelay, pageLoad]).then(dismissPreloader);
+
+  // Subtle scroll animation for article cards
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -1340,7 +1285,7 @@
     observer.observe(card);
   });
 
-  // ── Newsletter button feedback ──
+  // Newsletter button feedback
   document.querySelector('.newsletter-form button').addEventListener('click', function() {
     const input = document.querySelector('.newsletter-form input');
     if (input.value && input.value.includes('@')) {
@@ -1356,59 +1301,6 @@
       input.focus();
     }
   });
-
-  // ── Hamburger / Mobile Nav ──
-  const hamburger = document.getElementById('hamburger');
-  const mobileNav = document.getElementById('mobileNav');
-
-  function openMenu() {
-    hamburger.classList.add('open');
-    mobileNav.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeMenu() {
-    hamburger.classList.remove('open');
-    mobileNav.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  hamburger.addEventListener('click', () => {
-    mobileNav.classList.contains('open') ? closeMenu() : openMenu();
-  });
-
-  // Close menu on mobile link click
-  document.querySelectorAll('.mobile-link').forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
-
-  // ── Active nav highlight on scroll ──
-  const sections = [
-    { id: 'hero',       label: 'hero' },
-    { id: 'articles',   label: 'articles' },
-    { id: 'books',      label: 'books' },
-    { id: 'about',      label: 'about' },
-    { id: 'newsletter', label: 'newsletter' },
-  ];
-
-  const navLinks = document.querySelectorAll('nav a, .mobile-nav a');
-
-  function setActive() {
-    let current = 'hero';
-    sections.forEach(({ id }) => {
-      const el = document.getElementById(id);
-      if (el && window.scrollY >= el.offsetTop - 100) current = id;
-    });
-    navLinks.forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === '#' + current) {
-        link.classList.add('active');
-      }
-    });
-  }
-
-  window.addEventListener('scroll', setActive, { passive: true });
-  setActive();
 </script>
 </body>
 </html>
