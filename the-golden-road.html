@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Golden Road — How Ancient India Transformed the World</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+Devanagari:wght@400;500&family=Noto+Serif+Khmer:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold-deep:    #9A6B1F;
+  --gold-mid:     #C8922A;
+  --gold-light:   #E8B84B;
+  --gold-pale:    #FDF5E0;
+  --gold-faint:   #FFFBF0;
+  --teal-deep:    #0D4A47;
+  --teal-mid:     #1A6B66;
+  --teal-light:   #2A9E96;
+  --teal-pale:    #E8F6F5;
+  --rust:         #A0401A;
+  --rust-pale:    #FBF0EB;
+  --ink:          #1A1209;
+  --ink-mid:      #3D2B10;
+  --ink-muted:    #7A6040;
+  --parchment:    #FBF7EF;
+  --parchment-2:  #F5EDD8;
+  --border-gold:  rgba(200, 146, 42, 0.22);
+  --border-teal:  rgba(26, 107, 102, 0.18);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Crimson Pro', 'Georgia', serif;
+  background: var(--parchment);
+  color: var(--ink-mid);
+  font-size: 19px;
+  line-height: 1.85;
+  font-weight: 300;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  overflow: hidden;
+}
+
+/* decorative trade-route lines */
+.hero-bg-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.07;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 80px 76px;
+  max-width: 920px;
+}
+
+.hero-label {
+  font-family: 'Crimson Pro', serif;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 26px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hero-label::before {
+  content: '';
+  width: 40px; height: 1px;
+  background: var(--gold-light);
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(52px, 7vw, 96px);
+  font-weight: 600;
+  line-height: 0.95;
+  color: #FAF3E0;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.hero-title span {
+  display: block;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 0.55em;
+  color: var(--gold-light);
+  letter-spacing: 0.06em;
+  margin-top: 10px;
+}
+
+.hero-devanagari {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: 20px;
+  color: rgba(255,255,255,0.22);
+  margin: 18px 0 30px;
+  letter-spacing: 0.05em;
+}
+
+.hero-blurb {
+  font-size: 18px;
+  line-height: 1.72;
+  color: rgba(255,255,255,0.62);
+  max-width: 640px;
+  margin-bottom: 44px;
+  font-weight: 300;
+}
+
+.hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+.hero-pill {
+  border: 1px solid rgba(200,146,42,0.4);
+  color: var(--gold-light);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 2px;
+  font-family: 'Crimson Pro', serif;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  padding-top: 28px;
+  border-top: 1px solid rgba(200,146,42,0.2);
+}
+.hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+.hero-meta-key {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+}
+.hero-meta-val {
+  font-size: 15px;
+  color: rgba(255,255,255,0.78);
+  font-weight: 400;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 36px;
+  right: 80px;
+  writing-mode: vertical-rl;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Crimson Pro', serif;
+}
+.hero-scroll::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 50px;
+  background: rgba(255,255,255,0.15);
+}
+
+/* ── route map banner ── */
+.route-banner {
+  background: var(--teal-deep);
+  padding: 28px 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  overflow: hidden;
+  position: relative;
+}
+.route-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent, transparent 40px,
+    rgba(255,255,255,0.03) 40px, rgba(255,255,255,0.03) 41px
+  );
+}
+.route-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  z-index: 1;
+}
+.route-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--gold-light);
+  border: 2px solid var(--teal-deep);
+  box-shadow: 0 0 0 2px var(--gold-light);
+}
+.route-city {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  font-family: 'Crimson Pro', serif;
+}
+.route-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold-mid), var(--gold-light), var(--gold-mid));
+  opacity: 0.5;
+  position: relative;
+  z-index: 1;
+}
+.route-line::after {
+  content: '▶';
+  position: absolute;
+  right: -4px;
+  top: -7px;
+  font-size: 8px;
+  color: var(--gold-light);
+  opacity: 0.7;
+}
+
+/* ── sticky nav ── */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  background: rgba(251,247,239,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-gold);
+  z-index: 100;
+  padding: 0 80px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+}
+.nav-link {
+  font-family: 'Crimson Pro', serif;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink-muted);
+  padding: 16px 18px;
+  border-bottom: 2px solid transparent;
+  transition: color .2s, border-color .2s;
+  white-space: nowrap;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--gold-deep);
+  border-bottom-color: var(--gold-deep);
+}
+
+/* ── layout ── */
+.layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 80px;
+  display: grid;
+  grid-template-columns: 1fr 288px;
+  gap: 80px;
+  align-items: start;
+}
+
+/* ── sections ── */
+section {
+  padding: 72px 0;
+  border-bottom: 1px solid var(--border-gold);
+}
+section:last-child { border-bottom: none; }
+
+.sec-eyebrow {
+  font-family: 'Crimson Pro', serif;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--teal-mid);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sec-eyebrow::after {
+  content: '';
+  width: 48px; height: 1px;
+  background: var(--border-teal);
+}
+
+.sec-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(30px, 4vw, 50px);
+  font-weight: 600;
+  line-height: 1.12;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 30px;
+}
+.sec-title em { font-style: italic; color: var(--gold-deep); }
+
+p { margin-bottom: 22px; }
+p:last-child { margin-bottom: 0; }
+
+/* ── pull quote ── */
+.pq {
+  margin: 48px 0;
+  display: grid;
+  grid-template-columns: 4px 1fr;
+  gap: 0 28px;
+}
+.pq-bar {
+  background: linear-gradient(180deg, var(--gold-mid), var(--gold-light));
+  border-radius: 2px;
+}
+.pq-body {}
+.pq p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.pq cite {
+  font-size: 13px;
+  font-style: normal;
+  color: var(--ink-muted);
+  letter-spacing: 0.04em;
+}
+
+/* ── empire-of-ideas card grid ── */
+.idea-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 40px 0;
+}
+.idea-card {
+  background: var(--parchment-2);
+  border: 1px solid var(--border-gold);
+  border-radius: 4px;
+  padding: 26px 22px;
+  position: relative;
+  overflow: hidden;
+}
+.idea-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.idea-card:nth-child(1)::before { background: var(--gold-mid); }
+.idea-card:nth-child(2)::before { background: var(--teal-mid); }
+.idea-card:nth-child(3)::before { background: var(--rust); }
+.idea-card:nth-child(4)::before { background: var(--gold-deep); }
+.idea-card:nth-child(5)::before { background: var(--teal-light); }
+.idea-card:nth-child(6)::before { background: var(--gold-mid); }
+
+.idea-icon {
+  font-size: 26px;
+  margin-bottom: 10px;
+  display: block;
+}
+.idea-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 7px;
+}
+.idea-desc {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+/* ── dark concept box ── */
+.dark-box {
+  background: var(--teal-deep);
+  border-radius: 6px;
+  padding: 40px 44px;
+  margin: 48px 0;
+  position: relative;
+  overflow: hidden;
+}
+.dark-box::after {
+  content: 'INDOSPHERE';
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 60px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.04);
+  letter-spacing: 0.1em;
+  pointer-events: none;
+}
+.dark-box h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #FAF3E0;
+  margin-bottom: 14px;
+}
+.dark-box p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 16px;
+}
+.dark-box p:last-child { margin-bottom: 0; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.tag {
+  background: rgba(200,146,42,0.18);
+  border: 1px solid rgba(200,146,42,0.35);
+  color: var(--gold-light);
+  font-size: 11px;
+  padding: 4px 13px;
+  border-radius: 20px;
+  letter-spacing: 0.07em;
+  font-family: 'Crimson Pro', serif;
+}
+
+/* ── stat row ── */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border-gold);
+  border: 1px solid var(--border-gold);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 44px 0;
+}
+.stat-cell {
+  background: var(--parchment);
+  padding: 26px 20px;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px;
+  font-weight: 600;
+  color: var(--gold-deep);
+  line-height: 1;
+  display: block;
+}
+.stat-unit { font-size: 14px; color: var(--gold-mid); margin-left: 2px; }
+.stat-lbl {
+  font-size: 12px;
+  color: var(--ink-muted);
+  letter-spacing: 0.04em;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+/* ── journey timeline ── */
+.journey {
+  margin: 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.journey-step {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 24px;
+  position: relative;
+}
+.journey-step::after {
+  content: '';
+  position: absolute;
+  left: 92px;
+  top: 28px;
+  bottom: -1px;
+  width: 1px;
+  background: var(--border-gold);
+}
+.journey-step:last-child::after { display: none; }
+.journey-left {
+  text-align: right;
+  padding-top: 4px;
+  padding-bottom: 32px;
+}
+.journey-year {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold-deep);
+  display: block;
+}
+.journey-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--gold-mid);
+  border: 2px solid var(--parchment);
+  box-shadow: 0 0 0 1.5px var(--gold-mid);
+  display: inline-block;
+  margin-top: 6px;
+  position: relative;
+  left: 14px;
+}
+.journey-right {
+  padding-bottom: 32px;
+}
+.journey-right h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 5px;
+  line-height: 1.3;
+}
+.journey-right p {
+  font-size: 15px;
+  color: var(--ink-muted);
+  margin: 0;
+  line-height: 1.65;
+}
+
+/* ── testimonials ── */
+.t-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin: 40px 0;
+}
+.t-card {
+  background: var(--parchment-2);
+  border: 1px solid var(--border-gold);
+  border-radius: 4px;
+  padding: 26px 28px;
+}
+.t-card p {
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink-mid);
+  margin-bottom: 14px;
+}
+.t-author { font-size: 13px; color: var(--ink-muted); }
+.t-author strong {
+  display: block;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--ink);
+  margin-bottom: 2px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+}
+
+/* ── gold highlight box ── */
+.gold-box {
+  background: var(--gold-pale);
+  border: 1px solid rgba(200,146,42,0.3);
+  border-radius: 6px;
+  padding: 32px 36px;
+  margin: 44px 0;
+}
+.gold-box h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--gold-deep);
+  margin-bottom: 12px;
+}
+.gold-box p {
+  font-size: 16px;
+  line-height: 1.78;
+  color: var(--ink-mid);
+  margin-bottom: 14px;
+}
+.gold-box p:last-child { margin-bottom: 0; }
+
+/* ── pillars ── */
+.pillars { display: grid; gap: 14px; margin: 40px 0; }
+.pillar {
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+  background: var(--parchment-2);
+  border: 1px solid var(--border-gold);
+  border-radius: 4px;
+  padding: 22px 24px;
+}
+.pillar-n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px;
+  font-weight: 600;
+  color: rgba(154,107,31,0.18);
+  line-height: 1;
+  min-width: 44px;
+}
+.pillar h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 5px;
+}
+.pillar p { font-size: 14px; line-height: 1.65; color: var(--ink-muted); margin: 0; }
+
+/* ── sidebar ── */
+.sidebar {
+  position: sticky;
+  top: 56px;
+  padding-top: 72px;
+}
+.s-card {
+  background: var(--parchment-2);
+  border: 1px solid var(--border-gold);
+  border-radius: 6px;
+  padding: 26px 22px;
+  margin-bottom: 22px;
+}
+.s-card h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-gold);
+}
+.s-stat { margin-bottom: 18px; }
+.s-stat:last-child { margin-bottom: 0; }
+.s-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--gold-deep);
+  line-height: 1;
+  display: block;
+}
+.s-lbl { font-size: 13px; color: var(--ink-muted); margin-top: 4px; }
+
+.toc-link {
+  display: block;
+  font-size: 13px;
+  color: var(--ink-muted);
+  text-decoration: none;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border-gold);
+  transition: color .2s, padding-left .2s;
+  line-height: 1.45;
+}
+.toc-link:last-child { border-bottom: none; }
+.toc-link:hover { color: var(--gold-deep); padding-left: 6px; }
+
+/* ── epigraph ── */
+.epigraph {
+  background: var(--teal-deep);
+  padding: 60px 80px;
+  text-align: center;
+}
+.epigraph-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-bottom: 28px;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.12);
+}
+.flag-s { width: 30px; height: 20px; }
+.epigraph blockquote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-style: italic;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.82);
+  max-width: 680px;
+  margin: 0 auto 16px;
+}
+.epigraph cite {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.38);
+}
+
+/* ── footer ── */
+footer {
+  background: var(--ink);
+  padding: 56px 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+footer p { font-size: 14px; color: rgba(255,255,255,0.4); margin: 0; }
+footer strong {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 6px;
+}
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; padding: 0 28px; }
+  .sidebar { position: static; padding-top: 0; }
+  .hero-content, .route-banner, .nav-bar, footer, .epigraph { padding-left: 28px; padding-right: 28px; }
+  .idea-grid, .stat-row, .t-grid { grid-template-columns: 1fr; }
+  .stat-row { gap: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<header class="hero">
+  <svg class="hero-bg-lines" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <!-- Maritime trade routes as flowing paths across the hero -->
+    <path d="M-40 600 Q200 520 400 560 Q650 610 900 480 Q1100 380 1200 420 Q1320 460 1480 380" fill="none" stroke="#C8922A" stroke-width="1.2" stroke-dasharray="6 10"/>
+    <path d="M-40 650 Q150 580 380 620 Q600 660 820 550 Q1000 460 1200 500 Q1350 530 1480 450" fill="none" stroke="#2A9E96" stroke-width="0.8" stroke-dasharray="4 14"/>
+    <path d="M200 900 Q350 780 500 720 Q700 640 950 600 Q1150 570 1480 480" fill="none" stroke="#C8922A" stroke-width="0.7" stroke-dasharray="3 12"/>
+    <!-- City dots on routes -->
+    <circle cx="400" cy="560" r="4" fill="#C8922A" opacity="0.6"/>
+    <circle cx="900" cy="480" r="4" fill="#2A9E96" opacity="0.6"/>
+    <circle cx="1200" cy="420" r="4" fill="#C8922A" opacity="0.6"/>
+    <circle cx="650" cy="610" r="3" fill="#E8B84B" opacity="0.5"/>
+    <circle cx="1100" cy="380" r="3" fill="#E8B84B" opacity="0.5"/>
+    <!-- Compass rose -->
+    <g transform="translate(1300,200)" opacity="0.5">
+      <circle r="60" fill="none" stroke="#C8922A" stroke-width="0.6"/>
+      <circle r="40" fill="none" stroke="#C8922A" stroke-width="0.4"/>
+      <line x1="0" y1="-65" x2="0" y2="65" stroke="#C8922A" stroke-width="0.6"/>
+      <line x1="-65" y1="0" x2="65" y2="0" stroke="#C8922A" stroke-width="0.6"/>
+      <line x1="-46" y1="-46" x2="46" y2="46" stroke="#C8922A" stroke-width="0.4"/>
+      <line x1="46" y1="-46" x2="-46" y2="46" stroke="#C8922A" stroke-width="0.4"/>
+      <polygon points="0,-70 5,-10 0,0 -5,-10" fill="#E8B84B"/>
+      <polygon points="0,70 5,10 0,0 -5,10" fill="#C8922A"/>
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-label">Book Review · 2024 · History &amp; Civilisation</div>
+    <h1 class="hero-title">
+      The Golden Road
+      <span>How Ancient India Transformed the World</span>
+    </h1>
+    <div class="hero-devanagari">सुवर्ण मार्ग — भारत जो विश्व का हृदय था</div>
+    <p class="hero-blurb">For a millennium and a half, India was not a peripheral civilisation awaiting discovery — it was the beating heart of Eurasia, exporting mathematics, philosophy, religion, art, and commerce along a vast Golden Road stretching from the Red Sea to the Pacific. William Dalrymple's landmark 2024 work makes this forgotten story impossible to ignore.</p>
+    <div class="hero-pills">
+      <span class="hero-pill">250 BCE – 1200 CE</span>
+      <span class="hero-pill">The Indosphere</span>
+      <span class="hero-pill">Maritime Trade Routes</span>
+      <span class="hero-pill">Soft Power</span>
+      <span class="hero-pill">Decolonial History</span>
+    </div>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-key">Author</span>
+        <span class="hero-meta-val">William Dalrymple</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-key">Published</span>
+        <span class="hero-meta-val">2024 · Bloomsbury</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-key">Pages</span>
+        <span class="hero-meta-val">432</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-key">ISBN</span>
+        <span class="hero-meta-val">978-1-5266-8125-6</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll to read</div>
+</header>
+
+<!-- ══ ROUTE BANNER ══ -->
+<div class="route-banner" role="img" aria-label="The Golden Road trade route from Rome to the Pacific">
+  <div class="route-node"><div class="route-dot"></div><span class="route-city">Rome</span></div>
+  <div class="route-line"></div>
+  <div class="route-node"><div class="route-dot"></div><span class="route-city">Berenike</span></div>
+  <div class="route-line"></div>
+  <div class="route-node"><div class="route-dot"></div><span class="route-city">Mamallapuram</span></div>
+  <div class="route-line"></div>
+  <div class="route-node"><div class="route-dot"></div><span class="route-city">Nalanda</span></div>
+  <div class="route-line"></div>
+  <div class="route-node"><div class="route-dot"></div><span class="route-city">Borobudur</span></div>
+  <div class="route-line"></div>
+  <div class="route-node"><div class="route-dot"></div><span class="route-city">Angkor Wat</span></div>
+  <div class="route-line"></div>
+  <div class="route-node"><div class="route-dot"></div><span class="route-city">Chang'an</span></div>
+  <div class="route-line"></div>
+  <div class="route-node"><div class="route-dot"></div><span class="route-city">Pacific</span></div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav class="nav-bar" aria-label="Article navigation">
+  <a href="#overview" class="nav-link active">Overview</a>
+  <a href="#author" class="nav-link">The Author</a>
+  <a href="#rome" class="nav-link">India &amp; Rome</a>
+  <a href="#buddhism" class="nav-link">Buddhism</a>
+  <a href="#indosphere" class="nav-link">The Indosphere</a>
+  <a href="#knowledge" class="nav-link">Knowledge</a>
+  <a href="#verdict" class="nav-link">Verdict</a>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<div class="layout">
+<main>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="sec-eyebrow">Overview</div>
+  <h2 class="sec-title">India — The <em>Forgotten</em> Heart of the Ancient World</h2>
+
+  <p>Type "Silk Road" into any search engine and you will be met with thousands of results, dozens of documentaries, and an entire popular mythology centred on the overland route connecting China to the Mediterranean. Type "India's role in the ancient world" and the results are comparatively sparse. That asymmetry — in popular memory, in publishing, in pedagogy — is precisely what William Dalrymple sets out to correct in <em>The Golden Road</em>, his most ambitious book to date.</p>
+
+  <p>Dalrymple's central argument is both simple and startling. From roughly 250 BCE to 1200 CE — a span of nearly fifteen centuries — India was the gravitational centre of Eurasian civilisation. Not through military conquest, not through imperial subjugation, but through what we might today call soft power: the irresistible allure of its ideas, its art, its mathematics, its philosophies, and its merchants. The route these ideas travelled — primarily maritime, riding the monsoon winds that Indian sailors had mapped and mastered centuries before anyone else — he names for the first time: the Golden Road.</p>
+
+  <div class="stat-row" role="region" aria-label="Key statistics">
+    <div class="stat-cell">
+      <span class="stat-num">1,450<span class="stat-unit">yrs</span></span>
+      <div class="stat-lbl">Span of India's civilisational dominance</div>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num">1B<span class="stat-unit">+</span></span>
+      <div class="stat-lbl">Sesterces of Indian goods entering Rome annually</div>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num">657</span>
+      <div class="stat-lbl">Sanskrit texts Xuanzang carried back to China after 16 years in India</div>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num">4×</span>
+      <div class="stat-lbl">Angkor Wat's size compared to the entire Vatican City</div>
+    </div>
+  </div>
+
+  <p>This is, as Dalrymple freely acknowledges, a familiar claim to Indian scholars and to anyone acquainted with the literature. What is new is the synthesis: never before has this story been marshalled across its full geographic and temporal sweep, from the Red Sea port of Berenike to the Tang dynasty court of Chang'an, from the Ajanta caves to the Khmer temples of Cambodia, and told with the narrative verve for which Dalrymple has no peer among popular historians of South Asia.</p>
+
+  <div class="pq">
+    <div class="pq-bar"></div>
+    <div class="pq-body">
+      <p>Everywhere I could see India, yet I could not recognize it.</p>
+      <cite>— Rabindranath Tagore, on his 1927 visit to Southeast Asia, quoted by Dalrymple</cite>
+    </div>
+  </div>
+
+  <p>Tagore's observation — bewildered wonder at an India he recognised but could not place — captures perfectly what <em>The Golden Road</em> aims to restore: a self-understanding for readers who have been educated to think of India as the perpetual recipient of outside influence rather than its greatest ancient donor.</p>
+</section>
+
+<!-- AUTHOR -->
+<section id="author">
+  <div class="sec-eyebrow">The Author</div>
+  <h2 class="sec-title">A Lifetime in the <em>Subcontinent</em></h2>
+
+  <p>William Dalrymple is, by any measure, the most widely read historian of South Asia writing in English today. A Scottish writer who has made India his home for three decades, he is the co-founder of the Jaipur Literature Festival, a Fellow of the Royal Society of Literature and of the Royal Asiatic Society, and the author of a body of work that has consistently brought rigorous scholarship to a mass readership.</p>
+
+  <p>His earlier books traced the more recent centuries of South Asian history — <em>White Mughals</em> examined the cultural fusion of the Mughal court and British officers; <em>The Last Mughal</em> reconstructed the fall of Delhi in 1857; <em>Return of a King</em> narrated the catastrophe of the First Anglo-Afghan War; and <em>The Anarchy</em> — perhaps his most celebrated work — told the staggering story of the East India Company's corporate conquest of a subcontinent. These are books about encounter, about conquest, about the end of things.</p>
+
+  <div class="journey">
+    <div class="journey-step">
+      <div class="journey-left">
+        <span class="journey-year">1960s</span>
+        <span class="journey-dot"></span>
+      </div>
+      <div class="journey-right">
+        <h4>Born in Scotland; early fascination with India</h4>
+        <p>Dalrymple grew up in Scotland and first travelled to India at eighteen, an encounter that would permanently alter his intellectual trajectory.</p>
+      </div>
+    </div>
+    <div class="journey-step">
+      <div class="journey-left">
+        <span class="journey-year">1993</span>
+        <span class="journey-dot"></span>
+      </div>
+      <div class="journey-right">
+        <h4><em>City of Djinns</em> — debut success</h4>
+        <p>His first book, an immersive portrait of Delhi, won the Thomas Cook Travel Book Award and established him as a major new voice in narrative history.</p>
+      </div>
+    </div>
+    <div class="journey-step">
+      <div class="journey-left">
+        <span class="journey-year">2002</span>
+        <span class="journey-dot"></span>
+      </div>
+      <div class="journey-right">
+        <h4><em>White Mughals</em> — cultural synthesis</h4>
+        <p>A landmark work on the intermarriage of British officers and Mughal aristocrats, winning the Wolfson History Prize and reaching a global readership.</p>
+      </div>
+    </div>
+    <div class="journey-step">
+      <div class="journey-left">
+        <span class="journey-year">2019</span>
+        <span class="journey-dot"></span>
+      </div>
+      <div class="journey-right">
+        <h4><em>The Anarchy</em> — the Company's conquest</h4>
+        <p>A sweeping account of how the East India Company came to rule a subcontinent, described by the Wall Street Journal as "rampaging, brilliant, passionate."</p>
+      </div>
+    </div>
+    <div class="journey-step">
+      <div class="journey-left">
+        <span class="journey-year">2024</span>
+        <span class="journey-dot"></span>
+      </div>
+      <div class="journey-right">
+        <h4><em>The Golden Road</em> — the prequel to everything</h4>
+        <p>His most chronologically ambitious work yet: a history of India not as a land conquered but as a civilisation that conquered the world through ideas, trade, and culture.</p>
+      </div>
+    </div>
+  </div>
+
+  <p><em>The Golden Road</em> is, in a sense, the prequel to all of these — the story of what India was before the disasters began. It is a book about power held gently, about influence exercised through attraction rather than force, about a civilisation so confident in its own worth that it had no need to name its own empire. It required, Dalrymple writes, "a lifetime of scholarship" to accumulate the material needed to tell it.</p>
+</section>
+
+<!-- INDIA & ROME -->
+<section id="rome">
+  <div class="sec-eyebrow">The Western Connection</div>
+  <h2 class="sec-title">India and Rome — <em>Forgotten Partners</em></h2>
+
+  <p>The book opens in early March 2022, at Berenike — a desolate stretch of the Egyptian Red Sea coast that turns out to be one of the most revelatory archaeological sites of the century. From a storeroom of the Isis temple, a team excavating the site dislodges the head and torso of a Buddha, sculpted from Proconnesian marble and almost certainly fabricated in a workshop in second-century Alexandria — the first Buddhist image ever discovered to the west of Afghanistan. Alongside it: pottery from Spain, beads from Vietnam and Java, and enormous quantities of Indian black peppercorns.</p>
+
+  <p>This discovery encapsulates the book's opening argument: that India, not China, was Rome's greatest trading partner. The first trade routes between India and Europe were not overland but maritime — riding the monsoon winds that Indian sailors had understood and exploited for centuries, ships could carry cargoes no caravan could match, sailing around wars, blockades, and mountain passes with ease.</p>
+
+  <div class="gold-box">
+    <h3>The Trade Deficit That May Have Broken an Empire</h3>
+    <p>The scale of Rome-India trade was staggering. Dalrymple estimates the value of Indian goods — diamonds, rubies, silks, sandalwood, ebony, teak, ivory, pepper, and exotic animals for the Coliseum's spectacles — at over one billion sesterces entering Roman ports each year. Roman senators complained repeatedly about the gold haemorrhaging east.</p>
+    <p>Roman gold flowed into India in such quantities that some economic historians have speculated the trade imbalance may have been a factor in the Empire's eventual fiscal collapse — a more material explanation for Rome's fall than the Christianity that Gibbon famously blamed. India, meanwhile, used this influx to fund an extraordinary efflorescence of art, architecture, and scholarship.</p>
+  </div>
+
+  <p>The city of Mamallapuram, on the Coromandel coast of what is now Tamil Nadu, stands as the physical monument to this wealth. In the heyday of the Pallava dynasty, from around 600 to 900 CE, it was arguably the greatest seaport in India. The astonishing sculptures carved directly from the coastal rocks — gods and goddesses, lions, elephants, cobras, water buffalo — were the calling cards of a civilisation that knew it was being watched and wanted to impress. The ships that once rode at anchor off its shore connected it to the known world.</p>
+</section>
+
+<!-- BUDDHISM -->
+<section id="buddhism">
+  <div class="sec-eyebrow">The Spiritual Superpower</div>
+  <h2 class="sec-title">Buddhism — <em>India's Greatest Export</em></h2>
+
+  <p>If commerce was one vehicle for India's influence, religion was the other — and of India's religious exports, none travelled further or transformed more utterly than Buddhism. Born in the foothills of the Himalayas, carried along maritime routes and mountain passes, Buddhism became the dominant faith of China, Japan, Korea, Tibet, Southeast Asia, and much of Central Asia. Dalrymple devotes the book's longest and richest section to this extraordinary journey.</p>
+
+  <div class="idea-grid">
+    <div class="idea-card">
+      <span class="idea-icon">🕌</span>
+      <div class="idea-title">Nalanda University</div>
+      <p class="idea-desc">Ten thousand monks and scholars in Bihar, housing one of the ancient world's greatest libraries — a blueprint for the university system that later spread to Oxford, Cambridge, and the Sorbonne.</p>
+    </div>
+    <div class="idea-card">
+      <span class="idea-icon">🚶</span>
+      <div class="idea-title">Xuanzang's Pilgrimage</div>
+      <p class="idea-desc">The Chinese monk defied his Emperor to spend sixteen years in India, returning with 657 Sanskrit texts that would fundamentally reshape Chinese civilisation.</p>
+    </div>
+    <div class="idea-card">
+      <span class="idea-icon">👑</span>
+      <div class="idea-title">Empress Wu Zetian</div>
+      <p class="idea-desc">China's only female emperor elevated Buddhism to the state religion, pouring resources into translating Sanskrit texts and building temples across her realm.</p>
+    </div>
+    <div class="idea-card">
+      <span class="idea-icon">🎨</span>
+      <div class="idea-title">Ajanta Cave Paintings</div>
+      <p class="idea-desc">The oldest surviving Buddhist paintings in the world, in Maharashtra's Western Ghats — a visual record of the aesthetic universe that India was transmitting eastward.</p>
+    </div>
+    <div class="idea-card">
+      <span class="idea-icon">⛩️</span>
+      <div class="idea-title">Gandharan Art</div>
+      <p class="idea-desc">Where Greek artistic traditions met Indian Buddhist iconography in the northwest, producing the first human depictions of the Buddha — a hybrid art form that changed both traditions.</p>
+    </div>
+    <div class="idea-card">
+      <span class="idea-icon">📜</span>
+      <div class="idea-title">Kumarajiva's Translations</div>
+      <p class="idea-desc">The fourth-century scholar — son of a Gandharan Brahmin and a Kucha princess — led the industrialised translation of Sanskrit Buddhist texts into Chinese on a scale never seen before.</p>
+    </div>
+  </div>
+
+  <p>Dalrymple's account of the monk Xuanzang is among the most vivid in the book. In 629 CE, in turbulent times, this Chinese scholar defied the direct orders of Emperor Taizong to undertake a three-thousand-mile journey across the Taklamakan desert, through the passes of Central Asia, and into the Indian subcontinent — driven by a hunger for the source texts of Buddhist philosophy and a need to learn at the feet of its greatest living masters.</p>
+
+  <div class="pq">
+    <div class="pq-bar"></div>
+    <div class="pq-body">
+      <p>No freshman from the sticks can ever have had his mind more thoroughly blown by the university experience.</p>
+      <cite>— Ferdinand Mount, London Review of Books, on Xuanzang's arrival at Nalanda</cite>
+    </div>
+  </div>
+
+  <p>What Xuanzang found at Nalanda — endless courtyards and temples, ten thousand monks and scholars engaged in philosophy, mathematics, logic, medicine, and metaphysics — had no equivalent anywhere in the world. The university system that would eventually produce Oxford, Cambridge, and the Sorbonne traces its lineage, Dalrymple argues, through the Buddhist monasteries of northern India, through the madrasas of the Islamic world, to that astonishing institution in Bihar. The idea of gathering scholars in a secluded community dedicated to learning is, at its root, an Indian idea.</p>
+</section>
+
+<!-- INDOSPHERE -->
+<section id="indosphere">
+  <div class="sec-eyebrow">Cultural Geography</div>
+  <h2 class="sec-title">The <em>Indosphere</em> — An Empire Without Emperors</h2>
+
+  <p>The concept around which the book's second half organises itself is the "Indosphere" — Dalrymple's term for the vast cultural zone shaped by Indian religions, languages, arts, and ideas that stretched from Afghanistan and the Malabar coast eastward to Vietnam, Cambodia, Java, and beyond. It is one of the most consequential cultural formations in human history, and one of the least recognised.</p>
+
+  <div class="dark-box">
+    <h3>What the Indosphere Looked Like</h3>
+    <p>Sanskrit inscriptions in the jungles of Indonesia. Hindu temples in Vietnam that rival those in Tamil Nadu itself. Buddhist monasteries in Japan modelled on Indian originals. The Mahabharata and Ramayana performed as living epics in Bali and Thailand. Khmer kings adopting Sanskrit as their court language and Hindu cosmology as their state theology. Indian astronomical tables at the court of the Abbasid Caliphate in Baghdad. Indian mathematical notation in the libraries of Muslim Andalusia.</p>
+    <p>This was not an empire imposed by force. It was a cultural universe adopted by choice — by rulers who found in Indian civilisation an incomparable source of prestige, sophistication, and metaphysical authority. The Khmer king who built Angkor Wat was not Indian. He was Cambodian, and he chose to make the largest religious monument on earth a temple to the Hindu cosmos.</p>
+    <div class="tag-row">
+      <span class="tag">Angkor Wat</span>
+      <span class="tag">Borobudur</span>
+      <span class="tag">Srivijaya</span>
+      <span class="tag">Chola Dynasty</span>
+      <span class="tag">Pallava</span>
+      <span class="tag">Sanskrit Cosmopolis</span>
+    </div>
+  </div>
+
+  <p>With the decline of Roman trade in the fifth century, Indian merchants pivoted east. The resulting sea trade with China through the Java Sea and the Malacca Straits gave rise, along its navigation routes, to the great Indianised polities of Southeast Asia: Srivijaya in Sumatra, the Sailendra dynasty in Java (builders of Borobudur, the world's largest Buddhist monument), and the Khmer empire in Cambodia, whose Angkor Wat is four times the size of the Vatican City.</p>
+
+  <div class="t-grid">
+    <div class="t-card">
+      <p>The Golden Road is a vivid and richly detailed story. Dalrymple is a born storyteller, with a wonderful facility for expounding complex events with verve and clarity.</p>
+      <div class="t-author"><strong>The New York Times Book Review</strong>Worth reading by everyone.</div>
+    </div>
+    <div class="t-card">
+      <p>Dalrymple's book has deeper and even more provoking resonances, which indirectly challenge the way history is usually written. A tour de force.</p>
+      <div class="t-author"><strong>Australian Book Review</strong>Prof. Marika Vicziany, Monash University</div>
+    </div>
+    <div class="t-card">
+      <p>A multifarious and engaging narrative, which, like Indian trade, takes you in many directions. It will make you look at the world differently.</p>
+      <div class="t-author"><strong>The Observer</strong>London</div>
+    </div>
+    <div class="t-card">
+      <p>This is a wonderful book. Read it through in delight, acquiring knowledge, perhaps even wisdom. Then you will surely return to read much of it again.</p>
+      <div class="t-author"><strong>The Scotsman</strong>Richard Harries</div>
+    </div>
+  </div>
+
+  <p>What distinguishes Dalrymple's account from earlier treatments of "Greater India" — a concept that generated controversy in the 1920s and 1930s for its presumption that Southeast Asian cultures were passive recipients of Indian civilisation — is his consistent insistence on indigenous agency. The Khmer rulers, the Srivijayan kings, the Javanese court poets: they were not Indianised against their will. They actively sought out and adopted Indian models because they found in them an intellectual and aesthetic universe of extraordinary richness and prestige. Culture flows toward beauty. India, in this period, was the most beautiful civilisation the world had yet produced.</p>
+</section>
+
+<!-- KNOWLEDGE -->
+<section id="knowledge">
+  <div class="sec-eyebrow">The Intellectual Legacy</div>
+  <h2 class="sec-title">Zero, Algebra, and the <em>Numbers We Use Today</em></h2>
+
+  <p>Among the most consequential sections of the book — and the one most likely to genuinely surprise general readers — is Dalrymple's account of India's mathematical contributions to the world. The numerals used in every country on earth, in every currency, in every scientific formula and computer programme, are called "Arabic numerals." They are Indian.</p>
+
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-n">01</div>
+      <div>
+        <h4>The Invention of Zero</h4>
+        <p>The concept of zero as a number — not merely a placeholder but a quantity in its own right, capable of operations — was developed by Indian mathematicians, notably Brahmagupta in the seventh century. No other civilisation independently produced this idea. Without it, modern mathematics, physics, computing, and finance are impossible.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-n">02</div>
+      <div>
+        <h4>Base-Ten Numerals</h4>
+        <p>The nine figures of the Indian system were transmitted to the Arab world, refined, and eventually carried into medieval Europe by Fibonacci, whose Liber Abaci (1202) explicitly credited "the nine figures of the Indias." Dalrymple argues this discovery seeded the commercial revolution that financed the Renaissance and the economic rise of Europe.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-n">03</div>
+      <div>
+        <h4>Astronomy and Algebra</h4>
+        <p>Indian astronomical tables were translated at the court of the Abbasid Caliphate in Baghdad, becoming the foundation of medieval Islamic science and, through it, of European astronomy. The word "algebra" derives from the Arabic title of a work building directly on Indian mathematical traditions.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-n">04</div>
+      <div>
+        <h4>The University System</h4>
+        <p>The institutional model of a residential scholarly community — scholars housed, fed, and dedicated to learning — was pioneered at the great Buddhist monastic universities of India: Nalanda, Taxila, Vikramashila. This model passed through the Islamic madrasa into the medieval European university. Nalanda predates Oxford by six centuries.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-n">05</div>
+      <div>
+        <h4>Chess, Medicine, and Material Culture</h4>
+        <p>Chess originated in India as <em>chaturanga</em> before travelling to Persia and then to the world. Indian medical knowledge, transmitted through Arabic translations, shaped medieval European medicine. Indian steel, textiles, spices, and precious stones defined the material culture of Rome at its height.</p>
+      </div>
+    </div>
+  </div>
+
+  <p>The mechanism of transmission is one of the book's most fascinating threads. Indian mathematical and astronomical knowledge did not travel west directly. It passed through Arab scholars at the Abbasid court in Baghdad, who absorbed, translated, and built upon it, before it reached medieval Europe via the Arab libraries of Muslim Spain. By the time it arrived, the Indian origin had been partially obscured — hence "Arabic numerals." Dalrymple is at pains to follow the full chain of transmission, giving credit where it has for too long been withheld.</p>
+
+  <div class="pq">
+    <div class="pq-bar"></div>
+    <div class="pq-body">
+      <p>It was this discovery of Indian mathematics alongside Indian accounting methods by Mediterranean Europe in the early thirteenth century that was responsible for seeding the commercial revolution that financed the Renaissance and the economic rise of Europe.</p>
+      <cite>— William Dalrymple, <em>The Golden Road</em></cite>
+    </div>
+  </div>
+</section>
+
+<!-- VERDICT -->
+<section id="verdict">
+  <div class="sec-eyebrow">Critical Assessment</div>
+  <h2 class="sec-title">A Magnificent Achievement — <em>With Caveats</em></h2>
+
+  <p><em>The Golden Road</em> is, by any measure, a magnificent achievement. It is one of those rare works of popular history that genuinely changes how you see the world — not by revealing entirely new facts (many of these stories are known to specialists) but by assembling them into a single narrative with enough sweep and authority to make the argument stick at last.</p>
+
+  <p>Dalrymple is a born storyteller. He has an enviable facility for the telling detail — the Buddha found in the Egyptian desert, the Roman senators complaining about gold flowing east, the Chinese monk weeping at the entrance to Nalanda — that makes abstract claims about civilisational influence concrete and human. His prose is vivid, warm, and lightly worn; never pedantic, never condescending, always propulsive.</p>
+
+  <div class="gold-box">
+    <h3>What the Critics Said</h3>
+    <p>The book was widely praised on publication, but not without reservations. Some reviewers — including Daud Ali in the Times Literary Supplement — noted that the concept of India's cultural "empire" to the east has a complex historiographical history, touching on earlier and now-discredited "Greater India" frameworks that portrayed Southeast Asian societies as passive recipients of Indian civilisation.</p>
+    <p>A more pointed critique came from scholars who noted that Dalrymple's account of Indian intellectual achievement is largely an account of upper-caste, Brahminical knowledge production — mathematicians like Aryabhata and Brahmagupta, philosopher-monks at elite monastic universities — while the contributions of artisans, farmers, and lower-caste practitioners go largely unexamined. This is a real limitation, though it is also a limitation shared by virtually all available sources from the period.</p>
+  </div>
+
+  <p>These caveats are worth registering. But they should not obscure the book's essential service. At a moment when India is the world's most populous nation and its fifth-largest economy, when it sits at the intersection of enormous geopolitical currents, the poverty of popular historical understanding of its precolonial significance is a genuine problem — for India's own self-understanding, and for the world's understanding of what Asian civilisations have contributed to the common human inheritance.</p>
+
+  <p><em>The Golden Road</em> does not solve that problem, but it makes a powerful start. It restores to the general reader a story that colonial historiography systematically suppressed — a story of India not as a land of poverty and chaos awaiting European rescue, but as a place that, for a millennium and a half, gave the world its numerals, its university model, its greatest philosophical systems, and architectural wonders that dwarf anything the contemporary European world produced.</p>
+
+  <div class="pq">
+    <div class="pq-bar"></div>
+    <div class="pq-body">
+      <p>The Golden Road is a magnificent achievement. It is informative, stunningly comprehensive, and its stories are lavishly and compellingly told. It should help us recognize India in places where we could not before.</p>
+      <cite>— Post and Courier, on <em>The Golden Road</em></cite>
+    </div>
+  </div>
+
+  <p>Tagore, visiting Southeast Asia in 1927, saw India everywhere but could not recognise it. Readers of this book, visiting the world after Dalrymple, will find they recognise India everywhere they look. In the numerals on their phone screen. In the zero at the centre of all mathematics. In the structure of every university. In the calm half-smile on the face of every Buddha, from Tokyo to Tehran. That recognition — long overdue — is <em>The Golden Road</em>'s gift.</p>
+</section>
+
+</main>
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+
+  <div class="s-card">
+    <h4>By the Numbers</h4>
+    <div class="s-stat">
+      <span class="s-num">432</span>
+      <div class="s-lbl">Pages of narrative history</div>
+    </div>
+    <div class="s-stat">
+      <span class="s-num">15</span>
+      <div class="s-lbl">Centuries of Indian civilisational dominance covered</div>
+    </div>
+    <div class="s-stat">
+      <span class="s-num">500M</span>
+      <div class="s-lbl">Buddhists in the world today — half living in China, the country India converted</div>
+    </div>
+    <div class="s-stat">
+      <span class="s-num">1202</span>
+      <div class="s-lbl">Year Fibonacci's Liber Abaci brought Indian numerals to Europe — crediting "the nine figures of the Indias"</div>
+    </div>
+  </div>
+
+  <div class="s-card">
+    <h4>Contents at a Glance</h4>
+    <a href="#rome" class="toc-link">The Roman trade connection</a>
+    <a href="#rome" class="toc-link">Mamallapuram &amp; the Pallava dynasty</a>
+    <a href="#buddhism" class="toc-link">The spread of Buddhism eastward</a>
+    <a href="#buddhism" class="toc-link">Nalanda &amp; the Xuanzang pilgrimage</a>
+    <a href="#buddhism" class="toc-link">Empress Wu Zetian &amp; Tang China</a>
+    <a href="#indosphere" class="toc-link">The Indosphere — Java to Cambodia</a>
+    <a href="#indosphere" class="toc-link">Borobudur &amp; Angkor Wat</a>
+    <a href="#knowledge" class="toc-link">Mathematics &amp; the invention of zero</a>
+    <a href="#knowledge" class="toc-link">The university system's Indian roots</a>
+    <a href="#verdict" class="toc-link">Critical assessment &amp; caveats</a>
+  </div>
+
+  <div class="s-card">
+    <h4>Key Figures in the Book</h4>
+    <a href="#buddhism" class="toc-link">Xuanzang · Chinese Buddhist monk</a>
+    <a href="#buddhism" class="toc-link">Kumarajiva · Scholar &amp; translator</a>
+    <a href="#buddhism" class="toc-link">Empress Wu Zetian · Tang China</a>
+    <a href="#buddhism" class="toc-link">Silabhadra · Nalanda's great scholar</a>
+    <a href="#knowledge" class="toc-link">Aryabhata · Mathematician</a>
+    <a href="#knowledge" class="toc-link">Brahmagupta · Inventor of zero</a>
+    <a href="#indosphere" class="toc-link">Jayavarman II · Khmer king</a>
+    <a href="#rome" class="toc-link">Dandin · Sanskrit storyteller</a>
+  </div>
+
+  <div class="s-card">
+    <h4>Dalrymple's Other Works</h4>
+    <a href="#author" class="toc-link"><em>The Anarchy</em> (2019)</a>
+    <a href="#author" class="toc-link"><em>Return of a King</em> (2013)</a>
+    <a href="#author" class="toc-link"><em>The Last Mughal</em> (2006)</a>
+    <a href="#author" class="toc-link"><em>White Mughals</em> (2002)</a>
+    <a href="#author" class="toc-link"><em>City of Djinns</em> (1993)</a>
+  </div>
+
+</aside>
+</div>
+
+<!-- ══ EPIGRAPH CLOSER ══ -->
+<div class="epigraph">
+  <blockquote>"India came up with a set of profound answers to the big questions about what the world is, how it operates, why we are here, and how we should live our lives — and for a thousand years, that universe of ideas blazed a trail across the world."</blockquote>
+  <cite>— William Dalrymple, The Golden Road (2024)</cite>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div>
+    <strong>The Golden Road: How Ancient India Transformed the World</strong>
+    <p>William Dalrymple · Bloomsbury Publishing · 2024</p>
+    <p style="margin-top:6px">ISBN 978-1-5266-8125-6 · 432 pages</p>
+  </div>
+  <div>
+    <strong>Review sources</strong>
+    <p>The New York Times · London Review of Books · Post &amp; Courier</p>
+    <p style="margin-top:6px">Australian Book Review · The Observer · The Scotsman · Asian Review of Books</p>
+  </div>
+</footer>
+
+<script>
+  const links = document.querySelectorAll('.nav-link');
+  const sects = document.querySelectorAll('section[id]');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+      }
+    });
+  }, { rootMargin: '-38% 0px -52% 0px' });
+  sects.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
