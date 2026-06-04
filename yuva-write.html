@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Yuva — Write for Children | sk4bharat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --sun:#FFD93D;--sun2:#e8c200;
+  --coral:#FF6B6B;--coral2:#e84d4d;
+  --violet:#9B59B6;--mint:#2ECC71;
+  --sky:#1a7abf;--amber:#F39C12;
+  --dark:#1a1a2e;--ink:#0d1120;
+  --card:rgba(255,255,255,.045);
+  --border:rgba(255,255,255,.1);
+  --text:#fff;--muted:rgba(255,255,255,.55);
+  --ff-head:'Fredoka One',cursive;
+  --ff-body:'Baloo 2','Nunito',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--text);font-family:var(--ff-body);overflow-x:hidden;min-height:100vh}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:var(--ff-body);border:none;outline:none}
+input,textarea,select{font-family:var(--ff-body)}
+
+/* STARS */
+#stars-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:300;
+  background:rgba(10,10,30,.94);backdrop-filter:blur(18px);
+  border-bottom:2px solid rgba(255,217,61,.2);
+  padding:0 clamp(1rem,4vw,3rem);
+  display:flex;align-items:center;justify-content:space-between;
+  height:68px;gap:1rem;
+}
+.nav-logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.nav-logo-title{font-family:var(--ff-head);font-size:1.1rem;color:var(--sun)}
+.nav-logo-sub{font-size:.65rem;color:var(--muted);letter-spacing:.07em}
+.nav-tabs{display:flex;gap:.4rem;align-items:center}
+.nav-tab{
+  padding:.38rem 1rem;border-radius:999px;font-size:.8rem;font-weight:700;
+  background:transparent;color:var(--muted);border:1.5px solid transparent;
+  transition:all .2s;letter-spacing:.03em;
+}
+.nav-tab:hover{color:#fff;border-color:rgba(255,255,255,.18)}
+.nav-tab.active{background:rgba(255,217,61,.14);border-color:rgba(255,217,61,.4);color:var(--sun)}
+.nav-right{display:flex;gap:.6rem;align-items:center}
+.btn-sm{
+  padding:.38rem 1rem;border-radius:999px;font-size:.78rem;font-weight:700;
+  transition:all .2s;letter-spacing:.03em;
+}
+.btn-primary{background:var(--sun);color:var(--dark)}
+.btn-primary:hover{background:#ffe566;transform:translateY(-1px)}
+.btn-outline{background:transparent;border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7)}
+.btn-outline:hover{border-color:var(--sun);color:var(--sun)}
+@media(max-width:640px){.nav-tab span{display:none}.nav-tab{padding:.38rem .75rem}}
+
+/* VIEWS */
+.view{display:none;position:relative;z-index:1;min-height:calc(100vh - 68px)}
+.view.active{display:block}
+
+/* ══════════════════════════════════
+   WRITE VIEW
+══════════════════════════════════ */
+.write-view{
+  display:none;
+  max-width:1100px;margin:0 auto;
+  padding:2.5rem clamp(1rem,4vw,2.5rem) 4rem;
+}
+.write-view.active{display:block}
+
+.write-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1.75rem;flex-wrap:wrap;gap:1rem;
+}
+.write-header h2{font-family:var(--ff-head);font-size:1.8rem;color:var(--sun)}
+.write-header p{font-size:.88rem;color:var(--muted);margin-top:.2rem}
+
+.editor-layout{display:grid;grid-template-columns:1fr 300px;gap:1.5rem}
+@media(max-width:860px){.editor-layout{grid-template-columns:1fr}}
+
+/* editor main */
+.editor-main{display:flex;flex-direction:column;gap:1rem}
+
+.field-label{
+  font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);margin-bottom:.4rem;display:block;
+}
+.field-input{
+  width:100%;background:rgba(255,255,255,.05);
+  border:1px solid var(--border);border-radius:12px;
+  color:#fff;font-family:var(--ff-body);font-size:1rem;
+  padding:.7rem 1rem;outline:none;transition:border-color .2s,background .2s;
+}
+.field-input::placeholder{color:rgba(255,255,255,.22)}
+.field-input:focus{border-color:rgba(255,217,61,.5);background:rgba(255,255,255,.07)}
+.field-input option{background:#0d1b3e}
+
+.title-input{
+  font-family:var(--ff-head);font-size:1.5rem;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border);border-radius:14px;
+  color:#fff;width:100%;padding:.8rem 1.1rem;outline:none;
+  transition:border-color .2s;
+}
+.title-input::placeholder{color:rgba(255,255,255,.2)}
+.title-input:focus{border-color:rgba(255,217,61,.5)}
+
+/* toolbar */
+.toolbar{
+  display:flex;gap:.35rem;flex-wrap:wrap;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  border-bottom:none;border-radius:12px 12px 0 0;
+  padding:.5rem .75rem;
+}
+.tb-btn{
+  width:30px;height:30px;border-radius:6px;
+  background:transparent;border:none;color:rgba(255,255,255,.55);
+  font-size:.85rem;font-weight:700;transition:all .15s;
+  display:flex;align-items:center;justify-content:center;
+}
+.tb-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+.tb-sep{width:1px;background:rgba(255,255,255,.12);margin:0 .2rem;align-self:stretch}
+.tb-emoji{font-size:.9rem}
+
+.content-area{
+  width:100%;min-height:340px;resize:vertical;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border);border-radius:0 0 12px 12px;
+  color:#fff;font-family:var(--ff-body);font-size:1rem;
+  padding:1rem 1.1rem;outline:none;line-height:1.75;
+  transition:border-color .2s;
+}
+.content-area::placeholder{color:rgba(255,255,255,.2)}
+.content-area:focus{border-color:rgba(255,217,61,.4)}
+
+/* sidebar */
+.editor-sidebar{display:flex;flex-direction:column;gap:1rem}
+.side-card{
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:16px;padding:1.25rem;
+}
+.side-card h4{font-family:var(--ff-head);font-size:1rem;color:#fff;margin-bottom:.9rem}
+
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.type-pill{
+  padding:.45rem .6rem;border-radius:10px;border:1.5px solid rgba(255,255,255,.1);
+  background:transparent;color:rgba(255,255,255,.5);
+  font-size:.78rem;font-weight:700;text-align:center;
+  transition:all .2s;cursor:pointer;
+}
+.type-pill:hover{border-color:rgba(255,255,255,.25);color:#fff}
+.type-pill.sel{border-color:rgba(255,217,61,.5);background:rgba(255,217,61,.12);color:var(--sun)}
+.type-pill .tp-icon{display:block;font-size:1.2rem;margin-bottom:.2rem}
+
+.age-bubbles{display:flex;flex-direction:column;gap:.4rem}
+.age-bubble{
+  padding:.45rem .8rem;border-radius:10px;border:1.5px solid rgba(255,255,255,.1);
+  background:transparent;color:rgba(255,255,255,.5);
+  font-size:.82rem;font-weight:700;text-align:left;
+  transition:all .2s;cursor:pointer;display:flex;align-items:center;gap:.5rem;
+}
+.age-bubble:hover{border-color:rgba(255,255,255,.25);color:#fff}
+.age-bubble.sel{border-color:rgba(255,217,61,.5);background:rgba(255,217,61,.1);color:var(--sun)}
+.age-bubble .ab-dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex-shrink:0}
+
+.cover-upload{
+  width:100%;aspect-ratio:16/9;border-radius:12px;
+  border:2px dashed rgba(255,255,255,.15);
+  background:rgba(255,255,255,.03);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.4rem;cursor:pointer;transition:all .25s;overflow:hidden;position:relative;
+}
+.cover-upload:hover{border-color:rgba(255,217,61,.4);background:rgba(255,217,61,.04)}
+.cover-upload input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.cover-upload span{font-size:.8rem;color:var(--muted)}
+.cover-preview{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:10px}
+
+.publish-btn{
+  width:100%;padding:.85rem;border-radius:14px;
+  background:var(--sun);color:var(--dark);
+  font-family:var(--ff-head);font-size:1.05rem;
+  transition:all .25s;
+}
+.publish-btn:hover{background:#ffe566;transform:translateY(-2px);box-shadow:0 12px 32px rgba(255,217,61,.3)}
+
+.stats-row{display:flex;gap:.5rem}
+.stat-box{
+  flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:10px;padding:.6rem;text-align:center;
+}
+.stat-box .sn{font-family:var(--ff-head);font-size:1.3rem;color:#fff}
+.stat-box .sl{font-size:.65rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+
+/* saved drafts */
+.drafts-list{display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem}
+.draft-item{
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:10px;padding:.7rem 1rem;
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;transition:all .2s;
+}
+.draft-item:hover{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.07)}
+.draft-title{font-size:.88rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
+.draft-meta{font-size:.7rem;color:var(--muted)}
+.draft-del{
+  width:26px;height:26px;border-radius:6px;
+  background:transparent;color:rgba(255,255,255,.3);font-size:.9rem;
+  border:none;cursor:pointer;transition:all .15s;flex-shrink:0;
+}
+.draft-del:hover{background:rgba(255,107,107,.2);color:var(--coral)}
+
+/* success toast */
+.toast{
+  position:fixed;bottom:2rem;right:2rem;z-index:999;
+  background:#1a1a2e;border:1.5px solid rgba(46,204,113,.4);
+  border-radius:14px;padding:.8rem 1.3rem;
+  display:flex;align-items:center;gap:.7rem;
+  font-size:.9rem;font-weight:700;color:#7aedaa;
+  transform:translateY(100px);opacity:0;
+  transition:all .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none;
+}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* ══════════════════════════════════
+   READ VIEW (children)
+══════════════════════════════════ */
+.read-view{display:none}
+.read-view.active{display:block}
+
+/* reading hero */
+.read-hero{
+  position:relative;z-index:1;
+  padding:4rem clamp(1rem,5vw,4rem) 3rem;
+  text-align:center;
+}
+.read-hero h1{
+  font-family:var(--ff-head);font-size:clamp(2.2rem,7vw,5rem);
+  color:#fff;margin-bottom:.5rem;
+}
+.read-hero h1 .y{color:var(--sun)}
+.read-hero p{font-size:1rem;color:var(--muted);max-width:480px;margin:0 auto 2rem;line-height:1.7}
+
+/* filter bar */
+.filter-bar{
+  display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;
+  margin-bottom:3rem;position:relative;z-index:1;
+  padding:0 clamp(1rem,5vw,4rem);
+}
+.filter-pill{
+  padding:.42rem 1.1rem;border-radius:999px;
+  border:1.5px solid rgba(255,255,255,.12);
+  background:transparent;color:rgba(255,255,255,.5);
+  font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;
+}
+.filter-pill:hover{border-color:rgba(255,255,255,.3);color:#fff}
+.filter-pill.active{background:rgba(255,217,61,.14);border-color:rgba(255,217,61,.5);color:var(--sun)}
+
+/* story grid */
+.stories-section{
+  position:relative;z-index:1;
+  padding:0 clamp(1rem,5vw,4rem) 5rem;
+}
+.stories-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:1.4rem;max-width:1200px;margin:0 auto;
+}
+
+.story-card{
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:22px;overflow:hidden;
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+  cursor:pointer;display:flex;flex-direction:column;
+}
+.story-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.35);border-color:rgba(255,255,255,.18)}
+.story-card.featured{border-color:rgba(255,217,61,.35)}
+
+.card-cover{
+  width:100%;aspect-ratio:16/9;
+  display:flex;align-items:center;justify-content:center;
+  font-size:4rem;position:relative;overflow:hidden;
+}
+.card-cover img{width:100%;height:100%;object-fit:cover}
+.card-cover-emoji{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:3.5rem;
+}
+
+.card-body{padding:1.25rem;flex:1;display:flex;flex-direction:column}
+.card-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.75rem}
+.card-tag{
+  padding:.18rem .6rem;border-radius:999px;
+  font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+}
+.tag-story{background:rgba(255,107,107,.15);color:#ffaaaa}
+.tag-article{background:rgba(26,122,191,.2);color:#7ec8ff}
+.tag-poem{background:rgba(155,89,182,.2);color:#d7aaff}
+.tag-comic{background:rgba(243,156,18,.18);color:#ffd080}
+.tag-other{background:rgba(46,204,113,.12);color:#7aedaa}
+.tag-age{background:rgba(255,255,255,.08);color:rgba(255,255,255,.6)}
+
+.card-title{font-family:var(--ff-head);font-size:1.15rem;color:#fff;line-height:1.3;margin-bottom:.5rem}
+.card-excerpt{font-size:.85rem;color:var(--muted);line-height:1.65;flex:1;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:1rem;padding-top:.75rem;border-top:1px solid rgba(255,255,255,.06);
+}
+.card-date{font-size:.72rem;color:rgba(255,255,255,.3);letter-spacing:.04em}
+.read-btn{
+  padding:.32rem .8rem;border-radius:999px;
+  background:rgba(255,217,61,.12);border:1px solid rgba(255,217,61,.3);
+  color:var(--sun);font-size:.75rem;font-weight:700;
+  transition:all .2s;
+}
+.read-btn:hover{background:rgba(255,217,61,.22)}
+
+.empty-state{
+  grid-column:1/-1;text-align:center;padding:5rem 1rem;
+}
+.empty-state .es-emoji{font-size:4rem;display:block;margin-bottom:1rem}
+.empty-state h3{font-family:var(--ff-head);font-size:1.5rem;color:var(--muted);margin-bottom:.5rem}
+.empty-state p{font-size:.9rem;color:rgba(255,255,255,.3)}
+
+/* ══════════════════════════════════
+   STORY READER MODAL
+══════════════════════════════════ */
+.reader-overlay{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(6px);
+  overflow-y:auto;padding:2rem 1rem;
+}
+.reader-overlay.open{display:flex;align-items:flex-start;justify-content:center}
+.reader-modal{
+  background:#0f1526;border:1px solid rgba(255,255,255,.1);
+  border-radius:24px;max-width:740px;width:100%;
+  padding:2.5rem clamp(1.5rem,4vw,3rem);
+  position:relative;animation:modalIn .35s ease;
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.reader-close{
+  position:absolute;top:1.2rem;right:1.2rem;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.6);font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .2s;
+}
+.reader-close:hover{background:rgba(255,255,255,.14);color:#fff}
+.reader-cover{
+  width:100%;aspect-ratio:16/9;border-radius:16px;
+  overflow:hidden;margin-bottom:1.75rem;
+  display:flex;align-items:center;justify-content:center;
+}
+.reader-cover img{width:100%;height:100%;object-fit:cover}
+.reader-cover-emoji{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:5rem}
+.reader-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.75rem}
+.reader-title{font-family:var(--ff-head);font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;line-height:1.15;margin-bottom:.6rem}
+.reader-meta{font-size:.8rem;color:rgba(255,255,255,.35);margin-bottom:1.75rem;letter-spacing:.04em}
+.reader-body{
+  font-size:1.05rem;line-height:1.85;color:rgba(255,255,255,.82);
+  white-space:pre-wrap;
+}
+.reader-body p{margin-bottom:1em}
+
+/* ══════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════ */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}
+.reveal.in-view{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+
+/* FOOTER */
+footer{
+  position:relative;z-index:1;
+  text-align:center;padding:2rem;
+  font-size:.78rem;color:rgba(255,255,255,.2);
+  border-top:1px solid rgba(255,255,255,.06);
+}
+footer a{color:rgba(255,217,61,.5);text-decoration:none}
+footer a:hover{color:var(--sun)}
+</style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div>
+      <div class="nav-logo-title">✍️ Yuva Writes</div>
+      <div class="nav-logo-sub">sk4bharat · Young India Reads</div>
+    </div>
+  </div>
+
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-tab="read" onclick="switchTab('read')">📖 <span>Read Stories</span></button>
+    <button class="nav-tab" data-tab="write" onclick="switchTab('write')">✏️ <span>Write</span></button>
+  </div>
+
+  <div class="nav-right">
+    <a href="yuva.html" class="btn-sm btn-outline">← Yuva Home</a>
+  </div>
+</nav>
+
+<!-- ══════════ READ VIEW ══════════ -->
+<div class="view read-view active" id="view-read">
+  <div class="read-hero">
+    <div style="font-size:clamp(1rem,.5rem + 2vw,1.1rem);font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--sun);margin-bottom:.75rem;opacity:.8">🇮🇳 Stories for Every Young Reader</div>
+    <h1>Tales from <span class="y">Bharat</span></h1>
+    <p>Stories, articles, and poems written with love — for curious children across India.</p>
+  </div>
+
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-pill active" data-filter="all">All ✨</button>
+    <button class="filter-pill" data-filter="story">📖 Stories</button>
+    <button class="filter-pill" data-filter="article">📰 Articles</button>
+    <button class="filter-pill" data-filter="poem">🌸 Poems</button>
+    <button class="filter-pill" data-filter="comic">🎨 Comics</button>
+    <button class="filter-pill" data-filter="1-6">🌱 Ages 1–6</button>
+    <button class="filter-pill" data-filter="7-12">🔍 Ages 7–12</button>
+    <button class="filter-pill" data-filter="13-18">✍️ Ages 13–18</button>
+  </div>
+
+  <section class="stories-section">
+    <div class="stories-grid" id="storiesGrid"></div>
+  </section>
+</div>
+
+<!-- ══════════ WRITE VIEW ══════════ -->
+<div class="view write-view" id="view-write">
+  <div class="write-header">
+    <div>
+      <h2>Write for Children ✏️</h2>
+      <p>Create stories, articles, poems and more — published instantly for young readers.</p>
+    </div>
+    <button class="btn-sm btn-outline" onclick="saveDraft()">💾 Save Draft</button>
+  </div>
+
+  <div class="editor-layout">
+    <!-- Main editor -->
+    <div class="editor-main">
+      <div>
+        <label class="field-label">Title of Your Piece *</label>
+        <input class="title-input" id="ed-title" type="text" placeholder="Give it a wonderful title…" oninput="updateStats()"/>
+      </div>
+
+      <div>
+        <label class="field-label">Short Description (shown on card)</label>
+        <input class="field-input" id="ed-excerpt" type="text" placeholder="One line that excites a child to read more…"/>
+      </div>
+
+      <div>
+        <label class="field-label">Your Writing *</label>
+        <div class="toolbar" id="toolbar">
+          <button class="tb-btn" title="Bold" onclick="fmt('bold')"><b>B</b></button>
+          <button class="tb-btn" title="Italic" onclick="fmt('italic')"><i>I</i></button>
+          <button class="tb-btn" title="Underline" onclick="fmt('underline')"><u>U</u></button>
+          <div class="tb-sep"></div>
+          <button class="tb-btn tb-emoji" title="Add emoji" onclick="toggleEmojiPicker()">😊</button>
+          <div class="tb-sep"></div>
+          <button class="tb-btn" title="Clear" onclick="clearEditor()" style="color:rgba(255,107,107,.7);font-size:.75rem">CLR</button>
+          <div style="flex:1"></div>
+          <span id="wordCount" style="font-size:.7rem;color:var(--muted);align-self:center">0 words</span>
+        </div>
+        <textarea class="content-area" id="ed-content" placeholder="Begin your story… Once upon a time in a village by the Ganga…" oninput="updateStats()"></textarea>
+      </div>
+
+      <!-- Emoji picker -->
+      <div id="emojiPicker" style="display:none;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:12px;padding:.75rem;flex-wrap:wrap;gap:.3rem">
+        <span style="font-size:.7rem;color:var(--muted);width:100%;display:block;margin-bottom:.3rem">Click to insert</span>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="editor-sidebar">
+
+      <!-- Content type -->
+      <div class="side-card">
+        <h4>Type of Content *</h4>
+        <div class="type-grid" id="typeGrid">
+          <button class="type-pill" data-type="story" onclick="selectType(this)"><span class="tp-icon">📖</span>Story</button>
+          <button class="type-pill" data-type="article" onclick="selectType(this)"><span class="tp-icon">📰</span>Article</button>
+          <button class="type-pill" data-type="poem" onclick="selectType(this)"><span class="tp-icon">🌸</span>Poem</button>
+          <button class="type-pill" data-type="comic" onclick="selectType(this)"><span class="tp-icon">🎨</span>Comic</button>
+          <button class="type-pill" data-type="quiz" onclick="selectType(this)"><span class="tp-icon">🧩</span>Quiz / Fun</button>
+          <button class="type-pill" data-type="other" onclick="selectType(this)"><span class="tp-icon">✨</span>Other</button>
+        </div>
+      </div>
+
+      <!-- Age group -->
+      <div class="side-card">
+        <h4>For Which Age Group? *</h4>
+        <div class="age-bubbles" id="ageBubbles">
+          <button class="age-bubble" data-age="1-6" onclick="selectAge(this)"><span class="ab-dot"></span>🌱 Little Explorers (1–6)</button>
+          <button class="age-bubble" data-age="7-12" onclick="selectAge(this)"><span class="ab-dot"></span>🔍 Young Seekers (7–12)</button>
+          <button class="age-bubble" data-age="13-18" onclick="selectAge(this)"><span class="ab-dot"></span>✍️ Yuva Thinkers (13–18)</button>
+          <button class="age-bubble" data-age="all" onclick="selectAge(this)"><span class="ab-dot"></span>🌍 All Ages</button>
+        </div>
+      </div>
+
+      <!-- Cover emoji/image -->
+      <div class="side-card">
+        <h4>Cover</h4>
+        <label class="field-label">Cover Emoji</label>
+        <input class="field-input" id="ed-emoji" type="text" maxlength="4" placeholder="e.g. 🐘" style="font-size:1.5rem;text-align:center;margin-bottom:.75rem"/>
+        <label class="field-label" style="margin-top:.5rem">Or Upload Image</label>
+        <div class="cover-upload" id="coverUpload">
+          <input type="file" accept="image/*" id="coverFile" onchange="handleCover(event)"/>
+          <span style="font-size:1.5rem">🖼️</span>
+          <span>Tap to upload</span>
+          <img id="coverPreview" class="cover-preview" style="display:none"/>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="side-card">
+        <h4>Stats</h4>
+        <div class="stats-row">
+          <div class="stat-box"><div class="sn" id="st-words">0</div><div class="sl">Words</div></div>
+          <div class="stat-box"><div class="sn" id="st-chars">0</div><div class="sl">Chars</div></div>
+          <div class="stat-box"><div class="sn" id="st-read">0m</div><div class="sl">Read</div></div>
+        </div>
+      </div>
+
+      <!-- Publish -->
+      <button class="publish-btn" onclick="publishStory()">🚀 Publish Now!</button>
+
+      <!-- Drafts -->
+      <div class="side-card" id="draftsCard" style="display:none">
+        <h4>Saved Drafts</h4>
+        <div class="drafts-list" id="draftsList"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- STORY READER MODAL -->
+<div class="reader-overlay" id="readerOverlay" onclick="closeReader(event)">
+  <div class="reader-modal">
+    <button class="reader-close" onclick="closeReaderBtn()">✕</button>
+    <div class="reader-cover" id="readerCover"></div>
+    <div class="reader-tags" id="readerTags"></div>
+    <div class="reader-title" id="readerTitle"></div>
+    <div class="reader-meta" id="readerMeta"></div>
+    <div class="reader-body" id="readerBody"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">🎉 Published! Children can now read it.</div>
+
+<footer>
+  <p>sk4bharat · <strong style="color:rgba(255,255,255,.5)">Yuva Writes</strong> — Stories for Young India &nbsp;·&nbsp; <a href="yuva.html">← Yuva Home</a></p>
+</footer>
+
+<script>
+/* ── STARFIELD ── */
+(function(){
+  const c=document.getElementById('stars-canvas');
+  const ctx=c.getContext('2d');let stars=[];
+  function resize(){c.width=innerWidth;c.height=innerHeight;stars=[];for(let i=0;i<180;i++){stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.4+.3,o:Math.random(),s:Math.random()*.004+.001})}}
+  function draw(){ctx.clearRect(0,0,c.width,c.height);stars.forEach(s=>{s.o+=s.s;if(s.o>1||s.o<0)s.s*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,240,${s.o.toFixed(2)})`;ctx.fill()});requestAnimationFrame(draw)}
+  resize();window.addEventListener('resize',resize);draw();
+})();
+
+/* ── DATA STORE ── */
+const STORE_KEY='yuva_stories_v1';
+const DRAFT_KEY='yuva_drafts_v1';
+
+function getStories(){try{return JSON.parse(localStorage.getItem(STORE_KEY)||'[]')}catch{return[]}}
+function saveStories(arr){localStorage.setItem(STORE_KEY,JSON.stringify(arr))}
+function getDrafts(){try{return JSON.parse(localStorage.getItem(DRAFT_KEY)||'[]')}catch{return[]}}
+function saveDraftsStore(arr){localStorage.setItem(DRAFT_KEY,JSON.stringify(arr))}
+
+/* ── TAB SWITCH ── */
+function switchTab(tab){
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+tab).classList.add('active');
+  if(tab==='read')renderStories();
+  if(tab==='write')renderDrafts();
+}
+
+/* ── EDITOR HELPERS ── */
+let selectedType='';let selectedAge='';let coverDataUrl='';
+
+function selectType(btn){
+  document.querySelectorAll('.type-pill').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');selectedType=btn.dataset.type;
+}
+function selectAge(btn){
+  document.querySelectorAll('.age-bubble').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');selectedAge=btn.dataset.age;
+}
+function handleCover(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{coverDataUrl=ev.target.result;
+    const img=document.getElementById('coverPreview');
+    img.src=coverDataUrl;img.style.display='block';
+  };r.readAsDataURL(f);
+}
+function updateStats(){
+  const txt=document.getElementById('ed-content').value;
+  const words=txt.trim()?txt.trim().split(/\s+/).length:0;
+  const chars=txt.length;
+  const read=Math.max(1,Math.round(words/180));
+  document.getElementById('st-words').textContent=words;
+  document.getElementById('st-chars').textContent=chars;
+  document.getElementById('st-read').textContent=read+'m';
+  document.getElementById('wordCount').textContent=words+' words';
+}
+function fmt(cmd){document.getElementById('ed-content').focus();document.execCommand(cmd)}
+function clearEditor(){if(confirm('Clear all content?')){document.getElementById('ed-content').value='';updateStats();}}
+
+/* emoji picker */
+const EMOJIS=['😊','🌸','🐘','🦚','🌟','⭐','🌙','☀️','🌈','🦋','🐦','🌺','🍁','🏔️','🌊','🌻','🐬','🦁','🐯','🦜','🪔','🎪','🎠','🎡','🎭','🌴','🏵️','🎋','🌿','🍃','🎶','📚','✏️','🖌️','🎨','🏹','🪁','🔭','⚗️','🧩'];
+(function buildEmoji(){
+  const p=document.getElementById('emojiPicker');
+  EMOJIS.forEach(e=>{
+    const b=document.createElement('button');
+    b.textContent=e;b.style.cssText='font-size:1.3rem;background:none;border:none;cursor:pointer;padding:.1rem';
+    b.onclick=()=>{insertAtCursor(e);};p.appendChild(b);
+  });
+})();
+function toggleEmojiPicker(){
+  const p=document.getElementById('emojiPicker');
+  p.style.display=p.style.display==='none'?'flex':'none';
+}
+function insertAtCursor(text){
+  const ta=document.getElementById('ed-content');
+  const s=ta.selectionStart,e=ta.selectionEnd;
+  ta.value=ta.value.substring(0,s)+text+ta.value.substring(e);
+  ta.selectionStart=ta.selectionEnd=s+text.length;
+  ta.focus();updateStats();
+}
+
+/* ── PUBLISH ── */
+function publishStory(){
+  const title=document.getElementById('ed-title').value.trim();
+  const content=document.getElementById('ed-content').value.trim();
+  if(!title){alert('Please add a title! 😊');return;}
+  if(!content){alert('Please write something! ✏️');return;}
+  if(!selectedType){alert('Please choose a content type!');return;}
+  if(!selectedAge){alert('Please choose an age group!');return;}
+
+  const story={
+    id:Date.now(),
+    title,
+    excerpt:document.getElementById('ed-excerpt').value.trim()||content.slice(0,120)+'…',
+    content,
+    type:selectedType,
+    age:selectedAge,
+    emoji:document.getElementById('ed-emoji').value.trim()||getDefaultEmoji(selectedType),
+    cover:coverDataUrl||'',
+    date:new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}),
+    words:content.trim()?content.trim().split(/\s+/).length:0
+  };
+
+  const stories=getStories();stories.unshift(story);saveStories(stories);
+  showToast();clearForm();
+  setTimeout(()=>switchTab('read'),1800);
+}
+
+function getDefaultEmoji(type){
+  const map={story:'📖',article:'📰',poem:'🌸',comic:'🎨',quiz:'🧩',other:'✨'};
+  return map[type]||'📝';
+}
+
+function clearForm(){
+  document.getElementById('ed-title').value='';
+  document.getElementById('ed-content').value='';
+  document.getElementById('ed-excerpt').value='';
+  document.getElementById('ed-emoji').value='';
+  document.getElementById('coverPreview').style.display='none';
+  coverDataUrl='';selectedType='';selectedAge='';
+  document.querySelectorAll('.type-pill,.age-bubble').forEach(b=>b.classList.remove('sel'));
+  updateStats();
+}
+
+function showToast(){
+  const t=document.getElementById('toast');
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+/* ── DRAFTS ── */
+function saveDraft(){
+  const title=document.getElementById('ed-title').value.trim();
+  if(!title){alert('Add a title before saving draft!');return;}
+  const drafts=getDrafts();
+  drafts.unshift({
+    id:Date.now(),
+    title,
+    excerpt:document.getElementById('ed-excerpt').value.trim(),
+    content:document.getElementById('ed-content').value,
+    type:selectedType,age:selectedAge,
+    emoji:document.getElementById('ed-emoji').value.trim(),
+    cover:coverDataUrl||'',
+    savedAt:new Date().toLocaleTimeString()
+  });
+  if(drafts.length>8)drafts.pop();
+  saveDraftsStore(drafts);
+  renderDrafts();
+  const t=document.getElementById('toast');
+  t.textContent='💾 Draft saved!';t.style.borderColor='rgba(255,217,61,.4)';t.style.color='var(--sun)';
+  t.classList.add('show');setTimeout(()=>{t.classList.remove('show');t.textContent='🎉 Published! Children can now read it.';t.style.borderColor='rgba(46,204,113,.4)';t.style.color='#7aedaa';},2000);
+}
+
+function renderDrafts(){
+  const drafts=getDrafts();
+  const card=document.getElementById('draftsCard');
+  const list=document.getElementById('draftsList');
+  if(!drafts.length){card.style.display='none';return;}
+  card.style.display='block';
+  list.innerHTML=drafts.map(d=>`
+    <div class="draft-item" onclick="loadDraft(${d.id})">
+      <div>
+        <div class="draft-title">${d.title}</div>
+        <div class="draft-meta">${d.savedAt||''}</div>
+      </div>
+      <button class="draft-del" onclick="deleteDraft(event,${d.id})">✕</button>
+    </div>
+  `).join('');
+}
+
+function loadDraft(id){
+  const d=getDrafts().find(x=>x.id===id);if(!d)return;
+  document.getElementById('ed-title').value=d.title||'';
+  document.getElementById('ed-content').value=d.content||'';
+  document.getElementById('ed-excerpt').value=d.excerpt||'';
+  document.getElementById('ed-emoji').value=d.emoji||'';
+  if(d.cover){coverDataUrl=d.cover;const img=document.getElementById('coverPreview');img.src=d.cover;img.style.display='block';}
+  if(d.type){selectedType=d.type;document.querySelectorAll('.type-pill').forEach(b=>{b.classList.toggle('sel',b.dataset.type===d.type)});}
+  if(d.age){selectedAge=d.age;document.querySelectorAll('.age-bubble').forEach(b=>{b.classList.toggle('sel',b.dataset.age===d.age)});}
+  updateStats();
+}
+
+function deleteDraft(e,id){
+  e.stopPropagation();
+  const drafts=getDrafts().filter(d=>d.id!==id);
+  saveDraftsStore(drafts);renderDrafts();
+}
+
+/* ── RENDER STORIES ── */
+let currentFilter='all';
+
+function renderStories(){
+  const stories=getStories();
+  const grid=document.getElementById('storiesGrid');
+
+  const filtered=currentFilter==='all'?stories:stories.filter(s=>{
+    if(['story','article','poem','comic'].includes(currentFilter))return s.type===currentFilter;
+    if(['1-6','7-12','13-18'].includes(currentFilter))return s.age===currentFilter||s.age==='all';
+    return true;
+  });
+
+  if(!filtered.length){
+    grid.innerHTML=`<div class="empty-state">
+      <span class="es-emoji">${stories.length?'🔍':'📝'}</span>
+      <h3>${stories.length?'No stories here yet':'No stories published yet'}</h3>
+      <p>${stories.length?'Try a different filter.':'Switch to the Write tab and publish your first story!'}</p>
+    </div>`;return;
+  }
+
+  grid.innerHTML=filtered.map((s,i)=>{
+    const typeClass={story:'tag-story',article:'tag-article',poem:'tag-poem',comic:'tag-comic',quiz:'tag-other',other:'tag-other'}[s.type]||'tag-other';
+    const ageLbl={story:'Story',article:'Article',poem:'Poem',comic:'Comic',quiz:'Quiz',other:'Other'}[s.type]||'Other';
+    const ageLabel={'1-6':'Ages 1–6','7-12':'Ages 7–12','13-18':'Ages 13–18','all':'All Ages'}[s.age]||s.age;
+    const cover=s.cover
+      ?`<img src="${s.cover}" alt="cover"/>`
+      :`<div class="card-cover-emoji" style="background:${coverBg(s.type)}">${s.emoji||getDefaultEmoji(s.type)}</div>`;
+    return `<div class="story-card reveal reveal-delay-${(i%3)+1}" onclick="openReader(${s.id})" style="animation-delay:${i*.07}s">
+      <div class="card-cover">${cover}</div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="card-tag ${typeClass}">${ageLbl}</span>
+          <span class="card-tag tag-age">${ageLabel}</span>
+        </div>
+        <div class="card-title">${s.title}</div>
+        <div class="card-excerpt">${s.excerpt}</div>
+        <div class="card-footer">
+          <span class="card-date">${s.date} · ${s.words} words</span>
+          <button class="read-btn">Read →</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  observeReveal();
+}
+
+function coverBg(type){
+  const map={story:'rgba(255,107,107,.12)',article:'rgba(26,122,191,.15)',poem:'rgba(155,89,182,.15)',comic:'rgba(243,156,18,.13)',quiz:'rgba(46,204,113,.1)',other:'rgba(255,217,61,.1)'};
+  return map[type]||'rgba(255,255,255,.05)';
+}
+
+/* ── READER ── */
+function openReader(id){
+  const s=getStories().find(x=>x.id===id);if(!s)return;
+  const typeClass={story:'tag-story',article:'tag-article',poem:'tag-poem',comic:'tag-comic',quiz:'tag-other',other:'tag-other'}[s.type]||'tag-other';
+  const typeLbl={story:'Story',article:'Article',poem:'Poem',comic:'Comic',quiz:'Quiz',other:'Other'}[s.type]||'Other';
+  const ageLbl={'1-6':'Ages 1–6','7-12':'Ages 7–12','13-18':'Ages 13–18','all':'All Ages'}[s.age]||s.age;
+
+  // cover
+  const rc=document.getElementById('readerCover');
+  if(s.cover){rc.innerHTML=`<img src="${s.cover}" alt="cover"/>`;rc.style.background='none';}
+  else{rc.innerHTML=`<div class="reader-cover-emoji" style="background:${coverBg(s.type)}">${s.emoji||getDefaultEmoji(s.type)}</div>`;}
+
+  document.getElementById('readerTags').innerHTML=`<span class="card-tag ${typeClass}">${typeLbl}</span><span class="card-tag tag-age">${ageLbl}</span>`;
+  document.getElementById('readerTitle').textContent=s.title;
+  document.getElementById('readerMeta').textContent=`${s.date} · ${s.words} words · ~${Math.max(1,Math.round(s.words/180))} min read`;
+  document.getElementById('readerBody').textContent=s.content;
+
+  document.getElementById('readerOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeReader(e){if(e.target===document.getElementById('readerOverlay'))closeReaderBtn();}
+function closeReaderBtn(){document.getElementById('readerOverlay').classList.remove('open');document.body.style.overflow='';}
+
+/* ── FILTERS ── */
+document.getElementById('filterBar').addEventListener('click',function(e){
+  const btn=e.target.closest('.filter-pill');if(!btn)return;
+  document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');currentFilter=btn.dataset.filter;
+  renderStories();
+});
+
+/* ── SCROLL REVEAL ── */
+function observeReveal(){
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(el=>{if(el.isIntersecting){el.target.classList.add('in-view');io.unobserve(el.target)}});
+  },{threshold:.1});
+  document.querySelectorAll('.reveal:not(.in-view)').forEach(el=>io.observe(el));
+}
+
+/* ── SEED STORIES ── */
+(function seedIfEmpty(){
+  if(getStories().length)return;
+  const seeds=[
+    {id:1,title:'Ganesha and the Mango Tree',excerpt:'A little god, a big mango, and a lesson the whole village never forgot.',content:'Long ago in a forest near a river, there lived a tiny elephant who was actually the god Ganesha in disguise.\n\nEvery morning he would walk past a tall mango tree. The mangoes were golden and smelled sweeter than honey. But they hung so high that no one could reach them.\n\n"I will bring them down!" said a young boy named Raju.\n\nHe threw stones. He climbed half-way up and slipped. He cried and cried.\n\nGanesha smiled. He walked up to the tree and whispered something in its ear.\n\nSlowly, gently, one ripe mango floated down — right into Raju\'s hands.\n\n"How did you do that?" Raju gasped.\n\n"I asked nicely," said Ganesha with a wink.\n\nAnd Raju never threw a stone at a tree again.',type:'story',age:'1-6',emoji:'🐘',cover:'',date:'1 Jun 2025',words:130},
+    {id:2,title:'Why the Peacock Has a Hundred Eyes',excerpt:'An old tale from the forests of Rajasthan about pride, kindness, and beauty.',content:'In the forests of ancient Rajasthan, the peacock was once plain grey — like a pigeon, nothing special at all.\n\nBut the peacock had a kind heart. When a great storm came, he sheltered a hundred fireflies under his wings.\n\nThe fireflies were grateful. "We will give you a gift," they said.\n\nOne by one, each firefly pressed a glowing eye onto the peacock\'s tail feathers.\n\nFrom that day on, the peacock carried a hundred shining lights wherever he danced.\n\nAnd whenever he opens his tail — even today — you can still see those hundred grateful eyes shining back at you.\n\nKindness, said the old grandmothers of Rajasthan, always leaves a mark.',type:'story',age:'7-12',emoji:'🦚',cover:'',date:'28 May 2025',words:120},
+    {id:3,title:'The River That Remembers',excerpt:'A poem for the Ganga — ancient, ever-flowing, and full of stories.',content:'She has seen kingdoms rise and fall,\nShe has heard a million prayers.\nShe carried the ashes of warriors brave,\nAnd washed away children\'s tears.\n\nShe comes from the top of the sky,\nShe rests where the oceans meet.\nShe is older than any story we know,\nYet she begins at Shiva\'s feet.\n\nDip your hands in her cold water,\nFeel the centuries flow past.\nThe Ganga remembers everything —\nAnd her memory will always last.',type:'poem',age:'7-12',emoji:'🌊',cover:'',date:'20 May 2025',words:85},
+    {id:4,title:"India's Number System Changed the World",excerpt:"Did you know the numbers you use every day were invented in India? Here's the incredible story.",content:'Every time you write the number zero — 0 — you are using an Indian invention.\n\nAbout 1,500 years ago, Indian mathematicians made one of the greatest discoveries in human history: they invented the concept of zero as a number, not just an empty space.\n\nBefore this, counting was extremely difficult. Imagine doing large sums without the number zero!\n\nThe Indian mathematician Brahmagupta, born in Rajasthan around 598 CE, was the first person to write down rules for using zero in arithmetic. He said zero plus zero is zero. He worked out what happens when you add, subtract, and multiply with zero.\n\nThese ideas travelled from India to the Arab world, and then to Europe, where they became the numbers used everywhere today: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9.\n\nThe next time you use a calculator, or count your cricket score, or measure anything at all — remember that it all began in India.',type:'article',age:'7-12',emoji:'🔢',cover:'',date:'15 May 2025',words:170}
+  ];
+  saveStories(seeds);
+})();
+
+/* ── INIT ── */
+renderStories();
+observeReveal();
+renderDrafts();
+</script>
+</body>
+</html>
