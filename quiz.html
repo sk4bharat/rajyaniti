@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>What kind of Indian thinker are you? — sk4bharat</title>
+  <!-- paste your site's existing <link> tags for fonts, icons, CSS here -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+</head>
+<body>
+  <!-- paste your site's nav/header HTML here -->
+
+  <main style="max-width:720px; margin:4rem auto; padding:0 1.5rem;">
+    <!-- PASTE THE ENTIRE QUIZ HTML+CSS+JS FROM sk4bharat_thinker_quiz.html HERE -->
+  </main>
+<style>
+  * { box-sizing: border-box; }
+  .quiz-wrap { font-family: var(--font-sans); padding: 1.5rem 0; max-width: 660px; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  .intro-label { font-size: 12px; letter-spacing: 0.08em; color: var(--color-text-tertiary); text-transform: uppercase; margin-bottom: 0.75rem; }
+  .intro-title { font-size: 22px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 0.5rem; line-height: 1.3; }
+  .intro-subtitle { font-size: 15px; color: var(--color-text-secondary); margin: 0 0 1.75rem; line-height: 1.6; }
+  .intro-meta { display: flex; gap: 20px; margin-bottom: 1.75rem; }
+  .meta-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-tertiary); }
+  .start-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-primary); font-size: 14px; font-family: var(--font-sans); cursor: pointer; transition: background 0.15s; }
+  .start-btn:hover { background: var(--color-background-secondary); }
+
+  .progress-bar { height: 2px; background: var(--color-border-tertiary); border-radius: 2px; margin-bottom: 1.75rem; }
+  .progress-fill { height: 100%; background: #888780; border-radius: 2px; transition: width 0.3s ease; }
+  .q-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+  .q-num { font-size: 12px; color: var(--color-text-tertiary); }
+  .q-text { font-size: 17px; font-weight: 500; color: var(--color-text-primary); line-height: 1.45; margin-bottom: 1.25rem; font-family: var(--font-serif); }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-primary); color: var(--color-text-primary); font-size: 14px; font-family: var(--font-sans); cursor: pointer; text-align: left; line-height: 1.5; transition: border-color 0.15s, background 0.15s; }
+  .opt-btn:hover { border-color: var(--color-border-secondary); background: var(--color-background-secondary); }
+  .opt-btn.selected { border-color: #888780; background: #F1EFE8; color: #2C2C2A; }
+  .opt-letter { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); min-width: 16px; padding-top: 1px; }
+  .opt-btn.selected .opt-letter { color: #5F5E5A; }
+
+  .nav-row { display: flex; justify-content: flex-end; margin-top: 1.5rem; }
+  .next-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-secondary); font-size: 14px; font-family: var(--font-sans); cursor: pointer; transition: all 0.15s; }
+  .next-btn:not(:disabled):hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+  .next-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .next-btn.ready { border-color: var(--color-border-primary); color: var(--color-text-primary); }
+
+  .result-label { font-size: 12px; letter-spacing: 0.08em; color: var(--color-text-tertiary); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .result-type { font-size: 24px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 0.25rem; }
+  .result-epithet { font-size: 14px; color: var(--color-text-secondary); margin: 0 0 1.25rem; font-style: italic; font-family: var(--font-serif); }
+  .result-divider { height: 0.5px; background: var(--color-border-tertiary); margin: 1.25rem 0; }
+  .result-desc { font-size: 15px; color: var(--color-text-secondary); line-height: 1.7; margin: 0 0 1rem; }
+  .result-figures { margin-bottom: 1.5rem; }
+  .figures-label { font-size: 12px; color: var(--color-text-tertiary); margin-bottom: 0.5rem; }
+  .figures-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { font-size: 12px; padding: 4px 10px; border-radius: 20px; border: 0.5px solid var(--color-border-secondary); color: var(--color-text-secondary); }
+  .result-trait { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-top: 0.5px solid var(--color-border-tertiary); }
+  .trait-icon { font-size: 16px; color: var(--color-text-tertiary); padding-top: 1px; }
+  .trait-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; }
+  .result-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1.5rem; }
+  .action-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-secondary); font-size: 13px; font-family: var(--font-sans); cursor: pointer; transition: background 0.15s; }
+  .action-btn:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+
+  .badge-wrap { display: inline-block; margin-bottom: 1.25rem; }
+  .result-badge { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-secondary); }
+</style>
+
+<div class="quiz-wrap" role="main">
+  <h2 class="sr-only">What kind of Indian thinker are you? — a quiz by sk4bharat</h2>
+
+  <div class="screen active" id="screen-intro">
+    <p class="intro-label">sk4bharat · Quiz</p>
+    <h1 class="intro-title">What kind of Indian thinker are you?</h1>
+    <p class="intro-subtitle">Seven questions drawn from mythology, history, and culture. Discover which archetype from the great tradition you most resemble.</p>
+    <div class="intro-meta">
+      <span class="meta-item"><i class="ti ti-clock" style="font-size:15px" aria-hidden="true"></i> 3 minutes</span>
+      <span class="meta-item"><i class="ti ti-help-circle" style="font-size:15px" aria-hidden="true"></i> 7 questions</span>
+      <span class="meta-item"><i class="ti ti-award" style="font-size:15px" aria-hidden="true"></i> 5 archetypes</span>
+    </div>
+    <button class="start-btn" onclick="startQuiz()">Begin the quiz <i class="ti ti-arrow-right" style="font-size:15px" aria-hidden="true"></i></button>
+  </div>
+
+  <div class="screen" id="screen-question">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="q-meta">
+      <span class="q-num" id="q-num">Question 1 of 7</span>
+    </div>
+    <p class="q-text" id="q-text"></p>
+    <div class="options" id="options"></div>
+    <div class="nav-row">
+      <button class="next-btn" id="next-btn" onclick="nextQ()" disabled>
+        Next <i class="ti ti-arrow-right" style="font-size:14px" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-result">
+    <p class="result-label">Your archetype</p>
+    <div class="badge-wrap"><div class="result-badge" id="result-icon"></div></div>
+    <h2 class="result-type" id="result-type"></h2>
+    <p class="result-epithet" id="result-epithet"></p>
+    <p class="result-desc" id="result-desc"></p>
+    <div class="result-divider"></div>
+    <div class="result-figures">
+      <p class="figures-label">You share this with</p>
+      <div class="figures-pills" id="result-figures"></div>
+    </div>
+    <div id="result-traits"></div>
+    <div class="result-actions">
+      <button class="action-btn" onclick="restartQuiz()"><i class="ti ti-refresh" style="font-size:14px" aria-hidden="true"></i> Retake quiz</button>
+      <button class="action-btn" onclick="sendPrompt('Tell me more about the ' + currentResult + ' archetype from Indian tradition')">Explore further <i class="ti ti-arrow-right" style="font-size:14px" aria-hidden="true"></i></button>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    text: "Arjuna stands on the battlefield, bow lowered. What is your first instinct?",
+    options: [
+      { text: "He must fight — his dharma as a warrior demands it, whatever the cost.", scores: { dharmic: 2 } },
+      { text: "His paralysis is the most honest moment in the whole epic.", scores: { seeker: 2 } },
+      { text: "Krishna's answer is the real text worth studying — the Gita, not the war.", scores: { philosopher: 2 } },
+      { text: "A leader who hesitates at the crucial moment has already lost something.", scores: { strategist: 2 } },
+      { text: "The tragedy is structural — the war itself should never have reached this point.", scores: { historian: 2 } }
+    ]
+  },
+  {
+    text: "A sacred river in your city is heavily polluted. What matters most to you?",
+    options: [
+      { text: "The spiritual memory carried by the river — that must be protected and honoured.", scores: { dharmic: 2, seeker: 1 } },
+      { text: "Understanding how we arrived here — the political and industrial history behind it.", scores: { historian: 2 } },
+      { text: "The philosophical contradiction: we call it a goddess but treat it like a drain.", scores: { philosopher: 2 } },
+      { text: "Practical solutions — policy, infrastructure, enforcement, accountability.", scores: { strategist: 2 } },
+      { text: "What this tells us about how India negotiates between sacred and secular.", scores: { seeker: 2, historian: 1 } }
+    ]
+  },
+  {
+    text: "You discover a rock edict of Ashoka that historians haven't studied closely. You are most drawn to:",
+    options: [
+      { text: "What it reveals about Buddhist ethics and the dharmic state.", scores: { dharmic: 2 } },
+      { text: "What Ashoka chose not to say — the silence between the lines.", scores: { philosopher: 2, seeker: 1 } },
+      { text: "The political context — why this location, this inscription, this moment.", scores: { historian: 2 } },
+      { text: "How to use this discovery to revisit our current idea of governance.", scores: { strategist: 2 } },
+      { text: "The existential question of an emperor carving his remorse into stone.", scores: { seeker: 2 } }
+    ]
+  },
+  {
+    text: "Which of these statements feels most true to you?",
+    options: [
+      { text: "Mythology is not fiction — it is civilisational memory encoded in story.", scores: { dharmic: 2, philosopher: 1 } },
+      { text: "To understand India, you must first sit with its contradictions, not resolve them.", scores: { seeker: 2 } },
+      { text: "Every idea India holds today was shaped by a decision made centuries ago.", scores: { historian: 2 } },
+      { text: "The old stories are most useful when they help us make better decisions now.", scores: { strategist: 2 } },
+      { text: "Language, translation, and framing determine what ideas even survive.", scores: { philosopher: 2 } }
+    ]
+  },
+  {
+    text: "Karna fights on the wrong side despite knowing it. Your response:",
+    options: [
+      { text: "His loyalty to Duryodhana is a dharmic virtue corrupted by misdirection.", scores: { dharmic: 2 } },
+      { text: "His tragedy is that he confused the person with the values the person once stood for.", scores: { philosopher: 2 } },
+      { text: "History is full of Karnas — exceptional people destroyed by institutional loyalty.", scores: { historian: 2 } },
+      { text: "The lesson is strategic: always ask what, exactly, you are loyal to.", scores: { strategist: 2 } },
+      { text: "The most moving thing about Karna is that he knew, and stayed anyway.", scores: { seeker: 2 } }
+    ]
+  },
+  {
+    text: "A temple in your city is described as 'just a beautiful building'. You say:",
+    options: [
+      { text: "It is a living site of worship — beauty is incidental to its sacred function.", scores: { dharmic: 2 } },
+      { text: "It is a cosmological diagram in stone. Every figure, every direction, carries meaning.", scores: { philosopher: 2 } },
+      { text: "It encodes a worldview developed over centuries — that's worth understanding.", scores: { historian: 2 } },
+      { text: "Its design principles are remarkably sophisticated — we could learn from them.", scores: { strategist: 1, historian: 1 } },
+      { text: "The building outlasted the empire that made it. That alone deserves wonder.", scores: { seeker: 2 } }
+    ]
+  },
+  {
+    text: "What is your relationship with the word 'dharma'?",
+    options: [
+      { text: "It is the foundation — the cosmic order that holds everything together.", scores: { dharmic: 2 } },
+      { text: "It is the most mistranslated word in Indian thought, and that matters enormously.", scores: { philosopher: 2 } },
+      { text: "It changed meaning across centuries — Vedic, Buddhist, colonial, contemporary.", scores: { historian: 2 } },
+      { text: "It is a practical framework for navigating obligations under uncertainty.", scores: { strategist: 2 } },
+      { text: "It is something I am still trying to understand — perhaps that is the point.", scores: { seeker: 2 } }
+    ]
+  }
+];
+
+const archetypes = {
+  dharmic: {
+    name: "The Dharmic Anchor",
+    epithet: "\"The eternal order is not a constraint — it is the only ground worth standing on.\"",
+    icon: "&#9654;",
+    desc: "You see the world through the lens of cosmic order, sacred tradition, and the living continuity between past and present. For you, mythology is not metaphor but memory — and the old frameworks still have something urgent to say about how we ought to live. You are drawn to rootedness, and you resist the flattening of rich ideas into modern convenience.",
+    figures: ["Yudhishthira", "Ashoka", "Adi Shankaracharya", "Swami Vivekananda"],
+    traits: [
+      { icon: "ti-compass", text: "You navigate by principle before pragmatism." },
+      { icon: "ti-books", text: "Sacred texts are not literature to you — they are maps." },
+      { icon: "ti-plant", text: "You are drawn to continuity, rootedness, and civilisational depth." }
+    ]
+  },
+  philosopher: {
+    name: "The Conceptual Rebel",
+    epithet: "\"The problem was never the idea — it was what the translation did to it.\"",
+    icon: "&#9670;",
+    desc: "You are most alive when an idea is being unpacked, turned over, and found to be stranger and richer than it appeared. You distrust inherited translations and ready-made categories. Dharma is not duty. Nishkama karma is not fatalism. You believe the work of Indian thought is largely still undone — and you want to be the one doing it.",
+    figures: ["Krishna", "Nagarjuna", "B.R. Ambedkar", "Aurobindo"],
+    traits: [
+      { icon: "ti-prism", text: "You find the most interesting thing in what everyone else overlooks." },
+      { icon: "ti-language", text: "Language and framing shape which ideas even survive — you know this." },
+      { icon: "ti-bulb", text: "Your best thinking happens at the edge of two incompatible ideas." }
+    ]
+  },
+  historian: {
+    name: "The Long Memory",
+    epithet: "\"Everything India is today was decided by something that happened centuries ago.\"",
+    icon: "&#9632;",
+    desc: "You see the present as the residue of the past — and you believe that understanding where India has been is the only honest way to understand where it is going. You are drawn to archives, silences, and the decisions that shaped civilisations. You distrust nostalgia but also distrust those who pretend history is irrelevant.",
+    figures: ["Ashoka", "Akbar", "Rabindranath Tagore", "Romila Thapar"],
+    traits: [
+      { icon: "ti-clock", text: "You think in centuries more comfortably than most people think in years." },
+      { icon: "ti-search", text: "What was left unsaid interests you as much as what was recorded." },
+      { icon: "ti-map", text: "Geography, language, and empire are all part of the same story to you." }
+    ]
+  },
+  strategist: {
+    name: "The Strategic Idealist",
+    epithet: "\"The old stories are most valuable when they help you act better in the present.\"",
+    icon: "&#9679;",
+    desc: "You hold the tradition at arm's length — respectful but not reverential. What interests you is the portable wisdom: the decision frameworks, the leadership insights, the models for thinking under uncertainty. You are as likely to cite the Arthashastra in a boardroom as a seminar. For you, India's intellectual heritage is not an object of study — it is a toolkit.",
+    figures: ["Krishna", "Chanakya", "Chandragupta Maurya", "Sardar Patel"],
+    traits: [
+      { icon: "ti-target", text: "You translate ideas into action faster than most." },
+      { icon: "ti-chess", text: "You think several moves ahead — second-order effects are your natural habitat." },
+      { icon: "ti-scale", text: "You are comfortable with moral complexity as long as the direction is right." }
+    ]
+  },
+  seeker: {
+    name: "The Restless Seeker",
+    epithet: "\"Perhaps the plurality is the point — and always was.\"",
+    icon: "&#9651;",
+    desc: "You resist easy answers with every instinct you have. India's diversity is not a problem to be solved for you — it is the most interesting thing about it. You are drawn to the questions that don't resolve, the characters who knew and stayed anyway, the moments of honest uncertainty in great texts. You are probably still working out what you believe — and you consider that a virtue.",
+    figures: ["Arjuna", "Kabir", "Tagore", "Jiddu Krishnamurti"],
+    traits: [
+      { icon: "ti-infinity", text: "You hold open questions longer than most people find comfortable." },
+      { icon: "ti-wave-sine", text: "You are drawn to contradiction, paradox, and the unmapped edges." },
+      { icon: "ti-heart", text: "For you, wonder is a more honest response than certainty." }
+    ]
+  }
+};
+
+let current = 0;
+let scores = { dharmic: 0, philosopher: 0, historian: 0, strategist: 0, seeker: 0 };
+let selected = null;
+let currentResult = '';
+
+function startQuiz() {
+  showScreen('screen-question');
+  renderQuestion();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('q-num').textContent = 'Question ' + (current + 1) + ' of ' + questions.length;
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('progress-fill').style.width = (current / questions.length * 100) + '%';
+
+  const letters = ['A', 'B', 'C', 'D', 'E'];
+  const container = document.getElementById('options');
+  container.innerHTML = '';
+  selected = null;
+  document.getElementById('next-btn').disabled = true;
+  document.getElementById('next-btn').classList.remove('ready');
+
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = '<span class="opt-letter">' + letters[i] + '</span><span>' + opt.text + '</span>';
+    btn.onclick = () => selectOption(i);
+    container.appendChild(btn);
+  });
+}
+
+function selectOption(i) {
+  selected = i;
+  document.querySelectorAll('.opt-btn').forEach((b, idx) => {
+    b.classList.toggle('selected', idx === i);
+  });
+  const nb = document.getElementById('next-btn');
+  nb.disabled = false;
+  nb.classList.add('ready');
+}
+
+function nextQ() {
+  if (selected === null) return;
+  const q = questions[current];
+  const optScores = q.options[selected].scores;
+  for (const key in optScores) scores[key] = (scores[key] || 0) + optScores[key];
+
+  current++;
+  if (current >= questions.length) {
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResult() {
+  document.getElementById('progress-fill').style.width = '100%';
+  const winner = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
+  currentResult = archetypes[winner].name;
+  const a = archetypes[winner];
+
+  document.getElementById('result-icon').innerHTML = a.icon;
+  document.getElementById('result-type').textContent = a.name;
+  document.getElementById('result-epithet').textContent = a.epithet;
+  document.getElementById('result-desc').textContent = a.desc;
+
+  const figuresEl = document.getElementById('result-figures');
+  figuresEl.innerHTML = '';
+  a.figures.forEach(f => {
+    const pill = document.createElement('span');
+    pill.className = 'pill';
+    pill.textContent = f;
+    figuresEl.appendChild(pill);
+  });
+
+  const traitsEl = document.getElementById('result-traits');
+  traitsEl.innerHTML = '';
+  a.traits.forEach(t => {
+    const row = document.createElement('div');
+    row.className = 'result-trait';
+    row.innerHTML = '<i class="ti ' + t.icon + ' trait-icon" aria-hidden="true"></i><span class="trait-text">' + t.text + '</span>';
+    traitsEl.appendChild(row);
+  });
+
+  showScreen('screen-result');
+}
+
+function restartQuiz() {
+  current = 0;
+  scores = { dharmic: 0, philosopher: 0, historian: 0, strategist: 0, seeker: 0 };
+  selected = null;
+  currentResult = '';
+  showScreen('screen-intro');
+}
+</script>
+  <!-- paste your site's footer HTML here -->
+
+</body>
+</html>
