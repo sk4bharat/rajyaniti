@@ -1407,6 +1407,33 @@
       input.focus();
     }
   });
+  /* ─── STATS COUNTER ANIMATION ─── */
+  function animateCounter(el, target, duration) {
+    const countEl = el.querySelector('.count');
+    if (!countEl) return;
+    let start = 0;
+    const step = Math.ceil(target / (duration / 16));
+    const timer = setInterval(() => {
+      start = Math.min(start + step, target);
+      countEl.textContent = start;
+      if (start >= target) clearInterval(timer);
+    }, 16);
+  }
+
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.dataset.target, 10);
+        animateCounter(el, target, 1200);
+        statsObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.4 });
+
+  document.querySelectorAll('.stat-number[data-target]').forEach(el => {
+    statsObserver.observe(el);
+  });
 </script>
 </body>
 </html>
