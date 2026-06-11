@@ -974,6 +974,36 @@
     .quote-band { padding: 3.5rem 1.25rem; }
   }
 
+  /* ─── SANSKRIT VERSE ─── */
+  .sanskrit-verse {
+    font-family: 'Noto Serif Devanagari', 'Mangal', serif;
+    font-size: clamp(0.82rem, 1.4vw, 1rem);
+    color: #C8922A;
+    letter-spacing: 0.03em;
+    margin-bottom: 1.4rem;
+    min-height: 2.8em;
+    line-height: 1.7;
+    opacity: 0.9;
+  }
+
+  .sanskrit-verse .char {
+    display: inline;
+    opacity: 0;
+    animation: fadeChar 0.05s forwards;
+  }
+
+  .sanskrit-src {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: #8B6914;
+    margin-top: 0.25rem;
+    opacity: 0;
+    transition: opacity 0.8s;
+  }
+
+  @keyframes fadeChar { to { opacity: 1; } }
   /* Extra small: 360px */
   @media (max-width: 360px) {
     .books-grid { grid-template-columns: 1fr; }
@@ -1116,6 +1146,7 @@
 <!-- ─── HERO ─── -->
 <section class="hero">
   <div class="hero-left">
+    <div class="sanskrit-verse" id="sanskritVerse" aria-hidden="true"></div>
     <p class="hero-eyebrow">✦ Welcome to sk4bharat</p>
     <h1 class="hero-title">Stories that<br><em>shape</em> how<br>we see India</h1>
     <p class="hero-desc">Writing on the intersection of culture, tradition, and modern Indian life — unpacking the ideas that define us.</p>
@@ -1513,6 +1544,59 @@
   document.querySelectorAll('.stat-number[data-target]').forEach(el => {
     statsObserver.observe(el);
   });
+
+  /* ─── SANSKRIT VERSE ANIMATION ─── */
+  (function () {
+    const verses = [
+      { text: "यदा यदा हि धर्मस्य ग्लानिर्भवति भारत।", src: "— Bhagavad Gita 4.7" },
+      { text: "वसुधैव कुटुम्बकम्।", src: "— महा उपनिषद् 6.71" },
+      { text: "तमसो मा ज्योतिर्गमय।", src: "— बृहदारण्यक उपनिषद् 1.3.28" },
+      { text: "अहिंसा परमो धर्मः।", src: "— महाभारत, अनुशासन पर्व" },
+      { text: "सर्वे भवन्तु सुखिनः।", src: "— बृहदारण्यक उपनिषद्" },
+    ];
+
+    const el = document.getElementById('sanskritVerse');
+    if (!el) return;
+
+    let idx = 0;
+
+    function typeVerse(verse) {
+      el.innerHTML = '';
+      const chars = [...verse.text]; // unicode-safe split
+      let i = 0;
+
+      function next() {
+        if (i < chars.length) {
+          const span = document.createElement('span');
+          span.className = 'char';
+          span.textContent = chars[i++];
+          el.appendChild(span);
+          setTimeout(next, 52);
+        } else {
+          const src = document.createElement('span');
+          src.className = 'sanskrit-src';
+          src.textContent = verse.src;
+          el.appendChild(src);
+          requestAnimationFrame(() => requestAnimationFrame(() => src.style.opacity = '1'));
+
+          setTimeout(() => {
+            el.style.transition = 'opacity 0.9s';
+            el.style.opacity = '0';
+            setTimeout(() => {
+              el.style.opacity = '1';
+              el.style.transition = '';
+              idx = (idx + 1) % verses.length;
+              typeVerse(verses[idx]);
+            }, 950);
+          }, 4500);
+        }
+      }
+      next();
+    }
+
+    // Wait for preloader to finish before starting
+    setTimeout(() => typeVerse(verses[idx]), 2800);
+  })();
 </script>
 </body>
 </html>
