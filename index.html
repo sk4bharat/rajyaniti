@@ -979,6 +979,85 @@
     .books-grid { grid-template-columns: 1fr; }
     .hero-title { font-size: 1.9rem; }
   }
+
+  /* ─── STATS STRIP ─── */
+  .stats-strip {
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .stats-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-left: 1px solid var(--border);
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.75rem 1rem;
+    border-right: 1px solid var(--border);
+    border-top: 3px solid transparent;
+    text-align: center;
+    transition: border-top-color 0.25s, background 0.25s;
+    position: relative;
+  }
+
+  .stat-item:hover {
+    background: white;
+    border-top-color: var(--saffron);
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-number .stat-accent {
+    color: var(--saffron);
+  }
+
+  .stat-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Counter animation */
+  .stat-number[data-target] {
+    transition: color 0.3s;
+  }
+
+  @media (max-width: 768px) {
+    .stats-inner {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .stat-item:nth-child(2) { border-right: none; }
+    .stat-item:nth-child(3),
+    .stat-item:nth-child(4) {
+      border-top: 1px solid var(--border);
+    }
+    .stat-item:nth-child(4) { border-right: none; }
+  }
+
+  @media (max-width: 480px) {
+    .stat-item { padding: 1.25rem 0.75rem; }
+    .stat-number { font-size: 1.6rem; }
+  }
 </style>
 </head>
 <body>
