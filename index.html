@@ -1024,15 +1024,36 @@
     justify-content: center;
     height: 180px;
     opacity: 0;
-    transition: opacity 0.8s ease;
     pointer-events: none;
   }
 
   .quote-slot.active {
     opacity: 1;
     pointer-events: auto;
+    animation: glitchIn 0.6s steps(1) forwards;
   }
 
+  .quote-slot.leaving {
+    animation: glitchOut 0.4s steps(1) forwards;
+  }
+
+  @keyframes glitchIn {
+    0%   { opacity: 0; clip-path: inset(40% 0 40% 0); transform: translate(-4px, 0); filter: blur(2px); }
+    15%  { opacity: 1; clip-path: inset(10% 0 60% 0); transform: translate(4px, 0);  filter: blur(0); }
+    30%  { clip-path: inset(60% 0 10% 0); transform: translate(-3px, 0); }
+    45%  { clip-path: inset(20% 0 50% 0); transform: translate(3px, 0); }
+    60%  { clip-path: inset(0% 0 0% 0);   transform: translate(-1px, 0); }
+    75%  { clip-path: inset(5% 0 5% 0);   transform: translate(1px, 0); }
+    100% { clip-path: inset(0% 0 0% 0);   transform: translate(0, 0); filter: blur(0); }
+  }
+
+  @keyframes glitchOut {
+    0%   { opacity: 1; clip-path: inset(0% 0 0% 0);   transform: translate(0, 0); }
+    25%  { clip-path: inset(20% 0 50% 0); transform: translate(4px, 0);  filter: blur(1px); }
+    50%  { clip-path: inset(50% 0 20% 0); transform: translate(-4px, 0); }
+    75%  { clip-path: inset(80% 0 5% 0);  transform: translate(2px, 0); }
+    100% { opacity: 0; clip-path: inset(50% 0 50% 0); transform: translate(0, 0); filter: blur(2px); }
+  }
   .quote-dots {
     position: absolute;
     bottom: 0;
@@ -1652,13 +1673,18 @@
     });
 
     function goTo(index) {
-      slots[current].classList.remove('active');
+      const outSlot = slots[current];
+      outSlot.classList.remove('active');
+      outSlot.classList.add('leaving');
+      outSlot.addEventListener('animationend', () => {
+        outSlot.classList.remove('leaving');
+      }, { once: true });
+
       dotsEl.querySelectorAll('.quote-dot')[current].classList.remove('active');
       current = index;
       slots[current].classList.add('active');
       dotsEl.querySelectorAll('.quote-dot')[current].classList.add('active');
     }
-
     function startAuto() {
       autoTimer = setInterval(() => {
         goTo((current + 1) % QUOTES.length);
