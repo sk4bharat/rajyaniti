@@ -1023,9 +1023,30 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 0 2rem;
     height: 180px;
     opacity: 0;
     pointer-events: none;
+  }
+
+  .quote-slot .quote-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.1rem, 2.5vw, 2.2rem);
+    font-style: italic;
+    color: var(--parchment);
+    max-width: 800px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .quote-slot .quote-attr {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--saffron);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 0.75rem;
+    text-align: center;
   }
 
   .quote-slot.active {
@@ -1039,13 +1060,13 @@
   }
 
   @keyframes glitchIn {
-    0%   { opacity: 0; clip-path: inset(40% 0 40% 0); transform: translate(-4px, 0); filter: blur(2px); }
-    15%  { opacity: 1; clip-path: inset(10% 0 60% 0); transform: translate(4px, 0);  filter: blur(0); }
+    0%   { opacity: 0; clip-path: inset(40% 0 40% 0); transform: translate(-4px, 0); }
+    15%  { opacity: 1; clip-path: inset(10% 0 60% 0); transform: translate(4px, 0); }
     30%  { clip-path: inset(60% 0 10% 0); transform: translate(-3px, 0); }
     45%  { clip-path: inset(20% 0 50% 0); transform: translate(3px, 0); }
     60%  { clip-path: inset(0% 0 0% 0);   transform: translate(-1px, 0); }
     75%  { clip-path: inset(5% 0 5% 0);   transform: translate(1px, 0); }
-    100% { clip-path: inset(0% 0 0% 0);   transform: translate(0, 0); filter: blur(0); }
+    100% { opacity: 1; clip-path: inset(0% 0 0% 0); transform: translate(0, 0); }
   }
 
   @keyframes glitchOut {
