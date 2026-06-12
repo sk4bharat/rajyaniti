@@ -1005,6 +1005,45 @@
   }
 
   @keyframes fadeChar { to { opacity: 1; } }
+ /* ─── ROTATING QUOTE BAND ─── */
+  .quote-text {
+    transition: opacity 0.8s ease;
+  }
+
+  .quote-attr {
+    transition: opacity 0.8s ease;
+  }
+
+  .quote-band-inner {
+    position: relative;
+    min-height: 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .quote-dots {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    justify-content: center;
+  }
+
+  .quote-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #444;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .quote-dot.active {
+    background: var(--saffron);
+  }
   /* ─── FILTER TABS ─── */
   .filter-tabs {
     display: flex;
@@ -1274,8 +1313,11 @@
 <!-- ─── QUOTE BAND ─── -->
 <div class="quote-band">
   <div class="container">
-    <p class="quote-text">"Mythology is not primitive science. It is civilisational memory — encoded in story because story outlasts empires."</p>
-    <p class="quote-attr">— sk4bharat</p>
+    <div class="quote-band-inner">
+      <p class="quote-text" id="quoteText"></p>
+      <p class="quote-attr" id="quoteAttr"></p>
+      <div class="quote-dots" id="quoteDots"></div>
+    </div>
   </div>
 </div>
 
@@ -1534,7 +1576,84 @@
   document.querySelectorAll('.stat-number[data-target]').forEach(el => {
     statsObserver.observe(el);
   });
-/* ─── ARTICLES DATA ─── */
+/* ─── ROTATING QUOTE BAND ─── */
+  const QUOTES = [
+    {
+      text: "Mythology is not primitive science. It is civilisational memory — encoded in story because story outlasts empires.",
+      attr: "— sk4bharat"
+    },
+    {
+      text: "To understand where India is going, one must first understand — without romanticising — where it has been.",
+      attr: "— sk4bharat"
+    },
+    {
+      text: "Dharma is not a rulebook. It is a compass — and like all compasses, it is only useful if you already know you are lost.",
+      attr: "— sk4bharat"
+    },
+    {
+      text: "Every river in India carries two kinds of water: the kind you can measure, and the kind you can only remember.",
+      attr: "— sk4bharat"
+    },
+    {
+      text: "The temple was never just a building. It was an argument in stone — about what a civilisation believed was worth preserving.",
+      attr: "— sk4bharat"
+    },
+    {
+      text: "We do not inherit a culture. We choose, moment by moment, whether to carry it forward.",
+      attr: "— sk4bharat"
+    },
+  ];
+
+  (function () {
+    const textEl = document.getElementById('quoteText');
+    const attrEl = document.getElementById('quoteAttr');
+    const dotsEl = document.getElementById('quoteDots');
+    if (!textEl || !attrEl || !dotsEl) return;
+
+    let currentQuote = 0;
+    let autoTimer;
+
+    // Build dots
+    QUOTES.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'quote-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Quote ' + (i + 1));
+      dot.addEventListener('click', () => { clearInterval(autoTimer); goTo(i); startAuto(); });
+      dotsEl.appendChild(dot);
+    });
+
+    function goTo(index) {
+      // fade out
+      textEl.style.opacity = '0';
+      attrEl.style.opacity = '0';
+
+      setTimeout(() => {
+        currentQuote = index;
+        textEl.textContent = '\u201c' + QUOTES[index].text + '\u201d';
+        attrEl.textContent = QUOTES[index].attr;
+
+        // update dots
+        dotsEl.querySelectorAll('.quote-dot').forEach((d, i) => {
+          d.classList.toggle('active', i === index);
+        });
+
+        // fade in
+        textEl.style.opacity = '1';
+        attrEl.style.opacity = '1';
+      }, 800);
+    }
+
+    function startAuto() {
+      autoTimer = setInterval(() => {
+        goTo((currentQuote + 1) % QUOTES.length);
+      }, 6000);
+    }
+
+    // init
+    goTo(0);
+    startAuto();
+  })();
+  /* ─── ARTICLES DATA ─── */
   const ARTICLES = [
     {
       date: "May 18, 2026",
