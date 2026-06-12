@@ -1262,68 +1262,11 @@
       <button class="filter-tab" data-filter="Art">Art</button>
       <button class="filter-tab" data-filter="Leadership">Leadership</button>
     </div>
-    <div class="articles-grid">
-
-      <div class="article-card" data-category="Culture">
-        <p class="article-meta">May 18, 2026 · Culture</p>
-        <a href="#" class="article-title">The River Remembers: Sacred Waters in a Secular Age</a>
-        <p class="article-excerpt">Rivers in India are not merely geographic features. They carry memory, myth, and a mode of being that modern infrastructure keeps trying — and failing — to replace.</p>
-        <div class="featured-tags">
-          <span class="tag">Hinduism</span>
-          <span class="tag">Rivers</span>
-        </div>
-      </div>
-
-      <div class="article-card" data-category="History">
-        <p class="article-meta">May 12, 2026 · History</p>
-        <a href="#" class="article-title">Ashoka's Silence: What the Rock Edicts Don't Tell Us</a>
-        <p class="article-excerpt">The emperor who carved his remorse into stone across an entire subcontinent was also, curiously, silent on much that mattered. What he left unsaid tells us as much as the inscriptions themselves.</p>
-        <div class="featured-tags">
-          <span class="tag">History</span>
-          <span class="tag">Buddhism</span>
-        </div>
-      </div>
-
-      <div class="article-card" data-category="Society">
-        <p class="article-meta">May 5, 2026 · Society</p>
-        <a href="#" class="article-title">Why Indians Argue About Language More Than Almost Anything Else</a>
-        <p class="article-excerpt">Language disputes in India are never really about language. They are about memory, pride, survival, and the perpetual negotiation of who belongs where and why.</p>
-        <div class="featured-tags">
-          <span class="tag">Languages</span>
-          <span class="tag">Politics</span>
-        </div>
-      </div>
-
-      <div class="article-card" data-category="Philosophy">
-        <p class="article-meta">Apr 28, 2026 · Philosophy</p>
-        <a href="#" class="article-title">Dharma Is Not Duty: Recovering a Misunderstood Idea</a>
-        <p class="article-excerpt">Colonial translations flattened dharma into a Victorian sense of obligation. The original concept was richer, stranger, and far more interesting than the word "duty" can contain.</p>
-        <div class="featured-tags">
-          <span class="tag">Philosophy</span>
-          <span class="tag">Hinduism</span>
-        </div>
-      </div>
-
-      <div class="article-card" data-category="Art">
-        <p class="article-meta">Apr 20, 2026 · Art</p>
-        <a href="#" class="article-title">The Grammar of Indian Temple Architecture Nobody Teaches</a>
-        <p class="article-excerpt">Temples are not just beautiful buildings. They are cosmological diagrams in stone — encoding a worldview so complete that every carved figure, every directional alignment, carries meaning.</p>
-        <div class="featured-tags">
-          <span class="tag">Architecture</span>
-          <span class="tag">Art</span>
-        </div>
-      </div>
-
-      <div class="article-card" data-category="Leadership">
-        <p class="article-meta">Apr 12, 2026 · Leadership</p>
-        <a href="#" class="article-title">What the Mahabharata Says About Decision-Making Under Uncertainty</a>
-        <p class="article-excerpt">The Kurukshetra war is, among other things, a 100,000-verse meditation on the agony of choice. Its lessons apply surprisingly well to anyone navigating impossible situations.</p>
-        <div class="featured-tags">
-          <span class="tag">Mahabharata</span>
-          <span class="tag">Leadership</span>
-        </div>
-      </div>
-
+   <div class="articles-grid" id="articlesGrid"></div>
+    <div style="text-align:center; margin-top:2.5rem;" id="loadMoreWrap">
+      <button id="loadMoreBtn" class="btn btn-outline" style="border-color:var(--saffron);color:var(--saffron);">
+        Load More Articles
+      </button>
     </div>
   </div>
 </section>
@@ -1591,21 +1534,115 @@
   document.querySelectorAll('.stat-number[data-target]').forEach(el => {
     statsObserver.observe(el);
   });
-/* ─── FILTER TABS ─── */
+/* ─── ARTICLES DATA ─── */
+  const ARTICLES = [
+    {
+      date: "May 18, 2026",
+      category: "Culture",
+      title: "The River Remembers: Sacred Waters in a Secular Age",
+      excerpt: "Rivers in India are not merely geographic features. They carry memory, myth, and a mode of being that modern infrastructure keeps trying — and failing — to replace.",
+      tags: ["Hinduism", "Rivers"],
+      url: "#"
+    },
+    {
+      date: "May 12, 2026",
+      category: "History",
+      title: "Ashoka's Silence: What the Rock Edicts Don't Tell Us",
+      excerpt: "The emperor who carved his remorse into stone across an entire subcontinent was also, curiously, silent on much that mattered. What he left unsaid tells us as much as the inscriptions themselves.",
+      tags: ["History", "Buddhism"],
+      url: "#"
+    },
+    {
+      date: "May 5, 2026",
+      category: "Society",
+      title: "Why Indians Argue About Language More Than Almost Anything Else",
+      excerpt: "Language disputes in India are never really about language. They are about memory, pride, survival, and the perpetual negotiation of who belongs where and why.",
+      tags: ["Languages", "Politics"],
+      url: "#"
+    },
+    {
+      date: "Apr 28, 2026",
+      category: "Philosophy",
+      title: "Dharma Is Not Duty: Recovering a Misunderstood Idea",
+      excerpt: "Colonial translations flattened dharma into a Victorian sense of obligation. The original concept was richer, stranger, and far more interesting than the word duty can contain.",
+      tags: ["Philosophy", "Hinduism"],
+      url: "#"
+    },
+    {
+      date: "Apr 20, 2026",
+      category: "Art",
+      title: "The Grammar of Indian Temple Architecture Nobody Teaches",
+      excerpt: "Temples are not just beautiful buildings. They are cosmological diagrams in stone — encoding a worldview so complete that every carved figure, every directional alignment, carries meaning.",
+      tags: ["Architecture", "Art"],
+      url: "#"
+    },
+    {
+      date: "Apr 12, 2026",
+      category: "Leadership",
+      title: "What the Mahabharata Says About Decision-Making Under Uncertainty",
+      excerpt: "The Kurukshetra war is, among other things, a 100,000-verse meditation on the agony of choice. Its lessons apply surprisingly well to anyone navigating impossible situations.",
+      tags: ["Mahabharata", "Leadership"],
+      url: "#"
+    },
+  ];
+
+  const CARDS_PER_PAGE = 6;
+  let currentFilter = 'all';
+  let visibleCount = CARDS_PER_PAGE;
+
+  function getFiltered() {
+    return currentFilter === 'all'
+      ? ARTICLES
+      : ARTICLES.filter(a => a.category === currentFilter);
+  }
+
+  function renderArticles() {
+    const grid = document.getElementById('articlesGrid');
+    const filtered = getFiltered();
+    const toShow = filtered.slice(0, visibleCount);
+
+    grid.innerHTML = toShow.map(a => `
+      <div class="article-card" data-category="${a.category}">
+        <p class="article-meta">${a.date} · ${a.category}</p>
+        <a href="${a.url}" class="article-title">${a.title}</a>
+        <p class="article-excerpt">${a.excerpt}</p>
+        <div class="featured-tags">
+          ${a.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+        </div>
+      </div>
+    `).join('');
+
+    // show/hide Load More button
+    const btn = document.getElementById('loadMoreWrap');
+    if (btn) btn.style.display = filtered.length > visibleCount ? 'block' : 'none';
+
+    // re-apply scroll animation to new cards
+    grid.querySelectorAll('.article-card').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(24px)';
+      card.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+      observer.observe(card);
+    });
+  }
+
+  /* ─── FILTER TABS ─── */
   document.querySelectorAll('.filter-tab').forEach(tab => {
     tab.addEventListener('click', function () {
       document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
       this.classList.add('active');
-      const filter = this.dataset.filter;
-      document.querySelectorAll('.article-card').forEach(card => {
-        if (filter === 'all' || card.dataset.category === filter) {
-          card.classList.remove('hidden');
-        } else {
-          card.classList.add('hidden');
-        }
-      });
+      currentFilter = this.dataset.filter;
+      visibleCount = CARDS_PER_PAGE;
+      renderArticles();
     });
   });
+
+  /* ─── LOAD MORE ─── */
+  document.getElementById('loadMoreBtn')?.addEventListener('click', () => {
+    visibleCount += CARDS_PER_PAGE;
+    renderArticles();
+  });
+
+  renderArticles(); // initial render
   /* ─── SANSKRIT VERSE ANIMATION ─── */
   (function () {
     const verses = [
