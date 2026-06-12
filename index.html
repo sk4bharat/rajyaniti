@@ -1006,27 +1006,38 @@
 
   @keyframes fadeChar { to { opacity: 1; } }
  /* ─── ROTATING QUOTE BAND ─── */
-  .quote-text {
-    transition: opacity 0.8s ease;
-  }
-
-  .quote-attr {
-    transition: opacity 0.8s ease;
-  }
-
   .quote-band-inner {
     position: relative;
-    min-height: 10rem;
+    height: 220px;        /* fixed — never shifts layout */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
 
+  .quote-slot {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 180px;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    pointer-events: none;
+  }
+
+  .quote-slot.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .quote-dots {
+    position: absolute;
+    bottom: 0;
     display: flex;
     gap: 0.5rem;
-    margin-top: 1.5rem;
     justify-content: center;
   }
 
@@ -1043,6 +1054,11 @@
 
   .quote-dot.active {
     background: var(--saffron);
+  }
+
+  @media (max-width: 768px) {
+    .quote-band-inner { height: 280px; }
+    .quote-slot { height: 240px; }
   }
   /* ─── FILTER TABS ─── */
   .filter-tabs {
@@ -1313,9 +1329,7 @@
 <!-- ─── QUOTE BAND ─── -->
 <div class="quote-band">
   <div class="container">
-    <div class="quote-band-inner">
-      <p class="quote-text" id="quoteText"></p>
-      <p class="quote-attr" id="quoteAttr"></p>
+    <div class="quote-band-inner" id="quoteBandInner">
       <div class="quote-dots" id="quoteDots"></div>
     </div>
   </div>
@@ -1605,52 +1619,52 @@
   ];
 
   (function () {
-    const textEl = document.getElementById('quoteText');
-    const attrEl = document.getElementById('quoteAttr');
+    const inner = document.getElementById('quoteBandInner');
     const dotsEl = document.getElementById('quoteDots');
-    if (!textEl || !attrEl || !dotsEl) return;
+    if (!inner || !dotsEl) return;
 
-    let currentQuote = 0;
+    let current = 0;
     let autoTimer;
+
+    // Build all slots upfront — no layout shift ever
+    const slots = QUOTES.map((q, i) => {
+      const slot = document.createElement('div');
+      slot.className = 'quote-slot' + (i === 0 ? ' active' : '');
+      slot.innerHTML = `
+        <p class="quote-text">&#8220;${q.text}&#8221;</p>
+        <p class="quote-attr">${q.attr}</p>
+      `;
+      inner.insertBefore(slot, dotsEl);
+      return slot;
+    });
 
     // Build dots
     QUOTES.forEach((_, i) => {
       const dot = document.createElement('button');
       dot.className = 'quote-dot' + (i === 0 ? ' active' : '');
       dot.setAttribute('aria-label', 'Quote ' + (i + 1));
-      dot.addEventListener('click', () => { clearInterval(autoTimer); goTo(i); startAuto(); });
+      dot.addEventListener('click', () => {
+        clearInterval(autoTimer);
+        goTo(i);
+        startAuto();
+      });
       dotsEl.appendChild(dot);
     });
 
     function goTo(index) {
-      // fade out
-      textEl.style.opacity = '0';
-      attrEl.style.opacity = '0';
-
-      setTimeout(() => {
-        currentQuote = index;
-        textEl.textContent = '\u201c' + QUOTES[index].text + '\u201d';
-        attrEl.textContent = QUOTES[index].attr;
-
-        // update dots
-        dotsEl.querySelectorAll('.quote-dot').forEach((d, i) => {
-          d.classList.toggle('active', i === index);
-        });
-
-        // fade in
-        textEl.style.opacity = '1';
-        attrEl.style.opacity = '1';
-      }, 800);
+      slots[current].classList.remove('active');
+      dotsEl.querySelectorAll('.quote-dot')[current].classList.remove('active');
+      current = index;
+      slots[current].classList.add('active');
+      dotsEl.querySelectorAll('.quote-dot')[current].classList.add('active');
     }
 
     function startAuto() {
       autoTimer = setInterval(() => {
-        goTo((currentQuote + 1) % QUOTES.length);
+        goTo((current + 1) % QUOTES.length);
       }, 6000);
     }
 
-    // init
-    goTo(0);
     startAuto();
   })();
   /* ─── ARTICLES DATA ─── */
