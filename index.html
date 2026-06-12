@@ -1009,7 +1009,7 @@
  /* ─── ROTATING QUOTE BAND ─── */
   .quote-band-inner {
     position: relative;
-    height: 220px;        /* fixed — never shifts layout */
+    height: 260px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1023,8 +1023,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 0 2rem;
-    height: 180px;
+    padding: 0 3rem;
+    height: 220px;
     opacity: 0;
     pointer-events: none;
   }
@@ -1061,12 +1061,12 @@
 
   @keyframes glitchIn {
     0%   { opacity: 0; clip-path: inset(40% 0 40% 0); transform: translate(-4px, 0); }
-    15%  { opacity: 1; clip-path: inset(10% 0 60% 0); transform: translate(4px, 0); }
-    30%  { clip-path: inset(60% 0 10% 0); transform: translate(-3px, 0); }
-    45%  { clip-path: inset(20% 0 50% 0); transform: translate(3px, 0); }
+    15%  { opacity: 1; clip-path: inset(5% 0 55% 0);  transform: translate(4px, 0); }
+    30%  { clip-path: inset(55% 0 5% 0);  transform: translate(-3px, 0); }
+    45%  { clip-path: inset(5% 0 45% 0);  transform: translate(3px, 0); }
     60%  { clip-path: inset(0% 0 0% 0);   transform: translate(-1px, 0); }
-    75%  { clip-path: inset(5% 0 5% 0);   transform: translate(1px, 0); }
-    100% { opacity: 1; clip-path: inset(0% 0 0% 0); transform: translate(0, 0); }
+    75%  { clip-path: inset(2% 0 2% 0);   transform: translate(1px, 0); }
+    100% { opacity: 1; clip-path: inset(0% 0 0% 0);   transform: translate(0, 0); }
   }
 
   @keyframes glitchOut {
@@ -1100,8 +1100,8 @@
   }
 
   @media (max-width: 768px) {
-    .quote-band-inner { height: 280px; }
-    .quote-slot { height: 240px; }
+    .quote-band-inner { height: 340px; }
+    .quote-slot { height: 300px; }
   }
   /* ─── FILTER TABS ─── */
   .filter-tabs {
