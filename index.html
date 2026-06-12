@@ -1005,6 +1005,43 @@
   }
 
   @keyframes fadeChar { to { opacity: 1; } }
+  /* ─── FILTER TABS ─── */
+  .filter-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .filter-tab {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-tab:hover {
+    border-color: var(--saffron);
+    color: var(--saffron);
+  }
+
+  .filter-tab.active {
+    background: var(--saffron);
+    border-color: var(--saffron);
+    color: white;
+  }
+
+  .article-card.hidden {
+    display: none;
+  }
   /* Extra small: 360px */
   @media (max-width: 360px) {
     .books-grid { grid-template-columns: 1fr; }
@@ -1216,9 +1253,18 @@
       </div>
       <a href="#" class="section-link">All Posts →</a>
     </div>
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="all">All</button>
+      <button class="filter-tab" data-filter="Culture">Culture</button>
+      <button class="filter-tab" data-filter="History">History</button>
+      <button class="filter-tab" data-filter="Society">Society</button>
+      <button class="filter-tab" data-filter="Philosophy">Philosophy</button>
+      <button class="filter-tab" data-filter="Art">Art</button>
+      <button class="filter-tab" data-filter="Leadership">Leadership</button>
+    </div>
     <div class="articles-grid">
 
-      <div class="article-card">
+      <div class="article-card" data-category="Culture">
         <p class="article-meta">May 18, 2026 · Culture</p>
         <a href="#" class="article-title">The River Remembers: Sacred Waters in a Secular Age</a>
         <p class="article-excerpt">Rivers in India are not merely geographic features. They carry memory, myth, and a mode of being that modern infrastructure keeps trying — and failing — to replace.</p>
@@ -1228,7 +1274,7 @@
         </div>
       </div>
 
-      <div class="article-card">
+      <div class="article-card" data-category="History">
         <p class="article-meta">May 12, 2026 · History</p>
         <a href="#" class="article-title">Ashoka's Silence: What the Rock Edicts Don't Tell Us</a>
         <p class="article-excerpt">The emperor who carved his remorse into stone across an entire subcontinent was also, curiously, silent on much that mattered. What he left unsaid tells us as much as the inscriptions themselves.</p>
@@ -1238,7 +1284,7 @@
         </div>
       </div>
 
-      <div class="article-card">
+      <div class="article-card" data-category="Society">
         <p class="article-meta">May 5, 2026 · Society</p>
         <a href="#" class="article-title">Why Indians Argue About Language More Than Almost Anything Else</a>
         <p class="article-excerpt">Language disputes in India are never really about language. They are about memory, pride, survival, and the perpetual negotiation of who belongs where and why.</p>
@@ -1248,7 +1294,7 @@
         </div>
       </div>
 
-      <div class="article-card">
+      <div class="article-card" data-category="Philosophy">
         <p class="article-meta">Apr 28, 2026 · Philosophy</p>
         <a href="#" class="article-title">Dharma Is Not Duty: Recovering a Misunderstood Idea</a>
         <p class="article-excerpt">Colonial translations flattened dharma into a Victorian sense of obligation. The original concept was richer, stranger, and far more interesting than the word "duty" can contain.</p>
@@ -1258,7 +1304,7 @@
         </div>
       </div>
 
-      <div class="article-card">
+      <div class="article-card" data-category="Art">
         <p class="article-meta">Apr 20, 2026 · Art</p>
         <a href="#" class="article-title">The Grammar of Indian Temple Architecture Nobody Teaches</a>
         <p class="article-excerpt">Temples are not just beautiful buildings. They are cosmological diagrams in stone — encoding a worldview so complete that every carved figure, every directional alignment, carries meaning.</p>
@@ -1268,7 +1314,7 @@
         </div>
       </div>
 
-      <div class="article-card">
+      <div class="article-card" data-category="Leadership">
         <p class="article-meta">Apr 12, 2026 · Leadership</p>
         <a href="#" class="article-title">What the Mahabharata Says About Decision-Making Under Uncertainty</a>
         <p class="article-excerpt">The Kurukshetra war is, among other things, a 100,000-verse meditation on the agony of choice. Its lessons apply surprisingly well to anyone navigating impossible situations.</p>
@@ -1545,7 +1591,21 @@
   document.querySelectorAll('.stat-number[data-target]').forEach(el => {
     statsObserver.observe(el);
   });
-
+/* ─── FILTER TABS ─── */
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', function () {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      const filter = this.dataset.filter;
+      document.querySelectorAll('.article-card').forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
   /* ─── SANSKRIT VERSE ANIMATION ─── */
   (function () {
     const verses = [
