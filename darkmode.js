@@ -1,359 +1,571 @@
 /**
- * sk4bharat — Dark Mode Toggle
+ * sk4bharat — Dark Mode v3 (Final Fix)
  * ─────────────────────────────────────────────────────────────
- * Drop this file on your server. Add ONE line to every page:
- *   <script src="darkmode.js"></script>   ← just before </body>
+ * Strategy: Two-layer approach
+ *   Layer 1: CSS with maximum specificity for elements we can predict
+ *   Layer 2: JS scans every text element and directly sets/removes
+ *            color on elements that have hardcoded dark colors,
+ *            so they show properly in dark mode.
  *
- * Then add the toggle button HTML anywhere in your nav:
+ * Add to every page just before </body>:
+ *   <script src="darkmode.js"></script>
+ *
+ * Add button anywhere in nav:
  *   <button id="sk4-dark-toggle" aria-label="Toggle dark mode"></button>
- *
- * Everything else is automatic:
- *   • Reads the user's OS preference on first visit
- *   • Saves their choice in localStorage (persists across pages)
- *   • Transitions smoothly (no flash on page load)
- *   • Adds a sun/moon icon to the button automatically
- * ─────────────────────────────────────────────────────────────
  */
 
 (function () {
   "use strict";
 
-  const STORAGE_KEY   = "sk4-theme";          // localStorage key
-  const DARK_CLASS    = "sk4-dark";           // class added to <html>
-  const BTN_ID        = "sk4-dark-toggle";    // your button's id
+  const STORAGE_KEY  = "sk4-theme";
+  const DARK_CLASS   = "sk4-dark";
+  const BTN_ID       = "sk4-dark-toggle";
+  const DATA_ORIG    = "data-sk4-orig-color";  // stores original color for restoration
 
-  /* ── 1. Inject CSS variables & dark overrides ─────────────────
-     These map onto sk4bharat's existing visual language:
-     Light: warm parchment, dark ink, gold accents
-     Dark:  deep ink background, cream text, same gold accents   */
-  const styleEl = document.createElement("style");
-  styleEl.textContent = `
+  /* ═══════════════════════════════════════════════════════════
+     LAYER 1 — CSS
+     Uses html.sk4-dark + body chain for maximum specificity.
+     Covers everything we can predict from class names.
+  ═══════════════════════════════════════════════════════════ */
+  const CSS = `
 
-    /* ── Transition: smooth colour switch on toggle ──────────── */
-    html {
-      transition: background-color 0.35s ease, color 0.35s ease;
+    /* ── Smooth transitions ─────────────────────────────────── */
+    html { transition: background-color 0.3s ease; }
+    html.sk4-dark *,
+    html.sk4-dark *::before,
+    html.sk4-dark *::after {
+      transition:
+        background-color 0.3s ease,
+        border-color     0.3s ease,
+        box-shadow       0.3s ease !important;
     }
-    *, *::before, *::after {
-      transition: background-color 0.35s ease,
-                  color           0.35s ease,
-                  border-color    0.35s ease;
-    }
-    /* Don't transition images/videos — they don't need it */
-    img, video, canvas, svg { transition: none !important; }
+    /* Color transitions on text handled by JS to avoid flash */
 
-    /* ── Light mode tokens (site's existing palette) ─────────── */
-    :root {
-      --bg-primary:       #ffffff;
-      --bg-secondary:     #f8f6f1;
-      --bg-tertiary:      #f0ece3;
-      --text-primary:     #111111;
-      --text-secondary:   #444444;
-      --text-muted:       #777777;
-      --accent-gold:      #b5802a;
-      --accent-gold-light:#e8c97a;
-      --border-color:     #e5e2da;
-      --nav-bg:           rgba(255,255,255,0.92);
-      --nav-border:       rgba(0,0,0,0.08);
-      --card-bg:          #ffffff;
-      --card-border:      #e8e4dc;
-      --tag-bg:           #f0ece3;
-      --tag-color:        #555555;
-      --quote-border:     #b5802a;
-      --footer-bg:        #1a1814;
-      --footer-text:      #c8c4bc;
-      --shadow-sm:        0 1px 4px rgba(0,0,0,0.06);
-      --shadow-md:        0 4px 16px rgba(0,0,0,0.08);
+    /* ── Base ───────────────────────────────────────────────── */
+    html.sk4-dark,
+    html.sk4-dark body {
+      background-color: #0f0e0b !important;
+      color: #f0ece3 !important;
     }
 
-    /* ── Dark mode token overrides ───────────────────────────── */
-    html.sk4-dark {
-      --bg-primary:       #0e0d0b;
-      --bg-secondary:     #161410;
-      --bg-tertiary:      #1e1b16;
-      --text-primary:     #f0ece3;
-      --text-secondary:   #c8c4bc;
-      --text-muted:       #888076;
-      --accent-gold:      #d4a843;
-      --accent-gold-light:#f0cc7a;
-      --border-color:     #2e2b24;
-      --nav-bg:           rgba(14,13,11,0.94);
-      --nav-border:       rgba(255,255,255,0.06);
-      --card-bg:          #161410;
-      --card-border:      #2a2720;
-      --tag-bg:           #242018;
-      --tag-color:        #c8c4bc;
-      --quote-border:     #d4a843;
-      --footer-bg:        #080807;
-      --footer-text:      #888076;
-      --shadow-sm:        0 1px 6px rgba(0,0,0,0.4);
-      --shadow-md:        0 4px 20px rgba(0,0,0,0.5);
+    /* ── HEADER / NAV ───────────────────────────────────────── */
+    html.sk4-dark header {
+      background-color: rgba(15,14,11,0.97) !important;
+      border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+      backdrop-filter: blur(12px) !important;
+    }
+    html.sk4-dark header *,
+    html.sk4-dark nav * {
+      color: #c8c4bc !important;
+    }
+    html.sk4-dark header a:hover,
+    html.sk4-dark nav a:hover {
+      color: #f0ece3 !important;
+    }
+    /* Keep CONTACT button orange */
+    html.sk4-dark header a[href*="contact"],
+    html.sk4-dark nav a[href*="contact"],
+    html.sk4-dark .btn-contact,
+    html.sk4-dark [class*="contact"] {
+      background-color: #c75b1a !important;
+      color: #ffffff !important;
+      border-color: #c75b1a !important;
     }
 
-    /* ── Apply tokens to common elements ─────────────────────── */
-    body {
-      background-color: var(--bg-primary) !important;
-      color: var(--text-primary) !important;
+    /* ── HERO LEFT (dark brown panel) ───────────────────────── */
+    /* The panel is already dark — just fix the text inside it  */
+    html.sk4-dark [class*="hero-left"] h1,
+    html.sk4-dark [class*="hero-left"] h2,
+    html.sk4-dark [class*="hero"] > div:first-child h1,
+    html.sk4-dark [class*="hero"] > div:first-child h2 {
+      color: #f5f1e8 !important;
+    }
+    html.sk4-dark [class*="hero-left"] h1 em,
+    html.sk4-dark [class*="hero"] > div:first-child h1 em {
+      color: #d4a843 !important;
+    }
+    html.sk4-dark [class*="hero-left"] p,
+    html.sk4-dark [class*="hero"] > div:first-child p {
+      color: #aaa89e !important;
+    }
+    /* READ ARTICLES button (solid) */
+    html.sk4-dark [class*="hero-left"] a[class*="btn"]:first-of-type,
+    html.sk4-dark [class*="btn-main"],
+    html.sk4-dark [class*="btn-primary"] {
+      background-color: #f5f1e8 !important;
+      color: #1a1814 !important;
+      border-color: #f5f1e8 !important;
+    }
+    /* ABOUT ME button (ghost/outline) */
+    html.sk4-dark [class*="hero-left"] a[class*="btn"]:last-of-type,
+    html.sk4-dark [class*="btn-ghost"],
+    html.sk4-dark [class*="btn-outline"] {
+      background-color: transparent !important;
+      color: #f5f1e8 !important;
+      border-color: rgba(245,241,232,0.3) !important;
     }
 
-    /* Navigation */
-    header, nav, .nav, .navbar, .site-header {
-      background: var(--nav-bg) !important;
-      border-bottom-color: var(--nav-border) !important;
-      backdrop-filter: blur(12px);
-    }
-    nav a, .nav a, .nav-link {
-      color: var(--text-secondary) !important;
-    }
-    nav a:hover, .nav a:hover {
-      color: var(--accent-gold) !important;
+    /* ── HERO RIGHT (cream panel) ───────────────────────────── */
+    html.sk4-dark [class*="hero-right"],
+    html.sk4-dark [class*="hero"] > div:last-child {
+      background-color: #161410 !important;
     }
 
-    /* Logo */
-    .logo, .logo-link, .site-logo, .brand {
-      color: var(--text-primary) !important;
+    /* ── LATEST POST CARD ───────────────────────────────────── */
+    html.sk4-dark [class*="post-card"],
+    html.sk4-dark [class*="latest-post"],
+    html.sk4-dark [class*="featured-post"],
+    html.sk4-dark [class*="hero"] [class*="card"] {
+      background-color: #1e1b16 !important;
+      border-color: rgba(255,255,255,0.08) !important;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.5) !important;
+    }
+    /* Card title */
+    html.sk4-dark [class*="post-card"] h1,
+    html.sk4-dark [class*="post-card"] h2,
+    html.sk4-dark [class*="post-card"] h3,
+    html.sk4-dark [class*="latest-post"] h1,
+    html.sk4-dark [class*="latest-post"] h2,
+    html.sk4-dark [class*="latest-post"] h3 {
+      color: #f0ece3 !important;
+    }
+    html.sk4-dark [class*="post-card"] p,
+    html.sk4-dark [class*="latest-post"] p {
+      color: #c8c4bc !important;
+    }
+    html.sk4-dark [class*="post-card"] time,
+    html.sk4-dark [class*="latest-post"] time,
+    html.sk4-dark [class*="post-card"] .date,
+    html.sk4-dark [class*="latest-post"] .date {
+      color: #888076 !important;
     }
 
-    /* Hero section */
-    .hero, .hero-section, section:first-of-type {
-      background-color: var(--bg-primary) !important;
+    /* ── ARTICLES PAGE ──────────────────────────────────────── */
+    /* Page heading "Articles" */
+    html.sk4-dark main h1,
+    html.sk4-dark main h2 {
+      color: #f0ece3 !important;
     }
-    h1, h2, h3, h4, h5, h6 {
-      color: var(--text-primary) !important;
+    /* ALL article cards — the cards showing date·category, title, excerpt */
+    html.sk4-dark [class*="article"],
+    html.sk4-dark article,
+    html.sk4-dark [class*="card"] {
+      background-color: #161410 !important;
+      border-color: rgba(255,255,255,0.06) !important;
     }
-    h1 em, h2 em, .hero-title em, .headline em {
-      color: var(--accent-gold) !important;
+    /* Article card titles — THIS IS THE MAIN FIX FOR IMAGE 2 */
+    html.sk4-dark article h1,
+    html.sk4-dark article h2,
+    html.sk4-dark article h3,
+    html.sk4-dark [class*="article"] h1,
+    html.sk4-dark [class*="article"] h2,
+    html.sk4-dark [class*="article"] h3,
+    html.sk4-dark [class*="card"] h1,
+    html.sk4-dark [class*="card"] h2,
+    html.sk4-dark [class*="card"] h3 {
+      color: #f0ece3 !important;
     }
-    p, li, span:not(.tag):not(.badge):not(.label) {
-      color: var(--text-secondary);
+    /* Article card excerpts */
+    html.sk4-dark article p,
+    html.sk4-dark [class*="article"] p,
+    html.sk4-dark [class*="card"] p {
+      color: #c8c4bc !important;
     }
-
-    /* Article cards */
-    .article-card, .card, .post-card, .book-card, .review-card {
-      background-color: var(--card-bg) !important;
-      border-color: var(--card-border) !important;
-      box-shadow: var(--shadow-sm) !important;
-    }
-    .article-card:hover, .card:hover {
-      box-shadow: var(--shadow-md) !important;
-      border-color: var(--accent-gold) !important;
-    }
-
-    /* Tags / badges / pills */
-    .tag, .badge, .category-tag, .filter-pill, .label {
-      background-color: var(--tag-bg) !important;
-      color: var(--tag-color) !important;
-      border-color: var(--border-color) !important;
-    }
-
-    /* Sections and dividers */
-    section, .section {
-      background-color: var(--bg-primary) !important;
-    }
-    .section-alt, .bg-light, .bg-secondary {
-      background-color: var(--bg-secondary) !important;
-    }
-    hr, .divider, .separator {
-      border-color: var(--border-color) !important;
+    /* Date · Category line */
+    html.sk4-dark article .meta,
+    html.sk4-dark article time,
+    html.sk4-dark [class*="article"] .meta,
+    html.sk4-dark [class*="article"] time,
+    html.sk4-dark [class*="meta"] {
+      color: #888076 !important;
     }
 
-    /* Eyebrow labels (✦ markers) */
-    .eyebrow, .section-label, .overline {
-      color: var(--accent-gold) !important;
+    /* ── FILTER PILLS ───────────────────────────────────────── */
+    html.sk4-dark [class*="filter"],
+    html.sk4-dark [class*="pill"]:not([class*="tag"]) {
+      background-color: transparent !important;
+      border-color: rgba(255,255,255,0.15) !important;
+      color: #c8c4bc !important;
+    }
+    /* Active/selected pill */
+    html.sk4-dark [class*="filter"][class*="active"],
+    html.sk4-dark [class*="pill"][class*="active"],
+    html.sk4-dark [class*="filter"].active {
+      background-color: #c75b1a !important;
+      border-color: #c75b1a !important;
+      color: #ffffff !important;
+    }
+    /* ALL button (orange pill) — stays orange */
+    html.sk4-dark [class*="filter"]:first-child,
+    html.sk4-dark [class*="pill"]:first-child {
+      background-color: #c75b1a !important;
+      border-color: #c75b1a !important;
+      color: #ffffff !important;
     }
 
-    /* Blockquotes */
-    blockquote, .quote, .pullquote {
-      border-left-color: var(--quote-border) !important;
-      color: var(--text-secondary) !important;
+    /* ── CATEGORY TAGS (dark filled pills on cards) ─────────── */
+    html.sk4-dark .tag,
+    html.sk4-dark [class*="tag"] {
+      background-color: #2a2720 !important;
+      color: #c8c4bc !important;
+      border-color: rgba(255,255,255,0.1) !important;
     }
 
-    /* Buttons */
-    .btn-primary, .btn-main, .cta-btn {
-      background-color: var(--text-primary) !important;
-      color: var(--bg-primary) !important;
-      border-color: var(--text-primary) !important;
-    }
-    .btn-outline, .btn-secondary {
-      border-color: var(--border-color) !important;
-      color: var(--text-primary) !important;
-    }
-    .btn-outline:hover, .btn-secondary:hover {
-      background-color: var(--bg-tertiary) !important;
+    /* ── DIVIDERS ───────────────────────────────────────────── */
+    html.sk4-dark hr,
+    html.sk4-dark [class*="divider"],
+    html.sk4-dark [class*="separator"] {
+      border-color: rgba(255,255,255,0.07) !important;
     }
 
-    /* Inputs / newsletter form */
-    input, textarea, select {
-      background-color: var(--bg-tertiary) !important;
-      color: var(--text-primary) !important;
-      border-color: var(--border-color) !important;
+    /* ── ALL SECTIONS ───────────────────────────────────────── */
+    html.sk4-dark section,
+    html.sk4-dark main {
+      background-color: #0f0e0b !important;
     }
-    input::placeholder, textarea::placeholder {
-      color: var(--text-muted) !important;
-    }
-    input:focus, textarea:focus {
-      border-color: var(--accent-gold) !important;
-      outline-color: var(--accent-gold) !important;
+    html.sk4-dark [class*="section-alt"],
+    html.sk4-dark [class*="bg-light"] {
+      background-color: #161410 !important;
     }
 
-    /* Stats counters */
-    .stat-num, .counter, .stats-number {
-      color: var(--accent-gold) !important;
+    /* ── EYEBROW / OVERLINE labels ──────────────────────────── */
+    html.sk4-dark [class*="eyebrow"],
+    html.sk4-dark [class*="overline"],
+    html.sk4-dark [class*="label"] {
+      color: #c75b1a !important;
     }
 
-    /* Footer */
-    footer, .footer, .site-footer {
-      background-color: var(--footer-bg) !important;
+    /* ── INPUTS / FORMS ─────────────────────────────────────── */
+    html.sk4-dark input,
+    html.sk4-dark textarea,
+    html.sk4-dark select {
+      background-color: #1e1b16 !important;
+      color: #f0ece3 !important;
+      border-color: rgba(255,255,255,0.12) !important;
     }
-    footer p, footer a, footer span,
-    .footer p, .footer a, .footer span {
-      color: var(--footer-text) !important;
+    html.sk4-dark input::placeholder,
+    html.sk4-dark textarea::placeholder {
+      color: #888076 !important;
     }
-    footer a:hover, .footer a:hover {
-      color: var(--accent-gold) !important;
+    html.sk4-dark input:focus,
+    html.sk4-dark textarea:focus {
+      border-color: #c75b1a !important;
+      box-shadow: 0 0 0 3px rgba(199,91,26,0.2) !important;
     }
 
-    /* Book covers — slight dim in dark mode */
-    html.sk4-dark img:not([data-no-dim]) {
-      filter: brightness(0.88) contrast(1.02);
+    /* ── FOOTER ─────────────────────────────────────────────── */
+    html.sk4-dark footer {
+      background-color: #080807 !important;
+      border-top-color: rgba(255,255,255,0.05) !important;
+    }
+    html.sk4-dark footer *:not(a) {
+      color: #666055 !important;
+    }
+    html.sk4-dark footer a {
+      color: #888076 !important;
+    }
+    html.sk4-dark footer a:hover {
+      color: #d4a843 !important;
     }
 
-    /* ── Toggle button styling ───────────────────────────────── */
+    /* ── IMAGES ──────────────────────────────────────────────── */
+    html.sk4-dark img:not([data-no-dim]):not([class*="logo"]):not([class*="avatar"]) {
+      filter: brightness(0.85) !important;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       TOGGLE BUTTON — fixed size, clean SVG, proper alignment
+    ══════════════════════════════════════════════════════════ */
     #sk4-dark-toggle {
-      background: transparent;
-      border: 1px solid var(--border-color);
+      /* Reset everything that might be inherited */
+      all: unset;
+      /* Size — small, same height as nav items */
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      cursor: pointer;
-      display: inline-flex;
+      /* Border */
+      border: 1px solid rgba(0,0,0,0.18);
+      /* Layout */
+      display: inline-flex !important;
       align-items: center;
       justify-content: center;
-      padding: 0;
-      flex-shrink: 0;
+      cursor: pointer;
       position: relative;
       overflow: hidden;
-      transition: border-color 0.2s ease, background 0.2s ease !important;
+      flex-shrink: 0;
+      vertical-align: middle;
+      /* No inherited font sizes inflating it */
+      font-size: 0;
+      line-height: 0;
+      color: #555;
+      background: transparent;
     }
     #sk4-dark-toggle:hover {
-      border-color: var(--accent-gold) !important;
-      background: var(--bg-tertiary) !important;
+      background-color: rgba(0,0,0,0.06) !important;
+      border-color: rgba(0,0,0,0.3) !important;
     }
     #sk4-dark-toggle:focus-visible {
-      outline: 2px solid var(--accent-gold);
-      outline-offset: 2px;
+      outline: 2px solid #c75b1a !important;
+      outline-offset: 2px !important;
     }
 
-    /* Sun and moon icons inside the button */
-    #sk4-dark-toggle .sk4-icon-sun,
-    #sk4-dark-toggle .sk4-icon-moon {
+    /* Dark mode button appearance */
+    html.sk4-dark #sk4-dark-toggle {
+      border-color: rgba(255,255,255,0.18) !important;
+      color: #c8c4bc !important;
+    }
+    html.sk4-dark #sk4-dark-toggle:hover {
+      background-color: rgba(255,255,255,0.07) !important;
+      border-color: rgba(255,255,255,0.3) !important;
+    }
+
+    /* SVG icons */
+    #sk4-dark-toggle svg {
       position: absolute;
-      width: 18px;
-      height: 18px;
-      transition: opacity 0.25s ease, transform 0.35s cubic-bezier(.22,.68,0,1.4) !important;
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
-    /* Light mode: show sun, hide moon */
-    #sk4-dark-toggle .sk4-icon-sun  { opacity: 1; transform: rotate(0deg)   scale(1);    }
-    #sk4-dark-toggle .sk4-icon-moon { opacity: 0; transform: rotate(-90deg) scale(0.6);  }
+    #sk4-dark-toggle .i-sun {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+      transition: opacity 0.22s ease, transform 0.32s cubic-bezier(.22,.68,0,1.5);
+    }
+    #sk4-dark-toggle .i-moon {
+      opacity: 0;
+      transform: rotate(-50deg) scale(0.4);
+      transition: opacity 0.22s ease, transform 0.32s cubic-bezier(.22,.68,0,1.5);
+    }
+    html.sk4-dark #sk4-dark-toggle .i-sun {
+      opacity: 0;
+      transform: rotate(50deg) scale(0.4);
+    }
+    html.sk4-dark #sk4-dark-toggle .i-moon {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
 
-    /* Dark mode: hide sun, show moon */
-    html.sk4-dark #sk4-dark-toggle .sk4-icon-sun  { opacity: 0; transform: rotate(90deg)  scale(0.6);  }
-    html.sk4-dark #sk4-dark-toggle .sk4-icon-moon { opacity: 1; transform: rotate(0deg)   scale(1);    }
-
+    /* ── Reduced motion ─────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      html.sk4-dark *, html {
+        transition: none !important;
+      }
+    }
   `;
+
+  const styleEl = document.createElement("style");
+  styleEl.id = "sk4-dark-css";
+  styleEl.textContent = CSS;
   document.head.insertBefore(styleEl, document.head.firstChild);
 
 
-  /* ── 2. Determine initial theme (no flash) ────────────────── */
+  /* ═══════════════════════════════════════════════════════════
+     LAYER 2 — JS COLOR PATCHER
+     Scans every text/heading element. If it has a hardcoded
+     dark color (computed color is dark), we store the original
+     and set a light color instead when in dark mode.
+     On switch back to light, we restore the original.
+  ═══════════════════════════════════════════════════════════ */
+
+  // Colors to force on specific element types in dark mode
+  const DARK_PATCH = {
+    "H1": "#f5f1e8",
+    "H2": "#f0ece3",
+    "H3": "#f0ece3",
+    "H4": "#f0ece3",
+    "H5": "#f0ece3",
+    "H6": "#f0ece3",
+    "P":  "#c8c4bc",
+    "LI": "#c8c4bc",
+    "SPAN": null,  // only patch if it has a hardcoded dark color
+    "A":  null,    // only patch if dark
+    "TIME": "#888076",
+  };
+
+  // What counts as "dark" — rgb values where R+G+B < threshold
+  function isColorDark(rgb) {
+    const m = rgb.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+    if (!m) return false;
+    return (parseInt(m[1]) + parseInt(m[2]) + parseInt(m[3])) < 180;
+  }
+
+  // Is this element inside the always-dark hero left panel?
+  // (that panel has its own hardcoded dark bg — text there should be light always)
+  function isInDarkPanel(el) {
+    let node = el.parentElement;
+    while (node) {
+      const bg = window.getComputedStyle(node).backgroundColor;
+      const m = bg.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+      if (m) {
+        const brightness = parseInt(m[1]) + parseInt(m[2]) + parseInt(m[3]);
+        if (brightness < 120) return true; // very dark panel
+      }
+      node = node.parentElement;
+    }
+    return false;
+  }
+
+  function patchForDark() {
+    const all = document.querySelectorAll(Object.keys(DARK_PATCH).join(","));
+    all.forEach(el => {
+      const tag = el.tagName;
+      const targetColor = DARK_PATCH[tag];
+
+      // Store original inline color (if any) so we can restore it
+      if (!el.hasAttribute(DATA_ORIG)) {
+        el.setAttribute(DATA_ORIG, el.style.color || "__none__");
+      }
+
+      if (targetColor) {
+        // Always patch these element types (H1-H6, P, LI, TIME)
+        el.style.setProperty("color", targetColor, "important");
+      } else {
+        // Patch SPAN and A only if their computed color is dark
+        const computed = window.getComputedStyle(el).color;
+        if (isColorDark(computed)) {
+          el.style.setProperty("color", "#c8c4bc", "important");
+        }
+      }
+
+      // Special: em inside H1 = gold "shape" word
+      if (tag === "H1") {
+        el.querySelectorAll("em, i").forEach(em => {
+          if (!em.hasAttribute(DATA_ORIG)) {
+            em.setAttribute(DATA_ORIG, em.style.color || "__none__");
+          }
+          em.style.setProperty("color", "#d4a843", "important");
+        });
+      }
+    });
+  }
+
+  function restoreFromDark() {
+    const all = document.querySelectorAll("[" + DATA_ORIG + "]");
+    all.forEach(el => {
+      const orig = el.getAttribute(DATA_ORIG);
+      if (orig === "__none__") {
+        el.style.removeProperty("color");
+      } else {
+        el.style.color = orig;
+      }
+    });
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     THEME MANAGEMENT
+  ═══════════════════════════════════════════════════════════ */
   function getInitialTheme() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved === "dark" || saved === "light") return saved;
-    /* Fall back to OS preference */
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   }
 
-  function applyTheme(theme) {
+  function applyTheme(theme, patch) {
+    const html = document.documentElement;
     if (theme === "dark") {
-      document.documentElement.classList.add(DARK_CLASS);
+      html.classList.add(DARK_CLASS);
+      if (patch) patchForDark();
     } else {
-      document.documentElement.classList.remove(DARK_CLASS);
+      html.classList.remove(DARK_CLASS);
+      restoreFromDark();
     }
     localStorage.setItem(STORAGE_KEY, theme);
-
-    /* Update aria-label on button if it exists */
-    const btn = document.getElementById(BTN_ID);
-    if (btn) {
-      btn.setAttribute(
-        "aria-label",
-        theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
-      );
-      btn.setAttribute("data-theme", theme);
-    }
+    updateBtn(theme);
   }
 
-  /* Apply immediately — before paint — to prevent flash */
-  applyTheme(getInitialTheme());
+  function updateBtn(theme) {
+    const btn = document.getElementById(BTN_ID);
+    if (!btn) return;
+    btn.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+    btn.title = theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
+  }
+
+  // Apply class immediately (before paint) to avoid flash
+  // Skip JS patching on initial load — do it after DOM is ready
+  const initialTheme = getInitialTheme();
+  if (initialTheme === "dark") {
+    document.documentElement.classList.add(DARK_CLASS);
+    localStorage.setItem(STORAGE_KEY, "dark");
+  }
 
 
-  /* ── 3. Wire up the toggle button once DOM is ready ──────── */
+  /* ═══════════════════════════════════════════════════════════
+     DOM READY — patch colors + init button
+  ═══════════════════════════════════════════════════════════ */
+  function onReady() {
+    // Run JS color patch now that DOM exists
+    if (initialTheme === "dark") {
+      patchForDark();
+    }
+    updateBtn(initialTheme);
+    initButton();
+  }
+
   function initButton() {
     const btn = document.getElementById(BTN_ID);
-    if (!btn) return; /* page doesn't have the button yet — that's fine */
+    if (!btn) return;
 
-    /* Inject sun + moon SVG icons */
     btn.innerHTML = `
-      <svg class="sk4-icon-sun" viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-width="2"
-           stroke-linecap="round" stroke-linejoin="round"
-           aria-hidden="true">
+      <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="12" cy="12" r="4"/>
-        <line x1="12" y1="2"  x2="12" y2="4"/>
-        <line x1="12" y1="20" x2="12" y2="22"/>
-        <line x1="4.22" y1="4.22"   x2="5.64" y2="5.64"/>
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-        <line x1="2"  y1="12" x2="4"  y2="12"/>
-        <line x1="20" y1="12" x2="22" y2="12"/>
-        <line x1="4.22" y1="19.78"  x2="5.64" y2="18.36"/>
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        <line x1="12" y1="2"    x2="12" y2="5"/>
+        <line x1="12" y1="19"   x2="12" y2="22"/>
+        <line x1="4.22" y1="4.22"   x2="6.34" y2="6.34"/>
+        <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+        <line x1="2"  y1="12"   x2="5"   y2="12"/>
+        <line x1="19" y1="12"   x2="22"  y2="12"/>
+        <line x1="4.22" y1="19.78"  x2="6.34" y2="17.66"/>
+        <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
       </svg>
-      <svg class="sk4-icon-moon" viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-width="2"
-           stroke-linecap="round" stroke-linejoin="round"
-           aria-hidden="true">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3
-                 a7 7 0 0 0 9.79 9.79z"/>
+      <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
       </svg>`;
 
     btn.addEventListener("click", () => {
       const isDark = document.documentElement.classList.contains(DARK_CLASS);
-      applyTheme(isDark ? "light" : "dark");
+      applyTheme(isDark ? "light" : "dark", true);
     });
   }
 
-  /* Run after DOM is parsed */
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initButton);
+    document.addEventListener("DOMContentLoaded", onReady);
   } else {
-    initButton();
+    onReady();
   }
 
 
-  /* ── 4. Sync across tabs ──────────────────────────────────── */
+  /* ═══════════════════════════════════════════════════════════
+     CROSS-TAB SYNC + OS PREFERENCE
+  ═══════════════════════════════════════════════════════════ */
   window.addEventListener("storage", (e) => {
     if (e.key === STORAGE_KEY && (e.newValue === "dark" || e.newValue === "light")) {
-      applyTheme(e.newValue);
+      applyTheme(e.newValue, true);
     }
   });
 
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+    if (!localStorage.getItem(STORAGE_KEY)) {
+      applyTheme(e.matches ? "dark" : "light", true);
+    }
+  });
 
-  /* ── 5. Sync with OS preference changes ──────────────────── */
-  window.matchMedia("(prefers-color-scheme: dark)")
-    .addEventListener("change", (e) => {
-      /* Only follow OS if user hasn't made a manual choice */
-      if (!localStorage.getItem(STORAGE_KEY)) {
-        applyTheme(e.matches ? "dark" : "light");
-      }
+  /* Bfcache restore */
+  window.addEventListener("pageshow", (e) => {
+    if (!e.persisted) return;
+    document.body.style.opacity = "0";
+    requestAnimationFrame(() => {
+      document.body.style.transition = "opacity 0.2s ease";
+      document.body.style.opacity    = "1";
+      setTimeout(() => {
+        document.body.style.transition = "";
+        document.body.style.opacity    = "";
+      }, 200);
     });
+  });
 
 })();
