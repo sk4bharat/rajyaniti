@@ -443,21 +443,24 @@
   });
 
 
-  /* ── Also hide nav links on mobile via CSS ─────────────────── */
-  /* The desktop nav links should hide at mobile breakpoint      */
+  /* ── Hide desktop nav on mobile — scoped tightly to header only ── */
   const hideStyle = document.createElement("style");
   hideStyle.textContent = `
     @media (max-width: 768px) {
-      /* Hide desktop nav links — show only logo + hamburger */
-      header nav,
+
+      /* Hide desktop nav links inside the real <header> only.
+         We use :not(#sk4-mobile-nav *) to never touch the overlay. */
+      header > nav,
+      header > ul,
+      header > div > nav,
+      header > div > ul,
       header .nav-links,
       header .nav-right,
-      header > ul,
-      header > div > a:not(.logo):not(.logo-link):not(.brand),
-      header > div > nav {
+      header .desktop-nav {
         display: none !important;
       }
-      /* Make header layout work on mobile */
+
+      /* Make header bar layout work on mobile */
       header {
         display: flex !important;
         align-items: center !important;
@@ -465,6 +468,22 @@
         padding-left: 20px !important;
         padding-right: 16px !important;
       }
+
+      /* CRITICAL: Always show the mobile overlay and everything inside it */
+      #sk4-mobile-nav,
+      #sk4-mobile-nav * {
+        display: revert !important;
+      }
+      /* Re-apply specific display values the overlay needs */
+      #sk4-mobile-nav               { display: flex !important; flex-direction: column !important; }
+      #sk4-mobile-nav .mnav-header  { display: flex !important; }
+      #sk4-mobile-nav .mnav-logo    { display: flex !important; flex-direction: column !important; }
+      #sk4-mobile-nav .mnav-links   { display: block !important; flex: 1 !important; }
+      #sk4-mobile-nav .mnav-link    { display: block !important; }
+      #sk4-mobile-nav .mnav-footer  { display: flex !important; flex-direction: column !important; }
+      #sk4-mobile-nav .mnav-dark-row { display: flex !important; }
+      #sk4-mobile-nav .mnav-close   { display: flex !important; }
+      #sk4-mobile-nav .mnav-contact { display: flex !important; }
     }
   `;
   document.head.appendChild(hideStyle);
