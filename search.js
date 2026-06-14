@@ -11,7 +11,7 @@
   "use strict";
 
   /* ── Config ─────────────────────────────────────────────────── */
-  const INDEX_URL = "/rajyaniti/search-index.json";
+  const INDEX_URL = "search-index.json";
 
   /* ── State ───────────────────────────────────────────────────── */
   let index = [];       // loaded once on first open
