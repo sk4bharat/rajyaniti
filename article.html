@@ -1089,6 +1089,23 @@
     <a href="#about">About</a>
     <a href="#newsletter" class="nav-cta">Contact</a>
     <button id="sk4-dark-toggle" aria-label="Toggle dark mode"></button>
+    <button onclick="window.skOpenSearch()"
+        aria-label="Search"
+        title="Search (⌘K)"
+        style="display:inline-flex;align-items:center;
+               gap:6px;background:transparent;
+               border:1px solid rgba(0,0,0,0.15);
+               border-radius:8px;padding:6px 12px;
+               font-size:13px;cursor:pointer;
+               font-family:inherit">
+  <svg width="14" height="14" viewBox="0 0 24 24"
+       fill="none" stroke="currentColor"
+       stroke-width="2" aria-hidden="true">
+    <circle cx="11" cy="11" r="8"/>
+    <path d="m21 21-4.35-4.35"/>
+  </svg>
+  Search
+</button>
   </nav>
   <button class="hamburger" id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -1567,5 +1584,6 @@
   <script src="transitions.js"></script>
   <script src="darkmode.js"></script>
   <script src="nav.js"></script>
+  <script src="/rajyaniti/search.js" defer></script>
 </body>
 </html>
