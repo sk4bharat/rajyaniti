@@ -1,72 +1,86 @@
 [
   {
     "type": "article",
-    "title": "What the Mahabharata Says About Decision-Making Under Uncertainty",
-    "tags": ["Mythology", "Leadership", "Decision-Making"],
-    "url": "/rajyaniti/article.html",
-    "date": "Apr 12, 2026"
+    "title": "The River Remembers: Sacred Waters in a Secular Age",
+    "tags": ["Culture", "Hinduism", "Rivers"],
+    "url": "article.html",
+    "date": "May 18, 2026"
   },
   {
     "type": "article",
-    "title": "What "Dharma" Really Meant Before the British Translated It",
-    "tags": ["Philosophy", "Hinduism"],
-    "url": "/rajyaniti/article.html",
+    "title": "Ashoka's Silence: What the Rock Edicts Don't Tell Us",
+    "tags": ["History", "Buddhism"],
+    "url": "article.html",
+    "date": "May 12, 2026"
+  },
+  {
+    "type": "article",
+    "title": "Why Indians Argue About Language More Than Almost Anything Else",
+    "tags": ["Society", "Languages", "Politics"],
+    "url": "article.html",
     "date": "May 5, 2026"
   },
   {
     "type": "article",
+    "title": "Dharma Is Not Duty: Recovering a Misunderstood Idea",
+    "tags": ["Philosophy", "Hinduism"],
+    "url": "article.html",
+    "date": "Apr 28, 2026"
+  },
+  {
+    "type": "article",
     "title": "The Grammar of Indian Temple Architecture Nobody Teaches",
-    "tags": ["Architecture", "Art"],
-    "url": "/rajyaniti/article.html",
+    "tags": ["Art", "Architecture"],
+    "url": "article.html",
     "date": "Apr 20, 2026"
   },
   {
     "type": "article",
-    "title": "The River Saraswati and the Problem of Mythological Geography",
-    "tags": ["History", "Mythology"],
-    "url": "/rajyaniti/article.html",
-    "date": "Mar 28, 2026"
+    "title": "What the Mahabharata Says About Decision-Making Under Uncertainty",
+    "tags": ["Leadership", "Mythology"],
+    "url": "article.html",
+    "date": "Apr 12, 2026"
   },
   {
     "type": "article",
     "title": "Why Bharat Cannot Be Reduced to a Single Narrative",
     "tags": ["Culture", "Identity", "Society"],
-    "url": "/rajyaniti/article.html",
+    "url": "article.html",
     "date": "May 22, 2026"
   },
   {
     "type": "book",
     "title": "India that is Bharat — J. Sai Deepak",
     "tags": ["Constitutional History", "Civilisational Thought"],
-    "url": "/rajyaniti/book-reviews.html",
+    "url": "book-reviews.html",
     "date": "2024"
   },
   {
     "type": "book",
     "title": "The Golden Road — William Dalrymple",
     "tags": ["History", "Trade", "Culture"],
-    "url": "/rajyaniti/book-reviews.html",
+    "url": "book-reviews.html",
     "date": "2024"
   },
   {
     "type": "book",
     "title": "Waiting for Shiva — Dr. Vikram Sampath",
     "tags": ["History", "Art"],
-    "url": "/rajyaniti/book-reviews.html",
+    "url": "book-reviews.html",
     "date": "2024"
   },
   {
     "type": "book",
     "title": "The Bose Deception — Anuj Dhar & Chandrachur Ghose",
     "tags": ["History", "Independence"],
-    "url": "/rajyaniti/book-reviews.html",
+    "url": "book-reviews.html",
     "date": "2024"
   },
   {
     "type": "quiz",
     "title": "What kind of Indian thinker are you?",
     "tags": ["Mythology", "History", "Culture"],
-    "url": "/rajyaniti/quiz.html",
+    "url": "quiz.html",
     "date": "2026"
   }
 ]
