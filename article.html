@@ -1122,6 +1122,11 @@
 </div>
 
 <!-- ─── ARTICLE MASTHEAD ─── -->
+  <div id="rj-lang-bar" style="background:#0D0A05;display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.6rem 2rem;border-bottom:1px solid rgba(255,255,255,0.07);">
+  <button onclick="rjLang('en')" data-rj="en" style="font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:500;color:#888;background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:0.35rem 1rem;cursor:pointer;">✦ English</button>
+  <button onclick="rjLang('hi')" data-rj="hi" style="font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:500;color:#888;background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:0.35rem 1rem;cursor:pointer;">🪔 हिन्दी</button>
+  <button onclick="rjLang('ta')" data-rj="ta" style="font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:500;color:#888;background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:0.35rem 1rem;cursor:pointer;">🌺 தமிழ்</button>
+</div>
 <div class="article-masthead">
   <div class="masthead-inner">
 
@@ -1578,6 +1583,23 @@
       document.body.style.overflow = '';
     });
   });
+</script>
+  <script>
+(function(){
+  const KEY = 'rajyaniti-lang';
+  function rjLang(lang) {
+    try { localStorage.setItem(KEY, lang); } catch {}
+    document.querySelectorAll('[data-rj]').forEach(btn => {
+      const on = btn.dataset.rj === lang;
+      btn.style.background  = on ? '#E8600A' : 'transparent';
+      btn.style.borderColor = on ? '#E8600A' : 'rgba(255,255,255,0.12)';
+      btn.style.color       = on ? '#fff'    : '#888';
+    });
+  }
+  window.rjLang = rjLang;
+  const saved = (function(){ try { return localStorage.getItem(KEY)||'en'; } catch { return 'en'; }})();
+  rjLang(saved);
+})();
 </script>
   <script src="/rajyaniti/glossary.js"></script>
   <script src="transitions.js"></script>
