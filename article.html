@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   /* ─── DESIGN TOKENS (identical to index) ─── */
   :root {
@@ -1123,7 +1122,276 @@
   <a href="index.html#newsletter" class="mobile-link">Subscribe</a>
 </div>
 
-<div id="rj-article-root"></div>
+<!-- ─── ARTICLE MASTHEAD ─── -->
+<div class="article-masthead">
+  <div class="masthead-inner">
+
+    <p class="article-breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="#">Articles</a>
+      <span class="sep">›</span>
+      Mythology
+    </p>
+
+    <span class="article-category-badge">✦ Mythology &amp; History</span>
+
+    <h1 class="article-main-title" id="article-main-title">
+      What the <em>Mahabharata</em> Says About<br>Decision-Making Under Uncertainty
+    </h1>
+
+    <p class="article-dek">
+      The Kurukshetra war is, among other things, a 100,000-verse meditation on the agony of choice. Its lessons apply surprisingly well to anyone navigating impossible situations.
+    </p>
+
+    <div class="article-meta-bar">
+      <div class="meta-author">
+        <div class="author-avatar">sk</div>
+        <div>
+          <div class="author-info-name">Sandeep Kumar</div>
+          <div class="author-info-role">Writer · Cultural Thinker</div>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item">
+        <span>Published</span>
+        <strong>Apr 12, 2026</strong>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item">
+        <span>Read time</span>
+        <strong>14 min</strong>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item">
+        <span>Category</span>
+        <strong>Leadership</strong>
+      </div>
+    </div>
+
+    <div class="article-tags-bar">
+      <div class="article-tags-bar">
+  <span class="tag">Mahabharata</span>
+  <span class="tag">Leadership</span>
+   <a href="modern-indian-history.html" class="tag">Modern Indian History</a>
+  <span class="tag">Decision-Making</span>
+  <a href="indian-history.html" class="tag">Ancient Indian History</a>
+</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- HERO IMAGE -->
+<div class="masthead-image-strip">
+  <div class="masthead-image">
+    <div class="hero-image-block">
+      <span class="hero-image-placeholder">✦</span>
+    </div>
+    <p class="hero-image-caption">The battlefield of Kurukshetra — a cosmological diagram of human choice. Illustration: sk4bharat archive.</p>
+  </div>
+</div>
+
+<!-- ─── ARTICLE BODY ─── -->
+<div class="article-body-wrapper">
+  <div class="article-layout">
+
+    <!-- MAIN PROSE -->
+    <article class="article-prose" id="article-content">
+
+      <div class="article-actions">
+        <button class="action-btn" id="save-btn" onclick="toggleSave(this)">☆ Save</button>
+        <button class="action-btn" onclick="copyLink(this)">↗ Copy Link</button>
+        <span class="action-divider"></span>
+        <span class="reading-time-pill">14 min read</span>
+      </div>
+
+      <p class="drop-cap" id="section-opening">
+        There is a moment, roughly forty verses into the <span class="gloss" data-term="bhagavad-gita">Bhagavad Gita</span>, when Arjuna does something no warrior before him in Sanskrit literature had done. He puts down his bow. Not from cowardice — he is arguably the finest archer in the known world — but from a paralysis that any leader in any century would recognise instantly: the complete inability to act when every available action carries an unacceptable cost.
+      </p>
+
+      <p>
+        The Mahabharata is often called the world's longest poem. It is also, beneath its mythology and genealogy, one of the most rigorous explorations of practical ethics ever written. Its authors — the tradition names Vyasa, though the text accumulated over centuries — were not interested in easy answers. Every major character in the epic faces a decision under conditions of radical uncertainty, and almost every one of them gets something catastrophically wrong.
+      </p>
+
+      <p>
+        That is precisely what makes it useful.
+      </p>
+
+      <hr>
+
+      <h2 id="section-arjuna">The Arjuna Problem: When All Options Are Bad</h2>
+
+      <p>
+        Arjuna's crisis on the battlefield of <span class="gloss" data-term="kurukshetra">Kurukshetra</span> is not a spiritual problem first. It is a decision-theory problem. He surveys the enemy lines and recognises his teachers, his cousins, his friends. He calculates: if we win, we inherit a kingdom built on the corpses of everyone who made us who we are. If we lose, we die. If we don't fight, we break our <span class="gloss" data-term="dharma">dharma</span> as warriors and abandon the cause we spent thirteen years in exile defending.
+      </p>
+
+      <blockquote>
+        <p>"What pleasure can we find in killing our own kinsmen? Having killed these men eager for war, we could only live with sin as our companion."</p>
+        <cite>— Arjuna, Bhagavad Gita, Chapter 1</cite>
+      </blockquote>
+
+      <p>
+        This is what decision theorists call a <strong>dilemma of incommensurable values</strong> — a situation where the options cannot be compared on a single scale because they violate different foundational commitments. Modern frameworks for handling such dilemmas (satisficing, lexical ordering, moral residue theory) were formalised in the twentieth century. The Gita's answer, delivered through Krishna across eighteen chapters, is older and arguably stranger.
+      </p>
+
+      <p>
+        Krishna does not tell Arjuna which option is best. He reconstructs Arjuna's entire framework for evaluating options. He asks: what if the problem is not "which outcome do I choose" but "who is doing the choosing, and why?"
+      </p>
+
+      <div class="pull-quote">
+        <p>"You have a right to your actions — never to the fruits of your actions. Do not let the fruit of action be your motive, nor let your attachment be to inaction."</p>
+      </div>
+
+      <p>
+        The doctrine of <em><span class="gloss" data-term="nishkama-karma">nishkama karma</span></em> — action without attachment to results — is often misread as fatalism or passivity. It is the opposite. It is a prescription for <strong>sustained action under radical uncertainty</strong>: do what the situation demands, with full effort, without calculating returns that you cannot control.
+      </p>
+
+      <figure>
+        <div class="fig-img">[ Illustration: Kurukshetra — the armies arrayed ]</div>
+        <figcaption>The moment before the war — both armies arranged in vyuha formations, flags barely moving in the pre-dawn air. The Gita begins here.</figcaption>
+      </figure>
+
+      <h2 id="section-yudhishthira">Yudhishthira's Curse: When Honesty Becomes a Liability</h2>
+
+      <p>
+        If Arjuna's problem is emotional paralysis, Yudhishthira's is structural. He is the eldest Pandava, the one raised to embody dharma above all else. His defining characteristic — the one that gives him the divine epithet <em>Dharmaraja</em>, King of Righteousness — is that he cannot tell a lie. The word itself causes him physical pain.
+      </p>
+
+      <p>
+        The Mahabharata proceeds to destroy him with this virtue.
+      </p>
+
+      <p>
+        Yudhishthira loses his kingdom, his wife, and his brothers at dice not because he is stupid but because the rules of the game make it impossible for him to refuse without violating the code of conduct his entire identity is built upon. A Kshatriya king does not refuse a challenge. A man of dharma honours his word. The Kauravas, knowing this, engineer a situation where his virtues become the mechanism of his defeat.
+      </p>
+
+      <p>
+        The lesson the text draws is uncomfortable: <strong>rigid virtue in a manipulated environment is indistinguishable from vice in its outcomes</strong>. Yudhishthira's refusal to adapt his ethical framework to the context of the game is itself a kind of moral failure — not of intention, but of wisdom.
+      </p>
+
+      <hr>
+
+      <h2 id="section-karna">Karna's Loyalty: The Trap of Allegiance</h2>
+
+      <p>
+        No character in the Mahabharata embodies the tragedy of misplaced allegiance more precisely than <span class="gloss" data-term="karna">Karna</span>. He is, by most measures, the equal or superior of Arjuna in skill. He knows — is told explicitly, by his divine father Surya and by Krishna himself — that he fights on the wrong side of history. He stays anyway.
+      </p>
+
+      <p>
+        His loyalty to Duryodhana is not blind. It is a considered choice. Duryodhana elevated him when the caste system excluded him; he will repay that debt regardless of the cost. In another text, this would be heroism. In the Mahabharata, it is framed as a catastrophic error — not because loyalty is wrong, but because <strong>the object of loyalty must itself be worthy of it</strong>.
+      </p>
+
+      <p>
+        Modern organisations produce Karnas with disturbing frequency: individuals of exceptional competence whose allegiance to a person or institution persists long after the institution has revealed itself to be unworthy. The question Karna's story poses is not "how loyal should you be?" but "to what are you actually loyal — the person, or the values they once represented?"
+      </p>
+
+      <h2 id="section-krishna">Krishna's Statecraft: The Ethics of Strategic Ambiguity</h2>
+
+      <p>
+        Of all the major figures in the Mahabharata, Krishna is the one who most consistently wins. He also lies, manipulates, breaks battlefield conventions, and engineers outcomes through means that no character in the text would call straightforwardly dharmic. The text does not present this as hypocrisy. It presents it as a different order of ethics — one operating at the level of the whole rather than the individual transaction.
+      </p>
+
+      <p>
+        Krishna's actions are legible only if you accept his premise: that some situations are so structurally corrupt that playing by the rules of that situation is itself a form of complicity. When he has the sun obscured to allow Arjuna to kill Jayadratha after the rules forbid it, he is not cheating — he is refusing to let an unjust rule determine a just outcome.
+      </p>
+
+      <blockquote>
+        <p>"When the wicked take shelter in wickedness, the righteous must respond with wisdom — and wisdom sometimes wears the face of cunning."</p>
+        <cite>— Attributed to Vyasa's commentary on Krishna's statecraft</cite>
+      </blockquote>
+
+      <p>
+        This is, among other things, a remarkably sophisticated account of <strong>second-order ethics</strong> — the question of what principles govern the choice of which principles to apply. The Mahabharata's answer is that this requires not rules but judgement: what the tradition calls <em><span class="gloss" data-term="prajna">prajñā</span></em>, a quality that combines knowledge, experience, and the capacity to read the specific texture of a situation.
+      </p>
+
+      <hr>
+
+      <h2 id="section-lessons">What This Means for Anyone Making Hard Decisions</h2>
+
+      <p>
+        The Mahabharata was not written as a management primer. Its characters are divine, semi-divine, or touched by forces no spreadsheet can model. But the ethical grammar it encodes is surprisingly portable.
+      </p>
+
+      <p>
+        <strong>First:</strong> Clarity about your commitments before the crisis, not during it. Arjuna's paralysis is partly caused by the fact that he has never genuinely examined what he would do when his warrior duty and his relational duties collide. The text suggests — through Krishna's eighteen-chapter intervention — that this examination cannot happen in the moment of decision.
+      </p>
+
+      <p>
+        <strong>Second:</strong> The quality of your information environment matters more than the quality of your intentions. Yudhishthira is a genuinely good man making genuinely bad decisions because he is playing in an environment designed to exploit his goodness. Good character is necessary but not sufficient.
+      </p>
+
+      <p>
+        <strong>Third:</strong> Loyalty is a virtue that requires an object worthy of it. Karna's story is not a critique of loyalty. It is a critique of loyalty that has been separated from its original purpose and now serves only its own continuation.
+      </p>
+
+      <p>
+        <strong>Finally:</strong> Some situations cannot be resolved — only survived and learned from. The Pandavas win the war and spend the rest of their lives living with what winning cost. The text does not offer them consolation. It offers them the dignity of having chosen, with full awareness, in impossible circumstances.
+      </p>
+
+      <p>
+        That, perhaps, is as much as any of us can hope for.
+      </p>
+
+      <hr>
+
+      <div class="article-signature">
+        <div class="signature-avatar">sk</div>
+        <div>
+          <div class="signature-name">Sandeep Kumar</div>
+          <div class="signature-bio">Writes on mythology, history, culture, and the ideas that shape modern India. Author of <em>The Grammar of Bharat</em> and three other books.</div>
+        </div>
+      </div>
+
+    </article>
+
+    <!-- SIDEBAR -->
+    <aside class="article-sidebar">
+
+      <div class="sidebar-block accent">
+        <p class="sidebar-label">✦ In This Essay</p>
+        <ul class="toc-list" id="toc">
+          <li data-target="section-opening"><a href="#section-opening">Opening</a></li>
+          <li data-target="section-arjuna"><a href="#section-arjuna">The Arjuna Problem</a></li>
+          <li data-target="section-yudhishthira"><a href="#section-yudhishthira">Yudhishthira's Curse</a></li>
+          <li data-target="section-karna"><a href="#section-karna">Karna's Loyalty</a></li>
+          <li data-target="section-krishna"><a href="#section-krishna">Krishna's Statecraft</a></li>
+          <li data-target="section-lessons"><a href="#section-lessons">What This Means</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-block">
+        <p class="sidebar-label">✦ Share</p>
+        <div class="share-links">
+          <a href="#" class="share-link">Twitter</a>
+          <a href="#" class="share-link">LinkedIn</a>
+          <a href="#" class="share-link">WhatsApp</a>
+          <a href="#" class="share-link">Copy</a>
+        </div>
+      </div>
+
+      <div class="sidebar-block">
+        <p class="sidebar-label">✦ Related Essays</p>
+
+        <div class="related-item">
+          <p class="related-meta">May 5, 2026 · Philosophy</p>
+          <a href="#" class="related-title">What "<span class="gloss" data-term="dharma">dharma</span>" Really Meant Before the British Translated It</a>
+        </div>
+
+        <div class="related-item">
+          <p class="related-meta">Apr 20, 2026 · Art</p>
+          <a href="#" class="related-title">The Grammar of Indian Temple Architecture Nobody Teaches</a>
+        </div>
+
+        <div class="related-item">
+          <p class="related-meta">Mar 28, 2026 · History</p>
+          <a href="#" class="related-title">The River Saraswati and the Problem of Mythological Geography</a>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+</div>
 
 <!-- ─── MORE ARTICLES ─── -->
 <section class="more-articles-section">
@@ -1317,5 +1585,5 @@
   <script src="darkmode.js"></script>
   <script src="nav.js"></script>
   <script src="/rajyaniti/search.js" defer></script>
-  <script src="article-loader.js"></script>
+</body>
 </html>
