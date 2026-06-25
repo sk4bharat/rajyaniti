@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>வேத நாகரிகம்: பாடப்புத்தகங்கள் மறைத்த உண்மை — sk4bharat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;500;600;700&family=Noto+Serif+Tamil:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --saffron: #E8600A;
+    --deep-red: #8B1A1A;
+    --ink: #1A1208;
+    --parchment: #FAF6EE;
+    --cream: #F5EFE0;
+    --gold: #C8922A;
+    --warm-gray: #8A7968;
+    --border: #DDD5C0;
+    --text: #2C2010;
+    --muted: #7A6E5A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--parchment);
+    color: var(--text);
+    font-family: 'Noto Serif Tamil', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.95;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ─── HEADER ─── */
+  header { background: var(--ink); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--saffron); }
+  .logo { padding: 1rem 0; text-decoration: none; }
+  .logo-text { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--parchment); letter-spacing: -0.02em; }
+  .logo-text span { color: var(--saffron); }
+  .logo-sub { font-family: 'DM Sans', sans-serif; font-size: 0.65rem; color: var(--warm-gray); letter-spacing: 0.2em; text-transform: uppercase; display: block; margin-top: -2px; }
+  nav { display: flex; align-items: center; gap: 0.2rem; }
+  nav a { font-family: 'DM Sans', sans-serif; font-size: 0.8rem; color: #BBB; text-decoration: none; padding: 0.5rem 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  nav a:hover { color: var(--saffron); }
+  nav .nav-cta { background: var(--saffron); color: white; padding: 0.45rem 1rem; border-radius: 2px; font-weight: 500; margin-left: 0.5rem; }
+  nav .nav-cta:hover { background: #c94f00; }
+  .hamburger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 5px; z-index: 201; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--parchment); transition: all 0.3s; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-nav { display: flex; position: fixed; inset: 0; background: var(--ink); z-index: 200; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; opacity: 0; transform: translateX(100%); transition: opacity 0.3s ease, transform 0.3s ease; visibility: hidden; pointer-events: none; }
+  .mobile-nav.open { opacity: 1; transform: translateX(0); visibility: visible; pointer-events: all; }
+  .mobile-link { font-family: 'Playfair Display', serif; font-size: 2rem; font-style: italic; color: var(--parchment); text-decoration: none; transition: color 0.2s; }
+  .mobile-link:hover { color: var(--saffron); }
+
+  /* ─── LANGUAGE BAR ─── */
+  #rj-lang-bar { background: #0D0A05; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.6rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .rj-lb-btn { font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; color: #888; background: transparent; border: 1px solid rgba(255,255,255,0.12); border-radius: 999px; padding: 0.35rem 1rem; cursor: pointer; transition: all 0.2s; }
+  .rj-lb-btn.active { background: var(--saffron); border-color: var(--saffron); color: white; }
+
+  /* ─── PROGRESS BAR ─── */
+  #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, var(--saffron), var(--gold)); z-index: 9998; transition: width 0.1s linear; }
+
+  /* ─── MASTHEAD ─── */
+  .article-masthead { background: var(--ink); padding: 5rem 2rem 0; position: relative; overflow: hidden; }
+  .article-masthead::before { content: '✦'; position: absolute; font-size: 40rem; color: rgba(255,255,255,0.015); top: -10rem; right: -5rem; line-height: 1; pointer-events: none; font-family: 'Playfair Display', serif; }
+  .masthead-inner { max-width: 820px; margin: 0 auto; position: relative; z-index: 1; }
+  .article-breadcrumb { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-gray); margin-bottom: 2rem; display: flex; align-items: center; gap: 0.5rem; }
+  .article-breadcrumb a { color: var(--warm-gray); text-decoration: none; transition: color 0.2s; }
+  .article-breadcrumb a:hover { color: var(--saffron); }
+  .article-breadcrumb .sep { color: #444; }
+  .article-category-badge { display: inline-block; font-family: 'DM Sans', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--saffron); border: 1px solid var(--saffron); padding: 0.25rem 0.75rem; border-radius: 2px; margin-bottom: 1.5rem; }
+  .article-main-title { font-family: 'Noto Serif Tamil', serif; font-size: clamp(1.9rem, 4vw, 3.2rem); font-weight: 700; color: var(--parchment); line-height: 1.25; margin-bottom: 1.5rem; animation: fadeUp 0.7s ease both; }
+  .article-main-title em { font-style: italic; color: var(--gold); }
+  .article-dek { font-family: 'Noto Serif Tamil', serif; font-size: 1.1rem; font-style: italic; color: #AAA09A; line-height: 1.85; max-width: 62ch; margin-bottom: 2.5rem; animation: fadeUp 0.7s ease 0.1s both; }
+  .article-meta-bar { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.1); animation: fadeUp 0.7s ease 0.2s both; }
+  .meta-author { display: flex; align-items: center; gap: 0.8rem; }
+  .author-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, #3d2b10, var(--saffron)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-style: italic; color: var(--parchment); font-size: 0.9rem; flex-shrink: 0; }
+  .author-info-name { font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--parchment); }
+  .author-info-role { font-family: 'DM Sans', sans-serif; font-size: 0.68rem; color: var(--warm-gray); letter-spacing: 0.1em; }
+  .meta-divider { width: 1px; height: 28px; background: rgba(255,255,255,0.12); }
+  .meta-item { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: var(--warm-gray); letter-spacing: 0.08em; text-transform: uppercase; display: flex; flex-direction: column; gap: 0.15rem; }
+  .meta-item strong { color: #CCC; font-weight: 500; font-size: 0.78rem; }
+  .article-tags-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; padding: 1.5rem 0 0; animation: fadeUp 0.7s ease 0.3s both; }
+  .tag { font-family: 'DM Sans', sans-serif; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(255,255,255,0.06); color: #AAA; border: 1px solid rgba(255,255,255,0.12); padding: 0.25rem 0.65rem; border-radius: 999px; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+  .tag:hover { background: var(--saffron); color: white; border-color: var(--saffron); }
+
+  /* ─── HERO IMAGE ─── */
+  .masthead-image-strip { background: var(--ink); padding: 2.5rem 2rem 0; }
+  .masthead-image { max-width: 820px; margin: 0 auto; }
+  .hero-image-block { width: 100%; height: 340px; background: linear-gradient(135deg, #1f0a00 0%, #3a1500 40%, #1a0800 100%); border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .hero-image-block::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(232,96,10,0.15) 0%, transparent 65%), radial-gradient(ellipse at 80% 60%, rgba(200,146,42,0.1) 0%, transparent 55%); }
+  .hero-image-placeholder { font-family: 'Noto Serif Tamil', serif; font-size: 5rem; color: rgba(232,96,10,0.2); user-select: none; z-index: 1; position: relative; }
+  .hero-image-caption { font-family: 'DM Sans', sans-serif; font-size: 0.68rem; color: #555; letter-spacing: 0.05em; padding: 0.6rem 0 0; font-style: italic; }
+
+  /* ─── ARTICLE BODY ─── */
+  .article-body-wrapper { padding: 4rem 2rem; background: var(--parchment); }
+  .article-layout { max-width: 820px; margin: 0 auto; display: grid; grid-template-columns: 1fr 220px; gap: 4rem; align-items: start; }
+  .article-prose { min-width: 0; }
+  .article-prose .drop-cap::first-letter { font-family: 'Noto Serif Tamil', serif; font-size: 4.5rem; font-weight: 700; float: left; line-height: 0.85; margin-right: 0.1em; margin-top: 0.1em; color: var(--saffron); }
+  .article-prose p { font-family: 'Noto Serif Tamil', serif; font-size: 1.05rem; line-height: 2; color: var(--text); margin-bottom: 1.6rem; }
+  .article-prose h2 { font-family: 'Noto Serif Tamil', serif; font-size: 1.55rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1.2rem; line-height: 1.35; }
+  .article-prose h3 { font-family: 'Noto Serif Tamil', serif; font-size: 1.15rem; font-weight: 600; color: var(--ink); margin: 2rem 0 0.8rem; }
+  .article-prose blockquote { border-left: 3px solid var(--saffron); margin: 2.5rem 0; padding: 0.5rem 0 0.5rem 2rem; }
+  .article-prose blockquote p { font-family: 'Noto Serif Tamil', serif; font-size: 1.15rem; font-style: italic; color: var(--ink); margin-bottom: 0.6rem; line-height: 1.7; }
+  .article-prose blockquote cite { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; font-style: normal; }
+  .article-prose .pull-quote { background: var(--cream); border-top: 3px solid var(--saffron); border-bottom: 1px solid var(--border); padding: 2rem 2.5rem; margin: 2.5rem 0; text-align: center; }
+  .article-prose .pull-quote p { font-family: 'Noto Serif Tamil', serif; font-size: 1.3rem; font-style: italic; color: var(--ink); line-height: 1.6; margin-bottom: 0; }
+  .article-prose hr { border: none; text-align: center; color: var(--saffron); font-size: 1.2rem; letter-spacing: 0.6em; margin: 3rem 0; }
+  .article-prose hr::after { content: '✦  ✦  ✦'; }
+  .article-prose strong { color: var(--ink); font-weight: 700; }
+  .article-prose em { color: var(--deep-red); font-style: italic; }
+  .article-prose a { color: var(--saffron); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .article-prose a:hover { color: var(--deep-red); }
+  .article-signature { border-top: 1px solid var(--border); padding-top: 2rem; margin-top: 3rem; display: flex; align-items: center; gap: 1.2rem; }
+  .signature-avatar { width: 56px; height: 56px; background: linear-gradient(135deg, #3d2b10, var(--saffron)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-style: italic; color: var(--parchment); font-size: 1.1rem; flex-shrink: 0; }
+  .signature-name { font-family: 'Noto Serif Tamil', serif; font-size: 1.05rem; font-weight: 600; color: var(--ink); margin-bottom: 0.2rem; }
+  .signature-bio { font-family: 'DM Sans', sans-serif; font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+  .article-actions { display: flex; align-items: center; gap: 0.75rem; margin: 2rem 0 3rem; flex-wrap: wrap; }
+  .action-btn { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; padding: 0.55rem 1.1rem; border-radius: 2px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.4rem; }
+  .action-btn:hover { border-color: var(--saffron); color: var(--saffron); }
+  .action-btn.active { background: var(--saffron); border-color: var(--saffron); color: white; }
+  .action-divider { flex: 1; }
+  .reading-time-pill { font-family: 'DM Sans', sans-serif; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border); padding: 0.35rem 0.85rem; border-radius: 999px; }
+
+  /* ─── SIDEBAR ─── */
+  .article-sidebar { position: sticky; top: 90px; display: flex; flex-direction: column; gap: 2.5rem; }
+  .sidebar-block { border-top: 3px solid var(--border); padding-top: 1.2rem; }
+  .sidebar-block.accent { border-color: var(--saffron); }
+  .sidebar-label { font-family: 'DM Sans', sans-serif; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--saffron); margin-bottom: 1rem; }
+  .toc-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .toc-list li a { font-family: 'Noto Sans Tamil', sans-serif; font-size: 0.78rem; color: var(--muted); text-decoration: none; display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.5; transition: color 0.2s; }
+  .toc-list li a::before { content: ''; width: 12px; height: 1px; background: var(--border); margin-top: 0.65rem; flex-shrink: 0; transition: background 0.2s, width 0.2s; }
+  .toc-list li a:hover { color: var(--saffron); }
+  .toc-list li a:hover::before { background: var(--saffron); width: 18px; }
+  .toc-list li.active a { color: var(--ink); font-weight: 500; }
+  .toc-list li.active a::before { background: var(--saffron); width: 18px; }
+  .related-item { border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1rem; }
+  .related-item:last-child { border-bottom: none; margin-bottom: 0; }
+  .related-meta { font-family: 'DM Sans', sans-serif; font-size: 0.62rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .related-title { font-family: 'Noto Serif Tamil', serif; font-size: 0.88rem; font-weight: 600; color: var(--ink); line-height: 1.4; text-decoration: none; display: block; transition: color 0.2s; }
+  .related-title:hover { color: var(--saffron); }
+  .share-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .share-link { font-family: 'DM Sans', sans-serif; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; border: 1px solid #333; padding: 0.3rem 0.65rem; border-radius: 2px; transition: all 0.2s; background: var(--ink); color: #999; }
+  .share-link:hover { border-color: var(--saffron); color: var(--saffron); }
+
+  /* ─── MORE ARTICLES ─── */
+  .more-articles-section { background: var(--cream); border-top: 1px solid var(--border); padding: 4rem 2rem; }
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 2rem; }
+  .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+  .section-label { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--saffron); display: block; margin-bottom: 0.3rem; }
+  .section-title { font-family: 'Noto Serif Tamil', serif; font-size: 1.8rem; font-weight: 600; color: var(--ink); }
+  .section-link { font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500; color: var(--saffron); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; }
+  .section-link:hover { text-decoration: underline; }
+  .more-articles-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .article-card { border-top: 3px solid var(--border); padding-top: 1.5rem; transition: border-color 0.2s; opacity: 0; transform: translateY(24px); }
+  .article-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .article-card:hover { border-color: var(--saffron); }
+  .article-card-meta { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .article-card-title { font-family: 'Noto Serif Tamil', serif; font-size: 1rem; font-weight: 600; line-height: 1.45; color: var(--ink); margin-bottom: 0.75rem; text-decoration: none; display: block; transition: color 0.2s; }
+  .article-card-title:hover { color: var(--saffron); }
+  .article-card-excerpt { font-family: 'Noto Serif Tamil', serif; font-size: 0.85rem; color: var(--muted); line-height: 1.8; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .card-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
+  .card-tag { font-family: 'DM Sans', sans-serif; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; background: var(--parchment); color: var(--muted); border: 1px solid var(--border); padding: 0.2rem 0.6rem; border-radius: 999px; }
+
+  /* ─── NEWSLETTER ─── */
+  .newsletter-section { background: var(--ink); text-align: center; padding: 5rem 2rem; }
+  .newsletter-title { font-family: 'Noto Serif Tamil', serif; font-size: 1.8rem; color: var(--parchment); margin-bottom: 0.75rem; }
+  .newsletter-subtitle { font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: #888; margin-bottom: 2.5rem; }
+  .newsletter-form { display: flex; gap: 0.75rem; max-width: 440px; margin: 0 auto; }
+  .newsletter-form input { flex: 1; background: rgba(255,255,255,0.06); border: 1px solid #444; border-radius: 2px; padding: 0.85rem 1.2rem; color: var(--parchment); font-family: 'EB Garamond', serif; font-size: 0.95rem; outline: none; transition: border-color 0.2s; }
+  .newsletter-form input::placeholder { color: #666; }
+  .newsletter-form input:focus { border-color: var(--saffron); }
+  .newsletter-form button { background: var(--saffron); border: none; color: white; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.85rem 1.5rem; border-radius: 2px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+  .newsletter-form button:hover { background: #c94f00; }
+
+  /* ─── FOOTER ─── */
+  footer { background: #0E0B04; border-top: 3px solid var(--saffron); padding: 3rem 2rem; }
+  .footer-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+  .footer-brand .logo-text { font-size: 1.3rem; display: block; margin-bottom: 0.5rem; }
+  .footer-tagline { font-family: 'Noto Serif Tamil', serif; font-size: 0.88rem; color: #666; margin-top: 0.75rem; line-height: 1.7; }
+  .footer-col h4 { font-family: 'DM Sans', sans-serif; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--saffron); margin-bottom: 1.2rem; }
+  .footer-col a { display: block; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; color: #777; text-decoration: none; margin-bottom: 0.6rem; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--parchment); }
+  .social-links { display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap; }
+  .social-link { font-family: 'DM Sans', sans-serif; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: #666; text-decoration: none; border: 1px solid #333; padding: 0.35rem 0.75rem; border-radius: 2px; transition: all 0.2s; }
+  .social-link:hover { border-color: var(--saffron); color: var(--saffron); }
+  .footer-bottom { max-width: 1180px; margin: 0 auto; border-top: 1px solid #222; padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-copy { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: #555; }
+  .footer-legal { display: flex; gap: 1.5rem; }
+  .footer-legal a { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; color: #555; text-decoration: none; transition: color 0.2s; }
+  .footer-legal a:hover { color: var(--saffron); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 900px) { .more-articles-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 768px) {
+    nav { display: none; } .hamburger { display: flex; }
+    .article-layout { grid-template-columns: 1fr; }
+    .article-sidebar { position: static; flex-direction: row; flex-wrap: wrap; gap: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+    .sidebar-block { flex: 1 1 240px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    .newsletter-form { flex-direction: column; }
+  }
+  @media (max-width: 640px) {
+    .article-main-title { font-size: 1.8rem; }
+    .more-articles-grid { grid-template-columns: 1fr; }
+    .hero-image-block { height: 200px; }
+    .article-masthead { padding: 2.5rem 1.25rem 0; }
+    .article-body-wrapper { padding: 2.5rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <a href="index.html" class="logo">
+    <span class="logo-text">sk<span>4</span>bharat</span>
+    <span class="logo-sub">Writer · Thinker · Speaker</span>
+  </a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="article.html">Articles</a>
+    <a href="book-reviews.html">Book Reviews</a>
+    <a href="store.html">Store</a>
+    <a href="kids.html">Kids</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="ask-the-text.html">Ask Me Anything</a>
+    <a href="#about">About</a>
+    <a href="#newsletter" class="nav-cta">தொடர்பு</a>
+    <button id="sk4-dark-toggle" aria-label="Toggle dark mode"></button>
+  </nav>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" class="mobile-link">முகப்பு</a>
+  <a href="article.html" class="mobile-link">கட்டுரைகள்</a>
+  <a href="article-hi.html" class="mobile-link">हिन्दी</a>
+  <a href="store.html" class="mobile-link">கடை</a>
+  <a href="#newsletter" class="mobile-link">சந்தா</a>
+</div>
+
+<!-- ─── LANGUAGE BAR ─── -->
+<div id="rj-lang-bar">
+  <button class="rj-lb-btn" onclick="rjLang('en')" data-rj="en">✦ English</button>
+  <button class="rj-lb-btn" onclick="rjLang('hi')" data-rj="hi">🪔 हिन्दी</button>
+  <button class="rj-lb-btn active" onclick="rjLang('ta')" data-rj="ta">🌺 தமிழ்</button>
+</div>
+
+<!-- ─── ARTICLE MASTHEAD ─── -->
+<div class="article-masthead">
+  <div class="masthead-inner">
+
+    <p class="article-breadcrumb">
+      <a href="index.html">முகப்பு</a>
+      <span class="sep">›</span>
+      <a href="article.html">கட்டுரைகள்</a>
+      <span class="sep">›</span>
+      பண்டைய வரலாறு
+    </p>
+
+    <span class="article-category-badge">✦ பண்டைய இந்திய வரலாறு</span>
+
+    <h1 class="article-main-title">
+      வேத நாகரிகம்: பாடப்புத்தகங்கள்<br><em>மறைத்த உண்மை</em>
+    </h1>
+
+    <p class="article-dek">
+      பல தசாப்தங்களாக காலனித்துவ மற்றும் இடதுசாரி வரலாற்றாசிரியர்கள் இந்தியாவின் பண்டைய நாகரிகத்தை ஒரு பின்தங்கிய, சிதறிய கலாச்சாரமாக சித்தரித்தனர். ஆதாரங்கள் வேறு கதை சொல்கின்றன.
+    </p>
+
+    <div class="article-meta-bar">
+      <div class="meta-author">
+        <div class="author-avatar">sk</div>
+        <div>
+          <div class="author-info-name">சந்தீப் குமார்</div>
+          <div class="author-info-role">எழுத்தாளர் · கலாச்சார சிந்தனையாளர்</div>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item">
+        <span>வெளியிடப்பட்டது</span>
+        <strong>ஜூன் 15, 2026</strong>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item">
+        <span>படிக்கும் நேரம்</span>
+        <strong>18 நிமிடம்</strong>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item">
+        <span>வகை</span>
+        <strong>வரலாறு</strong>
+      </div>
+    </div>
+
+    <div class="article-tags-bar">
+      <span class="tag">வேத நாகரிகம்</span>
+      <span class="tag">பண்டைய இந்தியா</span>
+      <span class="tag">சிந்து வெளி</span>
+      <span class="tag">காலனித்துவ வரலாறு</span>
+      <span class="tag">தமிழ் நாகரிகம்</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- HERO IMAGE -->
+<div class="masthead-image-strip">
+  <div class="masthead-image">
+    <div class="hero-image-block">
+      <span class="hero-image-placeholder">ஓம்</span>
+    </div>
+    <p class="hero-image-caption">சிந்து வெளி முத்திரைகள் — வரலாற்று நூல்களில் உரிய இடம் பெறாத நாகரிகத்தின் சான்றுகள். படம்: sk4bharat காப்பகம்.</p>
+  </div>
+</div>
+
+<!-- ─── ARTICLE BODY ─── -->
+<div class="article-body-wrapper">
+  <div class="article-layout">
+
+    <article class="article-prose" id="article-content">
+
+      <div class="article-actions">
+        <button class="action-btn" id="save-btn" onclick="toggleSave(this)">☆ சேமி</button>
+        <button class="action-btn" onclick="copyLink(this)">↗ இணைப்பு நகலெடு</button>
+        <span class="action-divider"></span>
+        <span class="reading-time-pill">18 நிமிட வாசிப்பு</span>
+      </div>
+
+      <p class="drop-cap" id="section-opening">
+        1835 ஆம் ஆண்டு தாமஸ் மெக்காலே இந்திய கல்வி குறித்த தனது குறிப்பினை எழுதியபோது, ஒரே வாக்கியத்தில் இந்தியாவின் முழு அறிவு மரபையும் நிராகரித்தார். "ஒரு நல்ல ஐரோப்பிய நூலகத்தின் ஒற்றை அலமாரி, இந்தியா மற்றும் அரேபியாவின் அனைத்து இலக்கிய செல்வங்களையும் விட மதிப்புமிக்கது" என்று அவர் கூறினார். இது வெறும் காலனித்துவ அகங்காரத்தின் வெளிப்பாடு மட்டுமல்ல — இது அடுத்த நூற்றைம்பது ஆண்டுகளாக இந்திய மனதை வடிவமைத்த ஒரு திட்டமிட்ட திட்டத்தின் அறிவிப்பு.
+      </p>
+
+      <p>
+        இந்தத் திட்டம் இன்றும் தொடர்கிறது — இப்போது காலனித்துவ ஆட்சியாளர்களின் கைகளால் அல்ல, மாறாக மெக்காலேயின் கல்வியை மிகவும் ஆழமாக உள்வாங்கிக்கொண்ட அந்த இந்திய அறிவுஜீவிகளின் கைகளால், அவர்களுக்கு தங்கள் சொந்த நாகரிகமே அந்நியமாக தோன்றியது.
+      </p>
+
+      <p>
+        இந்தக் கட்டுரை அந்த திரையை விலக்கும் ஒரு முயற்சி.
+      </p>
+
+      <hr>
+
+      <h2 id="section-aryan">ஆரிய படையெடுப்பு கட்டுக்கதை: ஒரு அரசியல் கட்டுமானம்</h2>
+
+      <p>
+        பத்தொன்பதாம் நூற்றாண்டின் ஐரோப்பிய மொழியியல் அறிஞர்கள், குறிப்பாக மாக்ஸ் முல்லர், பின்னர் <strong>ஆரிய படையெடுப்பு கோட்பாடு</strong> என்று அறியப்பட்ட ஒரு கோட்பாட்டை முன்வைத்தனர். இந்தக் கோட்பாட்டின்படி, சுமார் கி.மு. 1500 இல் மத்திய ஆசியாவிலிருந்து "ஆரிய" இனத்தினர் இந்தியாவிற்கு வந்து, சிந்து-சரஸ்வதி நாகரிகத்தின் பூர்வீக மக்களை தோற்கடித்து வேத கலாச்சாரத்திற்கு அடித்தளம் இட்டனர்.
+      </p>
+
+      <p>
+        இந்தக் கோட்பாடு உடனடியாக பிரிட்டிஷ் ஏகாதிபத்தியத்திற்கு பயனுள்ளதாக இருந்தது. இந்தியர்கள் தாமே ஒரு காலத்தில் படையெடுத்தவர்களாக இருந்தால், ஆங்கிலேயர்களின் ஆட்சியும் அதே வரலாற்று மரபின் ஒரு தொடர்ச்சியாகவே இருக்கும்.
+      </p>
+
+      <blockquote>
+        <p>"ஆரியர்கள் ஆயிரக்கணக்கான ஆண்டுகளுக்கு முன்பு செய்தது போலவே நாங்களும் இந்தியாவில் செய்கிறோம் — ஒரு உயர்ந்த நாகரிகத்தை ஒரு தாழ்ந்த நாகரிகத்தில் நடவு செய்கிறோம்."</p>
+        <cite>— ஒரு பிரிட்டிஷ் நிர்வாகியின் கூற்று, 1880</cite>
+      </blockquote>
+
+      <p>
+        ஆனால் நவீன தொல்லியல் மற்றும் மரபணு அறிவியல் இந்தக் கோட்பாட்டை தகர்த்துவிட்டது. <strong>2019 இல் வெளியிடப்பட்ட ஹரப்பா எலும்பூனுகளின் DNA பகுப்பாய்வு</strong> சிந்து-சரஸ்வதி நாகரிக மக்களிடம் எந்த மத்திய ஆசிய மரபணு தாக்கமும் இல்லை என்று காட்டியது. அவர்கள் அந்தத் தரையின் பூர்வீக மக்களே.
+      </p>
+
+      <div class="pull-quote">
+        <p>"சரஸ்வதி நதிக்கரையில் வாழ்ந்த நாகரிகம் படையெடுப்பால் அல்ல, காலநிலை மாற்றத்தால் முடிவடைந்தது — இது இப்போது அறிவியல் ஒருமித்த கருத்தின் ஒரு பகுதி."</p>
+      </div>
+
+      <hr>
+
+      <h2 id="section-tamil">தமிழ் நாகரிகம்: உலகின் மிகப் பழமையான வாழும் மரபு</h2>
+
+      <p>
+        வட இந்திய வரலாற்றுப் பக்கபலம் பற்றி பேசும்போது, தமிழ் நாகரிகத்தின் தனித்துவமான மற்றும் மிகவும் பழமையான வரலாற்றை நாம் மறந்துவிடக்கூடாது. தமிழ் — உலகில் இன்றும் பேசப்படும் மிகப் பழமையான செம்மொழிகளில் ஒன்று — சுமார் <strong>2,500 ஆண்டுகளுக்கும் மேலான</strong> தொடர்ச்சியான இலக்கிய வரலாற்றைக் கொண்டுள்ளது.
+      </p>
+
+      <p>
+        சங்க காலம் (கி.மு. 300 — கி.பி. 300) தமிழ் கவிதையின் பொற்காலம். அந்த காலகட்டத்தில் எழுதப்பட்ட அகநானூறு, புறநானூறு போன்ற நூல்கள் மனித உணர்வுகளை, காதலை, போரை, இயற்கையை — இன்று நாம் "நவீன" என்று அழைப்பவற்றை — அப்படியே படம்பிடிக்கின்றன.
+      </p>
+
+      <p>
+        <strong>சோழ சாம்ராஜ்யம்</strong> 11ஆம் நூற்றாண்டில் தென்கிழக்கு ஆசியாவில் ஒரு கடற்படை அபியானத்தை மேற்கொண்டது — அந்த யுகத்தின் எந்த ஐரோப்பிய கடற்படையையும் விட மிகவும் நுட்பமானது. ஆனால் நமது பாடப்புத்தகங்களில் இதற்கு ஒரு பத்தி கூட இல்லை.
+      </p>
+
+      <hr>
+
+      <h2 id="section-knowledge">அறிவு மரபு: மறைக்கப்பட்டது</h2>
+
+      <p>
+        வேத காலத்தின் அறிவு மரபை பெரும்பாலும் "மதச் சடங்குகள்" என்று சுருக்கிக் காட்டப்படுகிறது. இது ஒரு வேண்டுமென்றே செய்யப்பட்ட திரிபு.
+      </p>
+
+      <p>
+        <strong>கணிதம்:</strong> ஆர்யபட்டர் கி.பி. 476 இல் சூன்யம் மற்றும் தசம அமைப்பை முறைப்படுத்தினார் — ஐரோப்பாவிற்கு ஆயிரம் ஆண்டுகள் முன்பே. பிரம்மகுப்தர் எதிர்மறை எண்களின் விதிகளை நிறுவினார். போதாயனர் பித்தகோரஸுக்கு சதாப்தங்களுக்கு முன்பே அந்த தேற்றத்தை எழுதினார்.
+      </p>
+
+      <p>
+        <strong>வானியல்:</strong> சூரியசித்தாந்தத்தில் பூமியின் ஆரத்தின் கணக்கீடு நவீன அளவீட்டிலிருந்து வெறும் 0.2% மட்டுமே வேறுபடுகிறது. ஆர்யபட்டர் பூமி தன் அச்சில் சுழல்கிறது என்று கூறினார் — ஐரோப்பா இன்னும் சூரியன் பூமியை சுற்றுகிறது என்று நம்பிக்கொண்டிருந்தபோது.
+      </p>
+
+      <p>
+        <strong>மருத்துவம்:</strong> சரகசம்ஹிதை மற்றும் சுஸ்ருதசம்ஹிதையில் அறுவை சிகிச்சை, பிளாஸ்டிக் சர்ஜரி மற்றும் மருந்தியல் கோட்பாடுகள் உள்ளன, அவை நவீன மருத்துவத்துடன் ஆச்சரியகரமாக ஒத்துப்போகின்றன.
+      </p>
+
+      <blockquote>
+        <p>"இந்தியா உலகிற்கு எண்களை கொடுத்தது, அவை இல்லாமல் எந்த அறிவியல் கண்டுபிடிப்பும் சாத்தியமில்லை."</p>
+        <cite>— ஆல்பர்ட் ஐன்ஸ்டீன்</cite>
+      </blockquote>
+
+      <hr>
+
+      <h2 id="section-distortion">திரிபின் கட்டமைப்பு: வரலாறு எப்படி மாற்றப்பட்டது</h2>
+
+      <p>
+        சுதந்திரத்திற்குப் பிறகும் இந்திய வரலாற்று எழுத்தில் இடதுசாரி அறிவுஜீவி ஆதிக்கம் தொடர்ந்தது. NCERT பாடப்புத்தகங்கள், JNU வரலாற்று துறை, மற்றும் கல்வி இதழ்கள் — இவை அனைத்திலும் இந்து நாகரிகத்தை முறையாக ஓரங்கட்டிய வரலாற்றாசிரியர்களின் தாக்கம் இருந்தது.
+      </p>
+
+      <p>
+        விளைவு? ஒரு முழு தலைமுறை வளர்ந்தது — முகலாய சாம்ராஜ்யத்தின் கட்டிடக்கலை பற்றி விரிவாக அறிந்தவர்களாக, ஆனால் 11ஆம் நூற்றாண்டில் சோழ சாம்ராஜ்யம் தென்கிழக்கு ஆசியாவில் ஒரு கடற்படை அபியானம் மேற்கொண்டது என்று தெரியாதவர்களாக.
+      </p>
+
+      <p>
+        <strong>இந்த புறக்கணிப்பு தற்செயல் அல்ல. இது கொள்கை.</strong>
+      </p>
+
+      <hr>
+
+      <h2 id="section-reclaim">மீட்டெடுத்தல்: முன்னோக்கிய பாதை</h2>
+
+      <p>
+        வரலாற்றை மீட்டெடுப்பது வெறும் கல்வி பயிற்சி மட்டுமல்ல. இது ஒரு நாகரிக அவசியம். ஒரு தேசம் தன் வேர்களிலிருந்து துண்டிக்கப்படும்போது, அது கடந்த காலத்தை மட்டுமல்ல — எதிர்காலத்தின் திசையையும் இழக்கிறது.
+      </p>
+
+      <p>
+        வேத கணிதம், ஆயுர்வேதம், யோகா, வாஸ்து சாஸ்திரம், தமிழ் சங்க இலக்கியம் — இவை வெறும் "மரபுகள்" அல்ல. இவை அறிவின் அமைப்புகள், அவற்றை நவீன அறிவியல் இப்போது மெதுவாக மீண்டும் கண்டுபிடிக்கிறது. இவை தாழ்வு மனப்பான்மையுடன் அல்ல, பெருமையுடன் பார்க்கப்பட வேண்டும்.
+      </p>
+
+      <p>
+        பாடப்புத்தகங்கள் மறைத்ததை நாம் நம் குழந்தைகளுக்கு சொல்வோம்.
+      </p>
+
+      <div class="article-signature">
+        <div class="signature-avatar">sk</div>
+        <div>
+          <div class="signature-name">சந்தீப் குமார்</div>
+          <div class="signature-bio">புராண கதைகள், வரலாறு, கலாச்சாரம் மற்றும் நவீன இந்தியாவை வடிவமைக்கும் கருத்துகள் பற்றி எழுதுகிறார். <em>பாரதத்தின் இலக்கணம்</em> மற்றும் மூன்று பிற புத்தகங்களின் ஆசிரியர்.</div>
+        </div>
+      </div>
+
+    </article>
+
+    <!-- SIDEBAR -->
+    <aside class="article-sidebar">
+
+      <div class="sidebar-block accent">
+        <p class="sidebar-label">✦ இந்தக் கட்டுரையில்</p>
+        <ul class="toc-list" id="toc">
+          <li data-target="section-opening"><a href="#section-opening">முன்னுரை</a></li>
+          <li data-target="section-aryan"><a href="#section-aryan">ஆரிய படையெடுப்பு கட்டுக்கதை</a></li>
+          <li data-target="section-tamil"><a href="#section-tamil">தமிழ் நாகரிகம்</a></li>
+          <li data-target="section-knowledge"><a href="#section-knowledge">அறிவு மரபு</a></li>
+          <li data-target="section-distortion"><a href="#section-distortion">திரிபின் கட்டமைப்பு</a></li>
+          <li data-target="section-reclaim"><a href="#section-reclaim">முன்னோக்கிய பாதை</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-block">
+        <p class="sidebar-label">✦ பகிர்</p>
+        <div class="share-links">
+          <a href="#" class="share-link">Twitter</a>
+          <a href="#" class="share-link">LinkedIn</a>
+          <a href="#" class="share-link">WhatsApp</a>
+          <a href="#" class="share-link">Copy</a>
+        </div>
+      </div>
+
+      <div class="sidebar-block">
+        <p class="sidebar-label">✦ தொடர்புடைய கட்டுரைகள்</p>
+        <div class="related-item">
+          <p class="related-meta">மே 2026 · தத்துவம்</p>
+          <a href="#" class="related-title">மொழிபெயர்ப்பிற்கு முன் தர்மத்தின் உண்மையான அர்த்தம் என்ன</a>
+        </div>
+        <div class="related-item">
+          <p class="related-meta">ஏப்ரல் 2026 · கலை</p>
+          <a href="#" class="related-title">இந்திய கோவில் கட்டிடக்கலையின் இலக்கணம் யாரும் கற்பிக்காதது</a>
+        </div>
+        <div class="related-item">
+          <p class="related-meta">மார்ச் 2026 · வரலாறு</p>
+          <a href="#" class="related-title">சோழ சாம்ராஜ்யம்: மறக்கப்பட்ட கடற்படை வல்லரசு</a>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+</div>
+
+<!-- ─── MORE ARTICLES ─── -->
+<section class="more-articles-section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="section-label">✦ தொடர்ந்து படிக்க</span>
+        <h2 class="section-title">மேலும் தமிழ் கட்டுரைகள்</h2>
+      </div>
+      <a href="#" class="section-link">அனைத்து கட்டுரைகள் →</a>
+    </div>
+    <div class="more-articles-grid">
+
+      <div class="article-card">
+        <p class="article-card-meta">மே 2026 · தத்துவம்</p>
+        <a href="#" class="article-card-title">தர்மம் என்பது உண்மையில் என்ன — காலனித்துவ மொழிபெயர்ப்பு அழித்தது</a>
+        <p class="article-card-excerpt">விக்டோரியன் மொழிபெயர்ப்பாளர்கள் தர்மத்தை "கடமை" என்று சுருக்கினர். அசல் கருத்து மிகவும் விரிந்தது, ஆழமானது மற்றும் உயிரோட்டமானது.</p>
+        <div class="card-tags"><span class="card-tag">தத்துவம்</span><span class="card-tag">இந்துமதம்</span></div>
+      </div>
+
+      <div class="article-card">
+        <p class="article-card-meta">ஏப்ரல் 2026 · தலைமைத்துவம்</p>
+        <a href="#" class="article-card-title">நிச்சயமற்ற சூழலில் முடிவெடுப்பது குறித்து மகாபாரதம் என்ன கூறுகிறது</a>
+        <p class="article-card-excerpt">குருக்ஷேத்திர போர் தேர்வின் வேதனை குறித்த ஒரு லட்சம் வரிகளின் தியானம். இதன் படிப்பினைகள் இன்றும் பொருத்தமானவை.</p>
+        <div class="card-tags"><span class="card-tag">மகாபாரதம்</span><span class="card-tag">தலைமைத்துவம்</span></div>
+      </div>
+
+      <div class="article-card">
+        <p class="article-card-meta">மார்ச் 2026 · வரலாறு</p>
+        <a href="#" class="article-card-title">சோழ சாம்ராஜ்யம்: தென்கிழக்கு ஆசியாவின் மறக்கப்பட்ட வெற்றியாளர்</a>
+        <p class="article-card-excerpt">11ஆம் நூற்றாண்டில் சோழ கடற்படை ஸ்ரீவிஜய சாம்ராஜ்யத்தில் மேற்கொண்ட அபியானம் அந்த யுகத்தின் மிகவும் நுட்பமான கடற்படை நடவடிக்கையாக இருந்தது.</p>
+        <div class="card-tags"><span class="card-tag">சோழர்</span><span class="card-tag">வரலாறு</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── NEWSLETTER ─── -->
+<section class="newsletter-section" id="newsletter">
+  <div class="container">
+    <h2 class="newsletter-title">புதிய கட்டுரைகளை உங்கள் inbox-ல் பெறுங்கள்</h2>
+    <p class="newsletter-subtitle">சத்தம் இல்லை. சிந்திக்க வைக்கும் கருத்துகள் மட்டுமே.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="உங்கள் மின்னஞ்சல்" />
+      <button type="button">சந்தா செய்யுங்கள்</button>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo-text">sk<span style="color:var(--saffron)">4</span>bharat</span>
+      <p class="footer-tagline">புராண கதைகள், வரலாறு, கலாச்சாரம் மற்றும் நவீன இந்தியாவை வடிவமைக்கும் கருத்துகள் பற்றி எழுதுகிறோம்.</p>
+      <div class="social-links">
+        <a href="#" class="social-link">Twitter</a>
+        <a href="#" class="social-link">Instagram</a>
+        <a href="#" class="social-link">YouTube</a>
+        <a href="#" class="social-link">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>ஆராயுங்கள்</h4>
+      <a href="#">கட்டுரைகள்</a>
+      <a href="#">புத்தகங்கள்</a>
+      <a href="#">பேச்சுகள் & பாட்காஸ்ட்</a>
+      <a href="#">நேர்காணல்கள்</a>
+      <a href="#">காப்பகம்</a>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="#">Newsletter</a>
+      <a href="#">Press</a>
+      <a href="#">Store</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 சந்தீப் குமார். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.</p>
+    <div class="footer-legal">
+      <a href="#">பயன்பாட்டு விதிமுறைகள்</a>
+      <a href="#">தனியுரிமைக் கொள்கை</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Progress bar ──
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  }, { passive: true });
+
+  // ── TOC active ──
+  const tocItems = document.querySelectorAll('#toc li[data-target]');
+  const headingIds = Array.from(tocItems).map(li => li.dataset.target);
+  function updateToc() {
+    let active = headingIds[0];
+    headingIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.getBoundingClientRect().top + window.scrollY - 160) active = id;
+    });
+    tocItems.forEach(li => li.classList.toggle('active', li.dataset.target === active));
+  }
+  window.addEventListener('scroll', updateToc, { passive: true });
+  updateToc();
+
+  // ── Card animation ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 100); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.article-card').forEach(c => observer.observe(c));
+
+  // ── Save ──
+  function toggleSave(btn) {
+    const saved = btn.classList.toggle('active');
+    btn.textContent = saved ? '★ சேமிக்கப்பட்டது' : '☆ சேமி';
+  }
+
+  // ── Copy link ──
+  function copyLink(btn) {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = '✓ நகலெடுக்கப்பட்டது!';
+      btn.classList.add('active');
+      setTimeout(() => { btn.textContent = orig; btn.classList.remove('active'); }, 2000);
+    });
+  }
+
+  // ── Newsletter ──
+  document.querySelector('.newsletter-form button').addEventListener('click', function() {
+    const input = document.querySelector('.newsletter-form input');
+    if (input.value && input.value.includes('@')) {
+      this.textContent = 'சந்தா ஆனது ✓';
+      this.style.background = '#2d7a2d';
+      input.value = '';
+      setTimeout(() => { this.textContent = 'சந்தா செய்யுங்கள்'; this.style.background = ''; }, 3000);
+    } else {
+      input.style.borderColor = 'var(--saffron)';
+      input.focus();
+    }
+  });
+
+  // ── Hamburger ──
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  hamburger.addEventListener('click', () => {
+    const open = mobileNav.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileNav.classList.remove('open');
+      hamburger.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // ── Language bar ──
+  function rjLang(lang) {
+    try { localStorage.setItem('rajyaniti-lang', lang); } catch {}
+    document.querySelectorAll('[data-rj]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.rj === lang);
+    });
+    if (lang === 'en') window.location.href = 'article.html';
+    if (lang === 'hi') window.location.href = 'article-hi.html';
+  }
+</script>
+
+<script src="/rajyaniti/glossary.js"></script>
+<script src="transitions.js"></script>
+<script src="darkmode.js"></script>
+<script src="nav.js"></script>
+<script src="/rajyaniti/search.js" defer></script>
+<script src="lang-switcher.js"></script>
+</body>
+</html>
