@@ -1,1887 +1,931 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>sk4bharat — Writer | Thinker | Speaker</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --saffron: #E8600A;
-    --deep-red: #8B1A1A;
-    --ink: #1A1208;
-    --parchment: #FAF6EE;
-    --cream: #F5EFE0;
-    --gold: #C8922A;
-    --warm-gray: #8A7968;
-    --border: #DDD5C0;
-    --text: #2C2010;
-    --muted: #7A6E5A;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--parchment);
-    color: var(--text);
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 18px;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
-
-  /* ─── PRELOADER ─── */
-  #preloader {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    background: #1A1208;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    transition: opacity 0.6s ease, visibility 0.6s ease;
-  }
-
-  #preloader.hide {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-
-  .pre-avatar-wrap {
-    position: relative;
-    /* FIX: was min(220px, 52vw) — on tiny phones 52vw was still too big */
-    width: clamp(120px, 40vw, 200px);
-    height: clamp(120px, 40vw, 200px);
-    margin-bottom: 1.5rem;
-    animation: preAvatarIn 0.7s cubic-bezier(0.22,1,0.36,1) both;
-  }
-
-  .pre-avatar-wrap::before {
-    content: '';
-    position: absolute;
-    inset: -6px;
-    border-radius: 50%;
-    background: conic-gradient(var(--saffron) 0deg, #C8922A 120deg, var(--saffron) 240deg, transparent 360deg);
-    animation: preSpin 2.5s linear infinite;
-  }
-
-  .pre-avatar-wrap::after {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: 50%;
-    background: #1A1208;
-  }
-
-  .pre-avatar-img {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: contain;
-    object-position: center center;
-    background: transparent;
-  }
-
-  .pre-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.4rem, 5vw, 2.2rem);
-    font-weight: 700;
-    color: #FAF6EE;
-    letter-spacing: -0.02em;
-    animation: preFadeUp 0.7s 0.3s cubic-bezier(0.22,1,0.36,1) both;
-  }
-
-  .pre-logo span { color: #E8600A; }
-
-  .pre-tagline {
-    font-family: 'DM Sans', sans-serif;
-    font-size: clamp(0.55rem, 2vw, 0.72rem);
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: #8A7968;
-    margin-top: 0.4rem;
-    animation: preFadeUp 0.7s 0.45s cubic-bezier(0.22,1,0.36,1) both;
-  }
-
-  .pre-bar-wrap {
-    margin-top: 2rem;
-    width: clamp(140px, 40vw, 180px);
-    height: 2px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 1px;
-    overflow: hidden;
-    animation: preFadeUp 0.7s 0.6s cubic-bezier(0.22,1,0.36,1) both;
-  }
-
-  .pre-bar {
-    height: 100%;
-    background: linear-gradient(90deg, #E8600A, #C8922A);
-    border-radius: 1px;
-    animation: preLoad 2.2s cubic-bezier(0.4,0,0.2,1) forwards;
-  }
-
-  .pre-dots {
-    display: flex;
-    gap: 6px;
-    margin-top: 1rem;
-    animation: preFadeUp 0.7s 0.7s cubic-bezier(0.22,1,0.36,1) both;
-  }
-
-  .pre-dots span {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: #E8600A;
-    opacity: 0.3;
-    animation: preDot 1.2s ease-in-out infinite;
-  }
-
-  .pre-dots span:nth-child(2) { animation-delay: 0.2s; }
-  .pre-dots span:nth-child(3) { animation-delay: 0.4s; }
-
-  @keyframes preAvatarIn { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
-  @keyframes preFadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-  @keyframes preSpin { to{transform:rotate(360deg)} }
-  @keyframes preLoad { 0%{width:0%} 60%{width:70%} 80%{width:88%} 100%{width:100%} }
-  @keyframes preDot { 0%,100%{opacity:0.2;transform:scale(1)} 50%{opacity:1;transform:scale(1.4)} }
-
-  body.loading > *:not(#preloader) { visibility: hidden; }
-
-  /* ─── NOISE TEXTURE ─── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.4;
-  }
-
-  /* ─── HEADER ─── */
-  header {
-    background: var(--ink);
-    padding: 0 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 500;
-    border-bottom: 3px solid var(--saffron);
-    min-height: 64px;
-  }
-
-  .logo { padding: 0.75rem 0; text-decoration: none; flex-shrink: 0; }
-
-  .logo-text {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.2rem, 4vw, 1.6rem);
-    font-weight: 700;
-    color: var(--parchment);
-    letter-spacing: -0.02em;
-  }
-
-  .logo-text span { color: var(--saffron); }
-
-  .logo-sub {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.6rem;
-    color: var(--warm-gray);
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    display: block;
-    margin-top: -2px;
-  }
-
-  /* Desktop nav */
-  nav {
-    display: flex;
-    align-items: center;
-    gap: 0.1rem;
-  }
-
-  nav a {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    color: #BBB;
-    text-decoration: none;
-    padding: 0.45rem 0.75rem;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-    white-space: nowrap;
-  }
-
-  nav a:hover { color: var(--saffron); }
-
-  nav .nav-cta {
-    background: var(--saffron);
-    color: white;
-    padding: 0.4rem 0.9rem;
-    border-radius: 2px;
-    font-weight: 500;
-    margin-left: 0.4rem;
-  }
-
-  nav .nav-cta:hover { background: #c94f00; color: white; }
-
-  /* ─── HAMBURGER ─── */
-  /* FIX: was display:none — now flex always, hidden at desktop via media query */
-  .hamburger {
-    display: none; /* hidden on desktop; shown in mobile query below */
-    background: none;
-    border: none;
-    cursor: pointer;
-    flex-direction: column;
-    gap: 5px;
-    padding: 8px;
-    z-index: 600;
-    flex-shrink: 0;
-  }
-
-  .hamburger span {
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: var(--parchment);
-    transition: all 0.3s;
-    border-radius: 1px;
-  }
-
-  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .hamburger.open span:nth-child(2) { opacity: 0; }
-  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-  /* ─── MOBILE NAV DRAWER ─── */
-  /* FIX: was a broken state; now proper slide-down panel */
-  .mobile-nav {
-    display: none; /* JS toggles .open */
-    position: fixed;
-    top: 64px;
-    left: 0;
-    right: 0;
-    background: var(--ink);
-    border-bottom: 3px solid var(--saffron);
-    z-index: 490;
-    flex-direction: column;
-    padding: 1rem 1.5rem 1.5rem;
-    gap: 0;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-  }
-
-  .mobile-nav.open {
-    display: flex;
-    animation: mobileNavIn 0.25s ease;
-  }
-
-  @keyframes mobileNavIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
-
-  .mobile-nav a {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    color: #CCC;
-    text-decoration: none;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-
-  .mobile-nav a:last-child { border-bottom: none; }
-  .mobile-nav a:hover { color: var(--saffron); }
-
-  .mobile-nav a.nav-cta {
-    color: var(--saffron);
-    border: 1px solid var(--saffron);
-    text-align: center;
-    padding: 0.7rem;
-    margin-top: 0.75rem;
-    border-radius: 2px;
-    border-bottom: 1px solid var(--saffron);
-  }
-
-  /* ─── HERO ─── */
-  .hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 85vh;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-left {
-    background: var(--ink);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 4rem 3rem 4rem 4rem;
-    position: relative;
-  }
-
-  /* FIX: diagonal clip hidden on mobile to prevent layout bleed */
-  .hero-left::after {
-    content: '';
-    position: absolute;
-    right: -40px;
-    top: 0;
-    bottom: 0;
-    width: 80px;
-    background: var(--ink);
-    clip-path: polygon(0 0, 100% 15%, 100% 85%, 0 100%);
-    z-index: 2;
-  }
-
-  .hero-eyebrow {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--saffron);
-    margin-bottom: 1.5rem;
-  }
-
-  .hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.2rem, 4.5vw, 4.5rem);
-    font-weight: 700;
-    color: var(--parchment);
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-  }
-
-  .hero-title em { font-style: italic; color: var(--gold); }
-
-  .hero-desc {
-    font-size: clamp(0.9rem, 2vw, 1.05rem);
-    color: #AAA09A;
-    max-width: 38ch;
-    line-height: 1.8;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-buttons {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .btn {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 0.8rem 1.6rem;
-    border-radius: 2px;
-    transition: all 0.2s;
-    display: inline-block;
-  }
-
-  .btn-primary { background: var(--saffron); color: white; }
-  .btn-primary:hover { background: #c94f00; transform: translateY(-1px); }
-  .btn-outline { border: 1px solid #555; color: #CCC; }
-  .btn-outline:hover { border-color: var(--saffron); color: var(--saffron); }
-
-  .hero-right {
-    background: var(--cream);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 2rem;
-    position: relative;
-    z-index: 3;
-  }
-
-  .hero-card {
-    background: white;
-    border: 1px solid var(--border);
-    border-top: 4px solid var(--saffron);
-    padding: 2rem;
-    max-width: 400px;
-    width: 100%;
-    box-shadow: 8px 8px 0 var(--border);
-    animation: floatUp 0.8s ease both;
-  }
-
-  @keyframes floatUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
-
-  .featured-label {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--saffron);
-    margin-bottom: 0.8rem;
-  }
-
-  .featured-date {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
-    color: var(--muted);
-    margin-bottom: 0.8rem;
-  }
-
-  .featured-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.25rem;
-    font-weight: 600;
-    line-height: 1.3;
-    color: var(--ink);
-    margin-bottom: 1rem;
-  }
-
-  .featured-excerpt {
-    font-size: 0.92rem;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-  }
-
-  .featured-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
-
-  .tag {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    background: var(--cream);
-    color: var(--muted);
-    border: 1px solid var(--border);
-    padding: 0.25rem 0.65rem;
-    border-radius: 999px;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-
-  .tag:hover { background: var(--saffron); color: white; border-color: var(--saffron); }
-
-  .read-more {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: var(--saffron);
-    text-decoration: none;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    transition: gap 0.2s;
-  }
-
-  .read-more:hover { gap: 0.7rem; }
-
-  /* ─── SECTIONS ─── */
-  section { padding: 5rem 0; }
-
-  .container { max-width: 1180px; margin: 0 auto; padding: 0 1.5rem; }
-
-  .section-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin-bottom: 3rem;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 1rem;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .section-label {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--saffron);
-    display: block;
-    margin-bottom: 0.3rem;
-  }
-
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    font-weight: 600;
-    color: var(--ink);
-  }
-
-  .section-link {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--saffron);
-    text-decoration: none;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  .section-link:hover { text-decoration: underline; }
-
-  /* ─── ARTICLES GRID ─── */
-  .articles-section { background: var(--parchment); }
-
-  .articles-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-  }
-
-  .article-card {
-    border-top: 3px solid var(--border);
-    padding-top: 1.5rem;
-    transition: border-color 0.2s;
-    animation: fadeSlide 0.6s ease both;
-  }
-
-  .article-card:hover { border-color: var(--saffron); }
-
-  @keyframes fadeSlide { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-
-  .article-card:nth-child(2) { animation-delay: 0.1s; }
-  .article-card:nth-child(3) { animation-delay: 0.2s; }
-  .article-card:nth-child(4) { animation-delay: 0.3s; }
-  .article-card:nth-child(5) { animation-delay: 0.4s; }
-  .article-card:nth-child(6) { animation-delay: 0.5s; }
-
-  .article-meta {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.7rem;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 0.6rem;
-  }
-
-  .article-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    line-height: 1.35;
-    color: var(--ink);
-    margin-bottom: 0.75rem;
-    text-decoration: none;
-    display: block;
-    transition: color 0.2s;
-  }
-
-  .article-title:hover { color: var(--saffron); }
-
-  .article-excerpt {
-    font-size: 0.9rem;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 1rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  /* ─── QUOTE BAND ─── */
-  .quote-band {
-    background: var(--ink);
-    padding: 5rem 1.5rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .quote-band::before {
-    content: '"';
-    position: absolute;
-    font-family: 'Playfair Display', serif;
-    font-size: 30rem;
-    color: rgba(255,255,255,0.02);
-    top: -8rem;
-    left: 50%;
-    transform: translateX(-50%);
-    line-height: 1;
-    pointer-events: none;
-  }
-
-  .quote-text {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.1rem, 2.5vw, 2.2rem);
-    font-style: italic;
-    color: var(--parchment);
-    max-width: 800px;
-    margin: 0 auto 1.5rem;
-    line-height: 1.5;
-    position: relative;
-    z-index: 1;
-  }
-
-  .quote-attr {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    color: var(--saffron);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-top: 1rem;
-  }
-
-  /* ─── BOOKS ─── */
-  .books-section { background: var(--cream); }
-
-  .books-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-  }
-
-  .book-card { text-align: center; animation: fadeSlide 0.6s ease both; }
-  .book-card:nth-child(2) { animation-delay: 0.12s; }
-  .book-card:nth-child(3) { animation-delay: 0.24s; }
-  .book-card:nth-child(4) { animation-delay: 0.36s; }
-
-  .book-cover {
-    width: 100%;
-    aspect-ratio: 2/3;
-    background: var(--ink);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 6px 6px 0 var(--border);
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-
-  .book-card:hover .book-cover { transform: translateY(-4px); box-shadow: 8px 10px 0 var(--border); }
-
-  .book-cover-inner { text-align: center; padding: 1.5rem; }
-
-  .book-cover-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    font-style: italic;
-    color: var(--parchment);
-    line-height: 1.3;
-    margin-bottom: 0.5rem;
-  }
-
-  .book-cover-line { width: 40px; height: 2px; background: var(--saffron); margin: 0.6rem auto; }
-
-  .book-cover-author {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-
-  .book-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 0.4rem;
-    line-height: 1.3;
-  }
-
-  .book-year { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; color: var(--muted); }
-
-  /* ─── ABOUT ─── */
-  .about-section {
-    background: var(--parchment);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 5rem;
-    align-items: center;
-  }
-
-  /* FIX: portrait was a fixed square too large on mobile */
-  .about-portrait {
-    width: 100%;
-    max-width: 280px;
-    aspect-ratio: 1;
-    background: linear-gradient(135deg, var(--ink) 0%, #3d2b10 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    font-style: italic;
-    color: var(--saffron);
-    border: 3px solid var(--border);
-    box-shadow: 12px 12px 0 var(--border);
-  }
-
-  .about-content .section-label { margin-bottom: 1rem; }
-
-  .about-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1.25;
-    margin-bottom: 1.5rem;
-  }
-
-  .about-title em { font-style: italic; color: var(--saffron); }
-
-  .about-text {
-    font-size: clamp(0.9rem, 2vw, 1rem);
-    color: var(--muted);
-    line-height: 1.85;
-    margin-bottom: 1rem;
-    max-width: 60ch;
-  }
-
-  .about-roles { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
-
-  .role-pill {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.5rem 1.2rem;
-    border: 1px solid var(--saffron);
-    color: var(--saffron);
-    border-radius: 2px;
-  }
-
-  /* ─── NEWSLETTER ─── */
-  .newsletter-section { background: var(--ink); text-align: center; }
-
-  .newsletter-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    font-style: italic;
-    color: var(--parchment);
-    margin-bottom: 0.75rem;
-  }
-
-  .newsletter-subtitle {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    color: #888;
-    margin-bottom: 2.5rem;
-    letter-spacing: 0.05em;
-  }
-
-  .newsletter-form { display: flex; gap: 0.75rem; max-width: 440px; margin: 0 auto; }
-
-  .newsletter-form input {
-    flex: 1;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid #444;
-    border-radius: 2px;
-    padding: 0.85rem 1.2rem;
-    color: var(--parchment);
-    font-family: 'EB Garamond', serif;
-    font-size: 0.95rem;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .newsletter-form input::placeholder { color: #666; }
-  .newsletter-form input:focus { border-color: var(--saffron); }
-
-  .newsletter-form button {
-    background: var(--saffron);
-    border: none;
-    color: white;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.85rem 1.5rem;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: background 0.2s;
-    white-space: nowrap;
-  }
-
-  .newsletter-form button:hover { background: #c94f00; }
-
-  /* ─── FOOTER ─── */
-  footer { background: #0E0B04; border-top: 3px solid var(--saffron); padding: 3rem 0; }
-
-  .footer-inner {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr;
-    gap: 3rem;
-    margin-bottom: 3rem;
-  }
-
-  .footer-brand .logo-text { font-size: 1.3rem; display: block; margin-bottom: 0.5rem; }
-  .footer-tagline { font-size: 0.9rem; color: #666; margin-top: 0.75rem; line-height: 1.6; }
-
-  .footer-col h4 {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.68rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--saffron);
-    margin-bottom: 1.2rem;
-  }
-
-  .footer-col a {
-    display: block;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    color: #777;
-    text-decoration: none;
-    margin-bottom: 0.6rem;
-    transition: color 0.2s;
-  }
-
-  .footer-col a:hover { color: var(--parchment); }
-
-  .social-links { display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap; }
-
-  .social-link {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.68rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #666;
-    text-decoration: none;
-    border: 1px solid #333;
-    padding: 0.35rem 0.75rem;
-    border-radius: 2px;
-    transition: all 0.2s;
-  }
-
-  .social-link:hover { border-color: var(--saffron); color: var(--saffron); }
-
-  .footer-bottom {
-    border-top: 1px solid #222;
-    padding-top: 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .footer-copy { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: #555; }
-  .footer-legal { display: flex; gap: 1.5rem; }
-
-  .footer-legal a {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.7rem;
-    color: #555;
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .footer-legal a:hover { color: var(--saffron); }
-
-  /* ═══════════════════════════════════
-     RESPONSIVE BREAKPOINTS
-     All mobile fixes consolidated here
-  ═══════════════════════════════════ */
-
-  /* Tablet: 1024px */
-  @media (max-width: 1024px) {
-    .books-grid { grid-template-columns: repeat(2, 1fr); }
-    .articles-grid { grid-template-columns: repeat(2, 1fr); }
-    .hero-left { padding: 3rem 2.5rem 3rem 2.5rem; }
-  }
-
-  /* Mobile: 768px — hamburger kicks in */
-  @media (max-width: 768px) {
-    /* FIX: Show hamburger, hide desktop nav */
-    nav { display: none; }
-    .hamburger { display: flex; }
-
-    /* FIX: Hero becomes single column */
-    .hero {
-      grid-template-columns: 1fr;
-      min-height: auto;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>डॉ. राधेश्याम शर्मा | इतिहासकार</title>
+  <meta name="description" content="इतिहासकार डॉ. राधेश्याम शर्मा की आधिकारिक वेबसाइट, शोध, पुस्तकों, व्याख्यान और संपर्क जानकारी।" />
+  <style>
+    :root{
+      --bg: #f7f1e3;
+      --bg-2: #efe3c6;
+      --primary: #6b3f1d;
+      --primary-dark: #3d220f;
+      --secondary: #b86e3c;
+      --accent: #d9a15d;
+      --gold: #d4af72;
+      --text: #1d1b1a;
+      --muted: #685d56;
+      --white: #fffdf9;
+      --card: rgba(255,255,255,0.55);
+      --shadow: 0 12px 30px rgba(67, 42, 24, 0.15);
+      --max: 1180px;
     }
 
-    .hero-left {
-      padding: 3rem 1.5rem 2.5rem;
-      order: 1;
+    *{ box-sizing: border-box; }
+    html{ scroll-behavior: smooth; }
+    body{
+      margin:0;
+      font-family: "Noto Sans Devanagari", "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, var(--bg) 0%, #f9f4ee 100%);
+      color: var(--text);
+      line-height: 1.7;
     }
 
-    /* FIX: Remove diagonal clip that caused overflow on mobile */
-    .hero-left::after { display: none; }
+    img{ max-width: 100%; display:block; }
+    a{ text-decoration:none; color: inherit; }
+    ul{ list-style:none; margin:0; padding:0; }
 
-    .hero-right {
-      padding: 2rem 1.5rem 3rem;
-      order: 2;
-    }
-
-    .hero-buttons { gap: 0.75rem; }
-    .btn { padding: 0.75rem 1.2rem; font-size: 0.78rem; }
-
-    /* Articles: single column */
-    .articles-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-
-    /* About: stack portrait below text */
-    .about-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-
-    .about-portrait {
-      max-width: 160px;
+    .container{
+      width: min(var(--max), calc(100% - 32px));
       margin: 0 auto;
-      box-shadow: 6px 6px 0 var(--border);
     }
 
-    /* Newsletter form: stack */
-    .newsletter-form {
-      flex-direction: column;
-      padding: 0 1rem;
+    .topbar{
+      background: rgba(41, 22, 10, 0.9);
+      color: var(--white);
+      font-size: 0.95rem;
+      position: sticky;
+      top:0;
+      z-index: 1000;
+      backdrop-filter: blur(8px);
     }
 
-    .newsletter-form input,
-    .newsletter-form button { width: 100%; }
-
-    /* Footer: single column */
-    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
-    .footer-bottom { flex-direction: column; text-align: center; }
-    .footer-legal { justify-content: center; }
-  }
-
-  /* Small mobile: 480px */
-  @media (max-width: 480px) {
-    /* FIX: books 2→1 col on very small screens */
-    .books-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-
-    .hero-left { padding: 2.5rem 1.25rem 2rem; }
-    .hero-right { padding: 1.5rem 1.25rem 2.5rem; }
-    .hero-card { padding: 1.5rem; }
-
-    .container { padding: 0 1.25rem; }
-    section { padding: 3.5rem 0; }
-
-    .about-roles { gap: 0.6rem; }
-    .role-pill { font-size: 0.65rem; padding: 0.4rem 0.85rem; }
-
-    .quote-band { padding: 3.5rem 1.25rem; }
-  }
-
-  /* ─── SANSKRIT VERSE ─── */
-  .sanskrit-verse {
-    font-family: 'Noto Serif Devanagari', 'Mangal', serif;
-    font-size: clamp(0.82rem, 1.4vw, 1rem);
-    color: #C8922A;
-    letter-spacing: 0.03em;
-    margin-bottom: 1.4rem;
-    min-height: 3.6em;
-    line-height: 1.7;
-    opacity: 0.9;
-    overflow: hidden;
-  }
-
-  .sanskrit-verse .char {
-    display: inline;
-    opacity: 0;
-    animation: fadeChar 0.05s forwards;
-  }
-
-  .sanskrit-src {
-    display: block;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    color: #8B6914;
-    margin-top: 0.25rem;
-    opacity: 0;
-    transition: opacity 0.8s;
-  }
-
-  @keyframes fadeChar { to { opacity: 1; } }
- /* ─── ROTATING QUOTE BAND ─── */
-  .quote-band-inner {
-    position: relative;
-    height: 260px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .quote-slot {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0 3rem;
-    height: 220px;
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .quote-slot .quote-text {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.1rem, 2.5vw, 2.2rem);
-    font-style: italic;
-    color: var(--parchment);
-    max-width: 800px;
-    text-align: center;
-    line-height: 1.5;
-  }
-
-  .quote-slot .quote-attr {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    color: var(--saffron);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-top: 0.75rem;
-    text-align: center;
-  }
-
-  .quote-slot.active {
-    opacity: 1;
-    pointer-events: auto;
-    animation: glitchIn 0.6s steps(1) forwards;
-  }
-
-  .quote-slot.leaving {
-    animation: glitchOut 0.4s steps(1) forwards;
-  }
-
-  @keyframes glitchIn {
-    0%   { opacity: 0; clip-path: inset(40% 0 40% 0); transform: translate(-4px, 0); }
-    15%  { opacity: 1; clip-path: inset(5% 0 55% 0);  transform: translate(4px, 0); }
-    30%  { clip-path: inset(55% 0 5% 0);  transform: translate(-3px, 0); }
-    45%  { clip-path: inset(5% 0 45% 0);  transform: translate(3px, 0); }
-    60%  { clip-path: inset(0% 0 0% 0);   transform: translate(-1px, 0); }
-    75%  { clip-path: inset(2% 0 2% 0);   transform: translate(1px, 0); }
-    100% { opacity: 1; clip-path: inset(0% 0 0% 0);   transform: translate(0, 0); }
-  }
-
-  @keyframes glitchOut {
-    0%   { opacity: 1; clip-path: inset(0% 0 0% 0);   transform: translate(0, 0); }
-    25%  { clip-path: inset(20% 0 50% 0); transform: translate(4px, 0);  filter: blur(1px); }
-    50%  { clip-path: inset(50% 0 20% 0); transform: translate(-4px, 0); }
-    75%  { clip-path: inset(80% 0 5% 0);  transform: translate(2px, 0); }
-    100% { opacity: 0; clip-path: inset(50% 0 50% 0); transform: translate(0, 0); filter: blur(2px); }
-  }
-  .quote-dots {
-    position: absolute;
-    bottom: 0;
-    display: flex;
-    gap: 0.5rem;
-    justify-content: center;
-  }
-
-  .quote-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #444;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-
-  .quote-dot.active {
-    background: var(--saffron);
-  }
-
-  @media (max-width: 768px) {
-    .quote-band-inner { height: 340px; }
-    .quote-slot { height: 300px; }
-  }
-  /* ─── FILTER TABS ─── */
-  .filter-tabs {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-  }
-
-  .filter-tab {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.45rem 1.1rem;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .filter-tab:hover {
-    border-color: var(--saffron);
-    color: var(--saffron);
-  }
-
-  .filter-tab.active {
-    background: var(--saffron);
-    border-color: var(--saffron);
-    color: white;
-  }
-
-  .article-card.hidden {
-    display: none;
-  }
-  /* Extra small: 360px */
-  @media (max-width: 360px) {
-    .books-grid { grid-template-columns: 1fr; }
-    .hero-title { font-size: 1.9rem; }
-  }
-
-  /* ─── STATS STRIP ─── */
-  .stats-strip {
-    background: var(--cream);
-    border-bottom: 1px solid var(--border);
-    padding: 0;
-    overflow: hidden;
-  }
-
-  .stats-inner {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    border-left: 1px solid var(--border);
-  }
-
-  .stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1.75rem 1rem;
-    border-right: 1px solid var(--border);
-    border-top: 3px solid transparent;
-    text-align: center;
-    transition: border-top-color 0.25s, background 0.25s;
-    position: relative;
-  }
-
-  .stat-item:hover {
-    background: white;
-    border-top-color: var(--saffron);
-  }
-
-  .stat-number {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1;
-    margin-bottom: 0.4rem;
-    letter-spacing: -0.02em;
-  }
-
-  .stat-number .stat-accent {
-    color: var(--saffron);
-  }
-
-  .stat-label {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.68rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  /* Counter animation */
-  .stat-number[data-target] {
-    transition: color 0.3s;
-  }
-
-  @media (max-width: 768px) {
-    .stats-inner {
-      grid-template-columns: repeat(2, 1fr);
+    .topbar .container{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      min-height: 48px;
+      gap: 20px;
     }
-    .stat-item:nth-child(2) { border-right: none; }
-    .stat-item:nth-child(3),
-    .stat-item:nth-child(4) {
-      border-top: 1px solid var(--border);
-    }
-    .stat-item:nth-child(4) { border-right: none; }
-  }
 
-  @media (max-width: 480px) {
-    .stat-item { padding: 1.25rem 0.75rem; }
-    .stat-number { font-size: 1.6rem; }
-  }
-</style>
+    .topbar .info{
+      display:flex;
+      gap: 20px;
+      flex-wrap:wrap;
+    }
+
+    .topbar .socials{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+
+    .topbar .socials a{
+      width: 28px;
+      height: 28px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      background: rgba(255,255,255,0.08);
+      transition: .3s ease;
+    }
+
+    .topbar .socials a:hover{
+      background: var(--secondary);
+      transform: translateY(-2px);
+    }
+
+    header.site-header{
+      background: rgba(255,255,255,0.64);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 48px;
+      z-index: 999;
+      border-bottom: 1px solid rgba(107,63,29,0.08);
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      min-height: 80px;
+      gap: 20px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 14px;
+      font-weight:700;
+      color: var(--primary-dark);
+    }
+
+    .brand-mark{
+      width: 48px;
+      height: 48px;
+      border-radius:50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display:grid;
+      place-items:center;
+      color: var(--white);
+      font-size: 1.2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .brand-text small{
+      display:block;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .menu{
+      display:flex;
+      align-items:center;
+      gap: 28px;
+      font-weight:600;
+      color: var(--primary-dark);
+    }
+
+    .menu a{
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    .menu a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:0;
+      height: 2px;
+      width:0;
+      background: var(--secondary);
+      transition: width .3s ease;
+    }
+
+    .menu a:hover::after{ width:100%; }
+
+    .cta-btn, .btn-outline{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-weight:700;
+      transition: .25s ease;
+      cursor:pointer;
+      border: none;
+    }
+
+    .cta-btn{
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--white);
+      box-shadow: 0 10px 20px rgba(107,63,29,0.25);
+    }
+
+    .cta-btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 16px 30px rgba(107,63,29,0.22);
+    }
+
+    .btn-outline{
+      background: transparent;
+      border: 1px solid rgba(107,63,29,0.35);
+      color: var(--primary-dark);
+    }
+
+    .btn-outline:hover{
+      background: rgba(107,63,29,0.06);
+    }
+
+    .mobile-toggle{
+      display:none;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border:1px solid rgba(107,63,29,0.2);
+      background: rgba(255,255,255,0.7);
+      font-size: 1.4rem;
+      color: var(--primary-dark);
+      cursor:pointer;
+    }
+
+    .hero{
+      padding: 80px 0 60px;
+      background:
+        radial-gradient(circle at top left, rgba(217,161,93,0.22), transparent 20%),
+        radial-gradient(circle at bottom right, rgba(107,63,29,0.12), transparent 25%),
+        linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0.18));
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items:center;
+      gap: 40px;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      padding: 10px 18px;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      background: rgba(216,179,123,0.18);
+      color: var(--primary);
+      border: 1px solid rgba(107,63,29,0.12);
+      margin-bottom: 18px;
+      font-weight:700;
+    }
+
+    .hero h1{
+      font-size: clamp(2.4rem, 5vw, 5rem);
+      line-height: 1.08;
+      margin: 0 0 20px;
+      color: var(--primary-dark);
+      letter-spacing: -0.04em;
+    }
+
+    .hero h1 .accent{
+      color: var(--secondary);
+    }
+
+    .hero p{
+      margin: 0 0 28px;
+      font-size: 1.08rem;
+      max-width: 620px;
+      color: var(--muted);
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stats{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .stat{
+      min-width: 150px;
+      background: rgba(255,255,255,0.56);
+      border: 1px solid rgba(107,63,29,0.1);
+      border-radius: 20px;
+      padding: 16px 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat strong{
+      display:block;
+      font-size: clamp(1.4rem, 2vw, 2rem);
+      line-height:1.2;
+      color: var(--primary-dark);
+    }
+
+    .stat span{
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .hero-visual{
+      position: relative;
+      padding: 20px;
+    }
+
+    .portrait-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0.75));
+      border: 1px solid rgba(107,63,29,0.08);
+      box-shadow: var(--shadow);
+      border-radius: 32px;
+      overflow: hidden;
+    }
+
+    .portrait-card .img-wrap{
+      height: 640px;
+      background:
+        linear-gradient(180deg, rgba(35,25,18,0.05), rgba(35,25,18,0.25)),
+        url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80') center/cover no-repeat;
+      position: relative;
+    }
+
+    .portrait-badge{
+      position:absolute;
+      left: 22px;
+      bottom: 22px;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(8px);
+      border-radius: 18px;
+      padding: 14px 18px;
+      border:1px solid rgba(107,63,29,0.08);
+      box-shadow: var(--shadow);
+      max-width: 240px;
+    }
+
+    .portrait-badge strong{
+      display:block;
+      color: var(--primary-dark);
+      font-size: 1.1rem;
+    }
+
+    .portrait-badge span{
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .section{
+      padding: 90px 0;
+    }
+
+    .section-header{
+      max-width: 720px;
+      margin: 0 auto 42px;
+      text-align:center;
+    }
+
+    .section-header .kicker{
+      display:inline-block;
+      margin-bottom: 10px;
+      color: var(--secondary);
+      font-weight:700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+    }
+
+    .section-header h2{
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      color: var(--primary-dark);
+      letter-spacing: -0.04em;
+    }
+
+    .section-header p{
+      margin:0;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    .about-grid{
+      display:grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 32px;
+      align-items:center;
+    }
+
+    .about-image{
+      position: relative;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      min-height: 500px;
+      background:
+        linear-gradient(180deg, rgba(12,8,6,0.15), rgba(12,8,6,0.45)),
+        url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80') center/cover no-repeat;
+    }
+
+    .about-bubble{
+      position:absolute;
+      right:18px;
+      bottom:18px;
+      max-width: 260px;
+      background: rgba(255,255,255,0.8);
+      border:1px solid rgba(107,63,29,0.08);
+      border-radius: 18px;
+      padding: 16px 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .about-bubble strong{
+      display:block;
+      color: var(--primary-dark);
+      font-size: 1.05rem;
+    }
+
+    .about-copy{
+      background: rgba(255,255,255,0.45);
+      border: 1px solid rgba(107,63,29,0.08);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .about-copy p{
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .check-list{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 14px 16px;
+      margin-top: 20px;
+    }
+
+    .check-list li{
+      display:flex;
+      align-items:flex-start;
+      gap: 10px;
+      color: var(--primary-dark);
+      font-weight:600;
+    }
+
+    .check-list li::before{
+      content:"✓";
+      color: var(--secondary);
+      font-weight:900;
+      font-size: 1.1rem;
+      line-height:1.2;
+    }
+
+    .feature-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 24px;
+      margin-top: 30px;
+    }
+
+    .feature-card{
+      background: rgba(255,255,255,0.58);
+      border:1px solid rgba(107,63,29,0.08);
+      border-radius: 24px;
+      padding: 28px 22px;
+      box-shadow: var(--shadow);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .feature-card:hover{
+      transform: translateY(-5px);
+      box-shadow: 0 18px 40px rgba(67,42,24,0.12);
+    }
+
+    .feature-icon{
+      width: 58px;
+      height: 58px;
+      background: linear-gradient(135deg, rgba(107,63,29,0.12), rgba(184,110,60,0.18));
+      color: var(--primary);
+      border-radius: 16px;
+      display:grid;
+      place-items:center;
+      font-size: 1.5rem;
+      margin-bottom: 18px;
+    }
+
+    .feature-card h3{
+      margin: 0 0 10px;
+      font-size: 1.25rem;
+      color: var(--primary-dark);
+    }
+
+    .feature-card p{
+      margin:0;
+      color: var(--muted);
+    }
+
+    .timeline-wrap{
+      position: relative;
+      margin-top: 30px;
+    }
+
+    .timeline-wrap::before{
+      content:"";
+      position:absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top:0;
+      bottom:0;
+      width:2px;
+      background: linear-gradient(180deg, rgba(107,63,29,0.18), rgba(184,110,60,0.35), rgba(107,63,29,0.18));
+    }
+
+    .timeline{
+      display:grid;
+      gap: 26px;
+    }
+
+    .timeline-item{
+      width: calc(50% - 22px);
+      position:relative;
+      background: rgba(255,255,255,0.6);
+      border:1px solid rgba(107,63,29,0.08);
+      border-radius: 24px;
+      padding: 24px 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .timeline-item:nth-child(odd){
+      margin-right: auto;
+    }
+
+    .timeline-item:nth-child(even){
+      margin-left: auto;
+    }
+
+    .timeline-item::before{
+      content:"";
+      position:absolute;
+      top: 28px;
+      width: 16px;
+      height:16px;
+      background: var(--secondary);
+      border-radius:50%;
+      border:4px solid #f9f4ee;
+      box-shadow: 0 0 0 2px rgba(184,110,60,0.12);
+    }
+
+    .timeline-item:nth-child(odd)::before{
+      right: -31px;
+    }
+
+    .timeline-item:nth-child(even)::before{
+      left: -31px;
+    }
+
+    .timeline-item .year{
+      display:inline-block;
+      font-weight:800;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--secondary);
+      margin-bottom: 12px;
+    }
+
+    .timeline-item h3{
+      margin:0 0 10px;
+      font-size: 1.25rem;
+      color: var(--primary-dark);
+    }
+
+    .timeline-item p{
+      margin:0;
+      color: var(--muted);
+    }
+
+    .books-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 26px;
+      margin-top: 28px;
+    }
+
+    .book-card{
+      background: rgba(255,255,255,0.6);
+      border:1px solid rgba(107,63,29,0.08);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform .25s ease;
+    }
+
+    .book-card:hover{
+      transform: translateY(-6px);
+    }
+
+    .book-cover{
+      height: 260px;
+      background: linear-gradient(135deg, #7a4a2a, #dbaf6c);
+      display:flex;
+      align-items:end;
+      justify-content:center;
+      padding:22px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .book-cover::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent);
+    }
+
+    .book-cover span{
+      position:relative;
+      z-index:1;
+      color: var(--white);
+      font-size: 1.1rem;
+      font-weight:800;
+      letter-spacing:0.08em;
+      text-transform: uppercase;
+      text-align:center;
+    }
+
+    .book-content{
+      padding: 22px 20px 24px;
+    }
+
+    .book-content h3{
+      margin:0 0 10px;
+      color: var(--primary-dark);
+      font-size: 1.25rem;
+    }
+
+    .book-content p{
+      margin:0 0 18px;
+      color: var(--muted);
+    }
+
+    .book-meta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      color: var(--primary);
+      font-weight:700;
+      font-size: 0.9rem;
+    }
+
+    .articles-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .article-card{
+      background: rgba(255,255,255,0.6);
+      border:1px solid rgba(107,63,29,0.08);
+      padding: 24px 22px;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .article-card .tag{
+      display:inline-flex;
+      padding:6px 10px;
+      border-radius: 999px;
+      background: rgba(217,161,93,0.18);
+      color: var(--secondary);
+      font-weight:700;
+      font-size: 0.76rem;
+      margin-bottom: 12px;
+    }
+
+    .article-card h3{
+      margin:0 0 12px;
+      font-size: 1.28rem;
+      color: var(--primary-dark);
+    }
+
+    .article-card p{
+      margin:0 0 18px;
+      color: var(--muted);
+    }
+
+    .article-link{
+      color: var(--primary);
+      font-weight:700;
+    }
+
+    .testimonial-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap:24px;
+    }
+
+    .quote-card{
+      background: rgba(255,255,255,0.55);
+      border:1px solid rgba(107,63,29,0.08);
+      border-radius: 24px;
+      padding: 24px 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .quote-mark{
+      font-size: 2.4rem;
+      color: var(--secondary);
+      line-height:1;
+    }
+
+    .quote-card p{
+      margin: 12px 0 18px;
+      color: var(--muted);
+    }
+
+    .person{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .avatar{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--white);
+      display:grid;
+      place-items:center;
+      font-weight:800;
+    }
+
+    .person strong{
+      display:block;
+      color: var(--primary-dark);
+    }
+
+    .person span{
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .contact-grid{
+      display:grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .contact-card, .form-card{
+      background: rgba(255,255,255,0.6);
+      border:1px solid rgba(107,63,29,0.08);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 28px 24px;
+    }
+
+    .contact-list{
+      display:grid;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .contact-item{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+    }
+
+    .contact-icon{
+      width: 44px;
+      height:44px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background: rgba(107,63,29,0.08);
+      color: var(--primary);
+      font-size:1.1rem;
+      font-weight:700;
+    }
+
+    .contact-item strong{
+      display:block;
+      margin-bottom: 4px;
+      color: var(--primary-dark);
+    }
+
+    .contact-item span, .contact-item a{
+      color: var(--muted);
+    }
+
+    .form-card form{
+      display:grid;
+      gap:16px;
+    }
+
+    .field-row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:16px;
+    }
+
+    input, textarea{
+      width:100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(107,63,29,0.15);
+      background: rgba(255,255,255,0.8);
+      color: var(--text);
+      font: inherit;
+      resize: vertical;
+      min-height: 54px;
+    }
+
+    input:focus, textarea:focus{
+      outline: 2px solid rgba(184,110,60,0.2);
+      border-color: rgba(184,110,60,0.35);
+    }
+
+    textarea{
+      min-height: 160px;
+    }
+
+    .footer{
+      background: #2a1c14;
+      color: rgba(255,255,255,0.85);
+      padding: 40px 0 24px;
+    }
+
+    .footer .container{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:16px;
+    }
+
+    .footer-links a{
+      color: rgba(255,255,255,0.8);
+    }
+
+    @media (max-width: 980px){
+      .hero-grid, .about-grid, .contact-grid{
+        grid-template-columns: 1fr;
+      }
+
+      .feature-grid, .books-grid, .articles-grid, .testimonial-grid{
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+
+      .menu{
+        display:none;
+        position:absolute;
+        top:100%;
+        left:0;
+        right:0;
+        padding: 18px 16px 20px;
+        background: rgba(255,255,255,0.94);
+        border-bottom:1px solid rgba(107,63,29,0.08);
+        flex-direction:column;
+        align-items:flex-start;
+        box-shadow: 0 20px 30px rgba(0,0,0,0.04);
+      }
+
+      .menu.open{
+        display:flex;
+      }
+
+      .mobile-toggle{
+        display:grid;
+        place-items:center;
+      }
+
+      .nav{
+        position:relative;
+      }
+    }
+
+    @media (max-width: 760px){
+      .feature-grid, .books-grid, .articles-grid, .testimonial-grid, .check-list, .field-row{
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-wrap::before{
+        left: 20px;
+        transform:none;
+      }
+
+      .timeline-item{
+        width: 100%;
+        margin-left: 46px !important;
+        margin-right: 0 !important;
+      }
+
+      .timeline-item::before{
+        left: -31px !important;
+        right:auto !important;
+      }
+
+      .topbar .container{
+        justify-content:center;
+      }
+
+      .topbar .socials{
+        display:none;
+      }
+
+      .portrait-card .img-wrap{
+        height: 520px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<!-- ─── PRELOADER ─── -->
-<div id="preloader">
-  <div class="pre-avatar-wrap">
-    <img class="pre-avatar-img" src="avatar.png" alt="sk4bharat" />
-  </div>
-  <div class="pre-logo">sk<span>4</span>bharat</div>
-  <div class="pre-tagline">Writer · Thinker · Speaker</div>
-  <div class="pre-bar-wrap">
-    <div class="pre-bar"></div>
-  </div>
-  <div class="pre-dots">
-    <span></span><span></span><span></span>
-  </div>
-</div>
-
-<!-- ─── HEADER ─── -->
-<header>
-  <a href="index.html" class="logo">
-    <span class="logo-text">sk<span>4</span>bharat</span>
-    <span class="logo-sub">Writer · Thinker · Speaker</span>
-  </a>
-
-  <!-- Desktop nav -->
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="article.html">Articles</a>
-    <a href="book-reviews.html">Book Reviews</a>
-    <a href="store.html">Store</a>
-    <a href="kids.html">Kids</a>
-    <a href="quiz.html">Quiz</a>
-    <a href="ask-the-text.html">Ask Me Anything</a>
-    <a href="#about">About</a>
-    <a href="#newsletter" class="nav-cta">Contact</a>
-    <button id="sk4-dark-toggle" aria-label="Toggle dark mode"></button>
-  </nav>
-  
-  <!-- FIX: Added id="hamburger" so JS can find it -->
-  <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</header>
-  
-<!-- FIX: Mobile nav drawer — added id="mobileNav" for JS, proper link structure -->
-<div class="mobile-nav" id="mobileNav" aria-hidden="true">
-  <a href="index.html">Home</a>
-  <a href="article.html">Articles</a>
-  <a href="book-reviews.html">Book Reviews</a>
-  <a href="store.html">Store</a>
-  <a href="#about">About</a>
-  <a href="#newsletter" class="nav-cta">Contact</a>
-</div>
-
-<!-- ─── HERO ─── -->
-<section class="hero">
-  <div class="hero-left">
-    <div class="sanskrit-verse" id="sanskritVerse" aria-hidden="true"></div>
-    <p class="hero-eyebrow">✦ Welcome to sk4bharat</p>
-    <h1 class="hero-title">Stories that<br><em>shape</em> how<br>we see India</h1>
-    <p class="hero-desc">Writing on the intersection of culture, tradition, and modern Indian life — unpacking the ideas that define us.</p>
-    <div class="hero-buttons">
-      <a href="#articles" class="btn btn-primary">Read Articles</a>
-      <a href="#about" class="btn btn-outline">About Me</a>
-    </div>
-  </div>
-  <div class="hero-right">
-    <div class="hero-card">
-      <p class="featured-label">✦ Latest Post</p>
-      <p class="featured-date">May 22, 2026</p>
-      <h2 class="featured-title">Why Bharat Cannot Be Reduced to a Single Narrative</h2>
-      <p class="featured-excerpt">Every attempt to define India in one sentence collapses under the weight of its diversity. Perhaps the plurality is the point — and always was.</p>
-      <div class="featured-tags">
-        <a href="#" class="tag">Culture</a>
-        <a href="#" class="tag">Identity</a>
-        <a href="#" class="tag">Society</a>
+  <div class="topbar">
+    <div class="container">
+      <div class="info">
+        <span>📍 नई दिल्ली, भारत</span>
+        <span>✉️ info@historyscholar.in</span>
+        <span>📞 +91 98765 43210</span>
       </div>
-      <a href="#" class="read-more">Read Article →</a>
-    </div>
-  </div>
-</section>
-
-  <!-- ─── STATS STRIP ─── -->
-<div class="stats-strip">
-  <div class="stats-inner">
-
-    <div class="stat-item">
-      <div class="stat-number" id="stat-essays" data-target="24" data-suffix="">
-        <span class="count">0</span><span class="stat-accent">+</span>
-      </div>
-      <div class="stat-label">Essays Published</div>
-    </div>
-
-    <div class="stat-item">
-      <div class="stat-number" id="stat-readers" data-target="4" data-suffix="K">
-        <span class="count">0</span><span class="stat-accent">K</span>
-      </div>
-      <div class="stat-label">Monthly Readers</div>
-    </div>
-
-    <div class="stat-item">
-      <div class="stat-number" id="stat-books" data-target="4" data-suffix="">
-        <span class="count">0</span><span class="stat-accent">+</span>
-      </div>
-      <div class="stat-label">Books Written</div>
-    </div>
-
-    <div class="stat-item">
-      <div class="stat-number" id="stat-years" data-target="8" data-suffix="">
-        <span class="count">0</span><span class="stat-accent">+</span>
-      </div>
-      <div class="stat-label">Years of Writing</div>
-    </div>
-
-  </div>
-</div>
-<!-- ─── ARTICLES ─── -->
-<section class="articles-section" id="articles">
-  <div class="container">
-    <div class="section-header">
-      <div>
-        <span class="section-label">✦ Recent Writing</span>
-        <h2 class="section-title">Articles</h2>
-      </div>
-      <a href="#" class="section-link">All Posts →</a>
-    </div>
-    <div class="filter-tabs">
-      <button class="filter-tab active" data-filter="all">All</button>
-      <button class="filter-tab" data-filter="Culture">Culture</button>
-      <button class="filter-tab" data-filter="History">History</button>
-      <button class="filter-tab" data-filter="Society">Society</button>
-      <button class="filter-tab" data-filter="Philosophy">Philosophy</button>
-      <button class="filter-tab" data-filter="Art">Art</button>
-      <button class="filter-tab" data-filter="Leadership">Leadership</button>
-    </div>
-   <div class="articles-grid" id="articlesGrid"></div>
-    <div style="text-align:center; margin-top:2.5rem;" id="loadMoreWrap">
-      <button id="loadMoreBtn" class="btn btn-outline" style="border-color:var(--saffron);color:var(--saffron);">
-        Load More Articles
-      </button>
-    </div>
-  </div>
-</section>
-
-<!-- ─── QUOTE BAND ─── -->
-<div class="quote-band">
-  <div class="container">
-    <div class="quote-band-inner" id="quoteBandInner">
-      <div class="quote-dots" id="quoteDots"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ─── MUST READ BOOKS ─── -->
-<section class="books-section" id="books">
-  <div class="container">
-    <div class="section-header">
-      <div>
-        <span class="section-label">✦ Essential Reading</span>
-        <h2 class="section-title">Must Read Books</h2>
-      </div>
-      <a href="book-reviews.html" class="section-link">All Reviews →</a>
-    </div>
-    <div class="books-grid">
-
-      <!-- Book 1: India that is Bharat — J. Sai Deepak -->
-      <!-- TO REPLACE: swap src with your own image path e.g. assets/covers/india-that-is-bharat.jpg -->
-      <div class="book-card">
-        <img
-          class="book-cover"
-          src="https://m.media-amazon.com/images/I/51A7M17pBRL._SY445_SX342_FMwebp_.jpg"
-          alt="India that is Bharat — J. Sai Deepak"
-          onerror="this.onerror=null;this.style.cssText='width:100%;aspect-ratio:2/3;background:linear-gradient(135deg,#1a0500,#6b2000);box-shadow:6px 6px 0 var(--border);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;';this.src='';"
-        >
-        <div class="book-title">India that is Bharat</div>
-        <div class="book-year">J. Sai Deepak</div>
-      </div>
-
-      <!-- Book 2: The Golden Road — William Dalrymple -->
-      <div class="book-card">
-        <img
-          class="book-cover"
-          src="https://m.media-amazon.com/images/I/51ozAvvP6gL._SY445_SX342_FMwebp_.jpg"
-          alt="The Golden Road — William Dalrymple"
-          onerror="this.onerror=null;this.style.cssText='width:100%;aspect-ratio:2/3;background:linear-gradient(135deg,#001a10,#00432a);box-shadow:6px 6px 0 var(--border);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;';this.src='';"
-        >
-        <div class="book-title">The Golden Road</div>
-        <div class="book-year">William Dalrymple</div>
-      </div>
-
-      <!-- Book 3: Waiting for Shiva — Dr. Vikram Sampath -->
-      <div class="book-card">
-        <img
-          class="book-cover"
-          src="https://m.media-amazon.com/images/I/51uA+tMSCnL._SY445_SX342_FMwebp_.jpg"
-          alt="Waiting for Shiva — Dr. Vikram Sampath"
-          onerror="this.onerror=null;this.style.cssText='width:100%;aspect-ratio:2/3;background:linear-gradient(135deg,#100020,#380060);box-shadow:6px 6px 0 var(--border);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;';this.src='';"
-        >
-        <div class="book-title">Waiting for Shiva</div>
-        <div class="book-year">Dr. Vikram Sampath</div>
-      </div>
-
-      <!-- Book 4: The Bose Deception — Anuj Dhar & Chandrachur Ghose -->
-      <div class="book-card">
-        <img
-          class="book-cover"
-          src="https://m.media-amazon.com/images/I/41R7zBbx3xL._SY445_SX342_FMwebp_.jpg"
-          alt="The Bose Deception — Anuj Dhar & Chandrachur Ghose"
-          onerror="this.onerror=null;this.style.cssText='width:100%;aspect-ratio:2/3;background:linear-gradient(135deg,#1a0800,#7a3800);box-shadow:6px 6px 0 var(--border);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;';this.src='';"
-        >
-        <div class="book-title">The Bose Deception</div>
-        <div class="book-year">Anuj Dhar & Chandrachur Ghose</div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ─── ABOUT ─── -->
-<section class="about-section" id="about">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-portrait">
-  <img src="avatar.png" alt="sk4bharat" style="width:100%; height:100%; object-fit:cover; display:block;" />
-</div>
-      <div class="about-content">
-        <span class="section-label">✦ About</span>
-        <h2 class="about-title">Writing India<br>from the <em>inside</em></h2>
-        <p class="about-text">sk4bharat writes at the crossroads of mythology, history, culture, and contemporary Indian life. The work draws on a belief that to understand where India is going, one must first understand — without romanticizing — where it has been.</p>
-        <p class="about-text">Articles, books, and talks have appeared across national publications, universities, and literary festivals. The audience spans students of history, professionals navigating modern India, and anyone who suspects that the old stories still have something urgent to say.</p>
-        <div class="about-roles">
-          <span class="role-pill">Writer</span>
-          <span class="role-pill">Speaker</span>
-          <span class="role-pill">Cultural Thinker</span>
-          <span class="role-pill">Researcher</span>
-        </div>
+      <div class="socials">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="Twitter">x</a>
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="YouTube">▶</a>
       </div>
     </div>
   </div>
-</section>
 
-<!-- ─── NEWSLETTER ─── -->
-<section class="newsletter-section" id="newsletter">
-  <div class="container">
-    <h2 class="newsletter-title">Get new essays in your inbox</h2>
-    <p class="newsletter-subtitle">No noise. Just ideas worth sitting with.</p>
-    <div class="newsletter-form">
-      <input type="email" placeholder="your@email.com" id="nl-email" />
-      <button type="button" id="nl-btn">Subscribe</button>
-    </div>
-  </div>
-</section>
-
-<!-- ─── FOOTER ─── -->
-<footer>
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <span class="logo-text">sk<span style="color:var(--saffron)">4</span>bharat</span>
-        <p class="footer-tagline">Writing on mythology, history, culture, and the ideas that shape modern India.</p>
-        <div class="social-links">
-          <a href="#" class="social-link">Twitter</a>
-          <a href="#" class="social-link">Instagram</a>
-          <a href="#" class="social-link">YouTube</a>
-          <a href="#" class="social-link">LinkedIn</a>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h4>Explore</h4>
-        <a href="#">Articles</a>
-        <a href="#">Books</a>
-        <a href="#">Talks & Podcasts</a>
-        <a href="#">Interviews</a>
-        <a href="#">Archive</a>
-      </div>
-      <div class="footer-col">
-        <h4>Navigate</h4>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
-        <a href="#">Newsletter</a>
-        <a href="#">Press</a>
-        <a href="#">Store</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p class="footer-copy">© 2026 sk4bharat. All rights reserved.</p>
-      <div class="footer-legal">
-        <a href="#">Terms of Use</a>
-        <a href="#">Privacy Policy</a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script>
-  /* ─── PRELOADER ─── */
-  document.body.classList.add('loading');
-
-  function dismissPreloader() {
-    const pre = document.getElementById('preloader');
-    pre.classList.add('hide');
-    document.body.classList.remove('loading');
-    setTimeout(() => pre.remove(), 700);
-  }
-
-  const minDelay = new Promise(res => setTimeout(res, 2500));
-  const pageLoad = new Promise(res => {
-    if (document.readyState === 'complete') res();
-    else window.addEventListener('load', res);
-  });
-  Promise.all([minDelay, pageLoad]).then(dismissPreloader);
-
-  /* ─── HAMBURGER / MOBILE NAV ─── */
-  /* FIX: This was the #1 bug — event listener existed but hamburger had no id,
-     and mobile nav toggle logic was missing entirely */
-  const hamburger = document.getElementById('hamburger');
-  const mobileNav = document.getElementById('mobileNav');
-
-  hamburger.addEventListener('click', () => {
-    const isOpen = mobileNav.classList.toggle('open');
-    hamburger.classList.toggle('open', isOpen);
-    hamburger.setAttribute('aria-expanded', isOpen);
-    mobileNav.setAttribute('aria-hidden', !isOpen);
-    // Prevent body scroll when nav is open
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  });
-
-  // Close mobile nav when any link inside it is clicked
-  mobileNav.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      mobileNav.classList.remove('open');
-      hamburger.classList.remove('open');
-      hamburger.setAttribute('aria-expanded', 'false');
-      mobileNav.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    });
-  });
-
-  // Close nav when tapping outside
-  document.addEventListener('click', (e) => {
-    if (mobileNav.classList.contains('open') &&
-        !mobileNav.contains(e.target) &&
-        !hamburger.contains(e.target)) {
-      mobileNav.classList.remove('open');
-      hamburger.classList.remove('open');
-      hamburger.setAttribute('aria-expanded', 'false');
-      mobileNav.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
-  });
-
-  /* ─── SCROLL ANIMATION FOR CARDS ─── */
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.article-card, .book-card').forEach(card => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(24px)';
-    card.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-    observer.observe(card);
-  });
-
-  /* ─── NEWSLETTER ─── */
-  document.getElementById('nl-btn').addEventListener('click', function() {
-    const input = document.getElementById('nl-email');
-    if (input.value && input.value.includes('@')) {
-      this.textContent = 'Subscribed ✓';
-      this.style.background = '#2d7a2d';
-      input.value = '';
-      setTimeout(() => { this.textContent = 'Subscribe'; this.style.background = ''; }, 3000);
-    } else {
-      input.style.borderColor = 'var(--saffron)';
-      input.focus();
-    }
-  });
-  /* ─── STATS COUNTER ANIMATION ─── */
-  function animateCounter(el, target, duration) {
-    const countEl = el.querySelector('.count');
-    if (!countEl) return;
-    let start = 0;
-    const step = Math.ceil(target / (duration / 16));
-    const timer = setInterval(() => {
-      start = Math.min(start + step, target);
-      countEl.textContent = start;
-      if (start >= target) clearInterval(timer);
-    }, 16);
-  }
-
-  const statsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const target = parseInt(el.dataset.target, 10);
-        animateCounter(el, target, 1200);
-        statsObserver.unobserve(el);
-      }
-    });
-  }, { threshold: 0.4 });
-
-  document.querySelectorAll('.stat-number[data-target]').forEach(el => {
-    statsObserver.observe(el);
-  });
-/* ─── ROTATING QUOTE BAND ─── */
-  const QUOTES = [
-    {
-      text: "Mythology is not primitive science. It is civilisational memory — encoded in story because story outlasts empires.",
-      attr: "— sk4bharat"
-    },
-    {
-      text: "To understand where India is going, one must first understand — without romanticising — where it has been.",
-      attr: "— sk4bharat"
-    },
-    {
-      text: "Dharma is not a rulebook. It is a compass — and like all compasses, it is only useful if you already know you are lost.",
-      attr: "— sk4bharat"
-    },
-    {
-      text: "Every river in India carries two kinds of water: the kind you can measure, and the kind you can only remember.",
-      attr: "— sk4bharat"
-    },
-    {
-      text: "The temple was never just a building. It was an argument in stone — about what a civilisation believed was worth preserving.",
-      attr: "— sk4bharat"
-    },
-    {
-      text: "We do not inherit a culture. We choose, moment by moment, whether to carry it forward.",
-      attr: "— sk4bharat"
-    },
-  ];
-
-  (function () {
-    const inner = document.getElementById('quoteBandInner');
-    const dotsEl = document.getElementById('quoteDots');
-    if (!inner || !dotsEl) return;
-
-    let current = 0;
-    let autoTimer;
-
-    // Build all slots upfront — no layout shift ever
-    const slots = QUOTES.map((q, i) => {
-      const slot = document.createElement('div');
-      slot.className = 'quote-slot' + (i === 0 ? ' active' : '');
-      slot.innerHTML = `
-        <p class="quote-text">&#8220;${q.text}&#8221;</p>
-        <p class="quote-attr">${q.attr}</p>
-      `;
-      inner.insertBefore(slot, dotsEl);
-      return slot;
-    });
-
-    // Build dots
-    QUOTES.forEach((_, i) => {
-      const dot = document.createElement('button');
-      dot.className = 'quote-dot' + (i === 0 ? ' active' : '');
-      dot.setAttribute('aria-label', 'Quote ' + (i + 1));
-      dot.addEventListener('click', () => {
-        clearInterval(autoTimer);
-        goTo(i);
-        startAuto();
-      });
-      dotsEl.appendChild(dot);
-    });
-
-    function goTo(index) {
-      const outSlot = slots[current];
-      outSlot.classList.remove('active');
-      outSlot.classList.add('leaving');
-      outSlot.addEventListener('animationend', () => {
-        outSlot.classList.remove('leaving');
-      }, { once: true });
-
-      dotsEl.querySelectorAll('.quote-dot')[current].classList.remove('active');
-      current = index;
-      slots[current].classList.add('active');
-      dotsEl.querySelectorAll('.quote-dot')[current].classList.add('active');
-    }
-    function startAuto() {
-      autoTimer = setInterval(() => {
-        goTo((current + 1) % QUOTES.length);
-      }, 6000);
-    }
-
-    startAuto();
-  })();
-  /* ─── ARTICLES DATA ─── */
-  const ARTICLES = [
-    {
-      date: "May 18, 2026",
-      category: "Culture",
-      title: "The River Remembers: Sacred Waters in a Secular Age",
-      excerpt: "Rivers in India are not merely geographic features. They carry memory, myth, and a mode of being that modern infrastructure keeps trying — and failing — to replace.",
-      tags: ["Hinduism", "Rivers"],
-      url: "#"
-    },
-    {
-      date: "May 12, 2026",
-      category: "History",
-      title: "Ashoka's Silence: What the Rock Edicts Don't Tell Us",
-      excerpt: "The emperor who carved his remorse into stone across an entire subcontinent was also, curiously, silent on much that mattered. What he left unsaid tells us as much as the inscriptions themselves.",
-      tags: ["History", "Buddhism"],
-      url: "#"
-    },
-    {
-      date: "May 5, 2026",
-      category: "Society",
-      title: "Why Indians Argue About Language More Than Almost Anything Else",
-      excerpt: "Language disputes in India are never really about language. They are about memory, pride, survival, and the perpetual negotiation of who belongs where and why.",
-      tags: ["Languages", "Politics"],
-      url: "#"
-    },
-    {
-      date: "Apr 28, 2026",
-      category: "Philosophy",
-      title: "Dharma Is Not Duty: Recovering a Misunderstood Idea",
-      excerpt: "Colonial translations flattened dharma into a Victorian sense of obligation. The original concept was richer, stranger, and far more interesting than the word duty can contain.",
-      tags: ["Philosophy", "Hinduism"],
-      url: "#"
-    },
-    {
-      date: "Apr 20, 2026",
-      category: "Art",
-      title: "The Grammar of Indian Temple Architecture Nobody Teaches",
-      excerpt: "Temples are not just beautiful buildings. They are cosmological diagrams in stone — encoding a worldview so complete that every carved figure, every directional alignment, carries meaning.",
-      tags: ["Architecture", "Art"],
-      url: "#"
-    },
-    {
-      date: "Apr 12, 2026",
-      category: "Leadership",
-      title: "What the Mahabharata Says About Decision-Making Under Uncertainty",
-      excerpt: "The Kurukshetra war is, among other things, a 100,000-verse meditation on the agony of choice. Its lessons apply surprisingly well to anyone navigating impossible situations.",
-      tags: ["Mahabharata", "Leadership"],
-      url: "#"
-    },
-  ];
-
-  const CARDS_PER_PAGE = 6;
-  let currentFilter = 'all';
-  let visibleCount = CARDS_PER_PAGE;
-
-  function getFiltered() {
-    return currentFilter === 'all'
-      ? ARTICLES
-      : ARTICLES.filter(a => a.category === currentFilter);
-  }
-
-  function renderArticles() {
-    const grid = document.getElementById('articlesGrid');
-    const filtered = getFiltered();
-    const toShow = filtered.slice(0, visibleCount);
-
-    grid.innerHTML = toShow.map(a => `
-      <div class="article-card" data-category="${a.category}">
-        <p class="article-meta">${a.date} · ${a.category}</p>
-        <a href="${a.url}" class="article-title">${a.title}</a>
-        <p class="article-excerpt">${a.excerpt}</p>
-        <div class="featured-tags">
-          ${a.tags.map(t => `<span class="tag">${t}</span>`).join('')}
-        </div>
-      </div>
-    `).join('');
-
-    // show/hide Load More button
-    const btn = document.getElementById('loadMoreWrap');
-    if (btn) btn.style.display = filtered.length > visibleCount ? 'block' : 'none';
-
-    // re-apply scroll animation to new cards
-    grid.querySelectorAll('.article-card').forEach(card => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(24px)';
-      card.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-      observer.observe(card);
-    });
-  }
-
-  /* ─── FILTER TABS ─── */
-  document.querySelectorAll('.filter-tab').forEach(tab => {
-    tab.addEventListener('click', function () {
-      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-      this.classList.add('active');
-      currentFilter = this.dataset.filter;
-      visibleCount = CARDS_PER_PAGE;
-      renderArticles();
-    });
-  });
-
-  /* ─── LOAD MORE ─── */
-  document.getElementById('loadMoreBtn')?.addEventListener('click', () => {
-    visibleCount += CARDS_PER_PAGE;
-    renderArticles();
-  });
-
-  renderArticles(); // initial render
-  /* ─── SANSKRIT VERSE ANIMATION ─── */
-  (function () {
-    const verses = [
-      { text: "यदा यदा हि धर्मस्य ग्लानिर्भवति भारत।", src: "— Bhagavad Gita 4.7" },
-      { text: "वसुधैव कुटुम्बकम्।", src: "— महा उपनिषद् 6.71" },
-      { text: "तमसो मा ज्योतिर्गमय।", src: "— बृहदारण्यक उपनिषद् 1.3.28" },
-      { text: "धर्म एव हतो हन्ति धर्मो रक्षति रक्षितः।", src: "— महाभारत, अनुशासन पर्व" },
-      { text: "सर्वे भवन्तु सुखिनः।", src: "— बृहदारण्यक उपनिषद्" },
-    ];
-
-    const el = document.getElementById('sanskritVerse');
-    if (!el) return;
-
-    let idx = 0;
-
-    function typeVerse(verse) {
-      el.innerHTML = '';
-      const chars = [...verse.text]; // unicode-safe split
-      let i = 0;
-
-      function next() {
-        if (i < chars.length) {
-          const span = document.createElement('span');
-          span.className = 'char';
-          span.textContent = chars[i++];
-          el.appendChild(span);
-          setTimeout(next, 52);
-        } else {
-          const src = document.createElement('span');
-          src.className = 'sanskrit-src';
-          src.textContent = verse.src;
-          el.appendChild(src);
-          requestAnimationFrame(() => requestAnimationFrame(() => src.style.opacity = '1'));
-
-          setTimeout(() => {
-            el.style.transition = 'opacity 0.9s';
-            el.style.opacity = '0';
-            setTimeout(() => {
-              el.style.opacity = '1';
-              el.style.transition = '';
-              idx = (idx + 1) % verses.length;
-              typeVerse(verses[idx]);
-            }, 950);
-          }, 4500);
-        }
-      }
-      next();
-    }
-
-    // Wait for preloader to finish before starting
-    setTimeout(() => typeVerse(verses[idx]), 2800);
-  })();
-</script>
-  <script src="transitions.js"></script>
-  <script src="darkmode.js"></script>
-  <script src="nav.js"></script>
-  <script src="search.js"></script>
-</body>
-</html>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">
+        <div class="brand-mark">ह</div>
+    
